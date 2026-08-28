@@ -1,0 +1,1959 @@
+<!-- OptionsBuddy: options strategy coach -->
+<title>OptionsBuddy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="theme-color" content="#0d0d0d" />
+<link rel="icon" type="image/png" href="data:image/png;base64,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" />
+<link rel="apple-touch-icon" href="data:image/png;base64,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" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+<style>
+  /* ---------- tokens ---------- */
+  :root {
+    color-scheme: light;
+    --page-bg: #f9f9f7;
+    --surface: #fcfcfb;
+    --surface-2: #ffffff;
+    --surface-sunken: #f1f0ec;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #898781;
+    --border: rgba(11,11,11,0.10);
+    --border-strong: rgba(11,11,11,0.18);
+    --gridline: #e1e0d9;
+    --accent: #2a78d6;
+    --accent-strong: #184f95;
+    --accent-wash: rgba(42,120,214,0.10);
+    --accent-wash-strong: rgba(42,120,214,0.18);
+    --profit: #006300;
+    --profit-wash: rgba(12,163,12,0.12);
+    --loss: #d03b3b;
+    --loss-wash: rgba(208,59,59,0.10);
+    --warn: #b5790a;
+    --warn-wash: rgba(250,178,25,0.16);
+    --shadow: 0 1px 2px rgba(11,11,11,0.04), 0 8px 24px -12px rgba(11,11,11,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page-bg: #0d0d0d;
+      --surface: #171716;
+      --surface-2: #1f1f1e;
+      --surface-sunken: #131312;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted: #8f8d85;
+      --border: rgba(255,255,255,0.11);
+      --border-strong: rgba(255,255,255,0.20);
+      --gridline: #2c2c2a;
+      --accent: #5ea1ef;
+      --accent-strong: #8fc0f5;
+      --accent-wash: rgba(94,161,239,0.14);
+      --accent-wash-strong: rgba(94,161,239,0.24);
+      --profit: #29c22f;
+      --profit-wash: rgba(41,194,47,0.14);
+      --loss: #ff6f6f;
+      --loss-wash: rgba(255,111,111,0.14);
+      --warn: #f0b429;
+      --warn-wash: rgba(240,180,41,0.16);
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -12px rgba(0,0,0,0.55);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page-bg: #0d0d0d;
+    --surface: #171716;
+    --surface-2: #1f1f1e;
+    --surface-sunken: #131312;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #8f8d85;
+    --border: rgba(255,255,255,0.11);
+    --border-strong: rgba(255,255,255,0.20);
+    --gridline: #2c2c2a;
+    --accent: #5ea1ef;
+    --accent-strong: #8fc0f5;
+    --accent-wash: rgba(94,161,239,0.14);
+    --accent-wash-strong: rgba(94,161,239,0.24);
+    --profit: #29c22f;
+    --profit-wash: rgba(41,194,47,0.14);
+    --loss: #ff6f6f;
+    --loss-wash: rgba(255,111,111,0.14);
+    --warn: #f0b429;
+    --warn-wash: rgba(240,180,41,0.16);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -12px rgba(0,0,0,0.55);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--page-bg);
+    color: var(--text-primary);
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 64px;
+  }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, "Times New Roman", serif; text-wrap: balance; margin: 0; }
+  .num { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace; font-variant-numeric: tabular-nums; }
+  a { color: var(--accent); }
+  button { font: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+
+  /* ---------- header ---------- */
+  .hero {
+    padding: 28px 0 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .hero-inner { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-mark { flex: none; border-radius: 9px; }
+  .brand h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.01em; }
+  .brand .accent-dot { color: var(--accent); }
+  .tagline { color: var(--text-secondary); font-size: 14.5px; max-width: 46ch; }
+  .theme-toggle {
+    border: 1px solid var(--border-strong);
+    background: var(--surface-2);
+    color: var(--text-secondary);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- account / auth ---------- */
+  .account-row { display:flex; align-items:center; gap:8px; }
+  .acct-btn {
+    border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text-primary);
+    border-radius: 999px; padding: 7px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer;
+  }
+  .acct-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .acct-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .acct-btn.primary:hover { background: var(--accent-strong); border-color: var(--accent-strong); color:#fff; }
+  .acct-chip { font-size: 12.5px; color: var(--text-secondary); }
+  .acct-chip b { color: var(--text-primary); }
+
+  .auth-overlay {
+    display:none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 50;
+    align-items: center; justify-content: center; padding: 16px;
+  }
+  .auth-overlay.show { display:flex; }
+  .auth-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 22px; max-width: 360px; width: 100%; box-shadow: var(--shadow);
+  }
+  .auth-card h3 { font-size: 18px; margin-bottom: 6px; }
+  .auth-card .desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
+  .auth-card .field { margin-bottom: 12px; }
+  .auth-card label { display:block; font-size:12px; font-weight:600; color: var(--text-secondary); margin-bottom:5px; }
+  .auth-card input {
+    width:100%; padding: 10px 12px; border-radius: 9px; border: 1px solid var(--border-strong);
+    background: var(--surface-2); color: var(--text-primary); font-size: 14px;
+  }
+  .auth-actions { display:flex; gap:8px; margin-top: 16px; }
+  .auth-actions .btn { flex:1; }
+  .auth-msg { font-size: 12.5px; margin-top: 10px; min-height: 16px; }
+  .auth-msg.err { color: var(--loss); }
+  .auth-msg.ok { color: var(--profit); }
+  .auth-switch { font-size: 12.5px; color: var(--text-secondary); margin-top: 14px; text-align:center; }
+  .auth-switch button { background:none; border:none; color: var(--accent); font-weight:600; cursor:pointer; font-size: inherit; padding:0; }
+  .auth-close { position:absolute; top:14px; right:14px; background:none; border:none; color: var(--text-muted); font-size: 18px; cursor:pointer; line-height:1; }
+  .auth-card { position: relative; }
+  .link-btn { background:none; border:none; color: var(--accent); font-weight:600; cursor:pointer; font-size: inherit; padding:0; text-decoration: underline; }
+
+  .landing-gate {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 24px; margin: 18px 0 28px; text-align: center;
+  }
+  .landing-gate h3 { font-size: 19px; margin-bottom: 8px; }
+  .landing-gate .desc { font-size: 14px; color: var(--text-secondary); max-width: 52ch; margin: 0 auto 18px; }
+  .landing-actions { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom: 14px; }
+  .landing-actions .btn { padding: 11px 22px; font-size: 14px; }
+
+  /* ---------- positions ---------- */
+  .pos-list { display:grid; gap: 12px; }
+  .pos-card { border: 1px solid var(--border); background: var(--surface); border-radius: 14px; padding: 14px 16px; }
+  .pos-head { display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom: 8px; }
+  .pos-head .ticker { font-family:"Fraunces", serif; font-weight:600; font-size: 18px; }
+  .pos-head .strat-name { font-size: 12.5px; color: var(--text-secondary); }
+  .pos-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+  .pos-stats { display:flex; gap: 18px; flex-wrap:wrap; margin-bottom: 12px; }
+  .pos-stat .k { font-size: 10.5px; text-transform:uppercase; letter-spacing:.04em; color: var(--text-muted); font-weight:600; }
+  .pos-stat .v { font-size: 15px; font-weight:600; }
+  .pos-actions { display:flex; gap:8px; flex-wrap:wrap; }
+  .pos-actions .btn { padding: 7px 12px; font-size: 12px; }
+  .pos-empty { color: var(--text-muted); font-size: 13.5px; padding: 10px 2px; }
+  .pos-closed-toggle { background:none; border:none; color: var(--accent); font-size:12.5px; font-weight:600; cursor:pointer; padding: 4px 0; margin-top: 6px; }
+  .pos-card.closed { opacity: 0.72; }
+  .pos-card.closed .pos-head .ticker::after { content: " · closed"; font-size: 12px; color: var(--text-muted); font-weight: 400; font-family: "IBM Plex Sans", sans-serif; }
+
+  /* ---------- section shell ---------- */
+  section.block { padding: 26px 0; border-bottom: 1px solid var(--border); }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .block h2 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+  .block .desc { color: var(--text-secondary); font-size: 14px; max-width: 62ch; margin-bottom: 18px; }
+
+  /* ---------- position setup form ---------- */
+  .setup-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+  }
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+  .field input {
+    width: 100%;
+    padding: 11px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface-2);
+    color: var(--text-primary);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 15px;
+  }
+  .field input:focus { border-color: var(--accent); }
+  .field .hint { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+  .field .hint a { color: var(--accent); }
+  .live-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+  .btn.small { padding: 6px 11px; font-size: 12px; border-radius: 8px; }
+  #liveStatus { font-size: 11.5px; }
+  #liveStatus.ok { color: var(--profit); }
+  #liveStatus.err { color: var(--loss); }
+  .adv-toggle {
+    margin-top: 12px;
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 0;
+  }
+  .adv-row { display: none; margin-top: 12px; }
+  .adv-row.open { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+
+  /* ---------- quiz ---------- */
+  .quiz {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+  }
+  .quiz-row { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; margin-bottom: 14px; }
+  @media (max-width: 640px) { .quiz-row { grid-template-columns: 1fr; } }
+  .quiz-group label.qlabel { display:block; font-size: 12.5px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill {
+    border: 1px solid var(--border-strong);
+    background: var(--surface-2);
+    color: var(--text-secondary);
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .pill.active { border-color: var(--accent); background: var(--accent-wash); color: var(--accent-strong); }
+  .quiz-result {
+    display: none;
+    margin-top: 4px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: var(--accent-wash);
+    border: 1px solid var(--accent-wash-strong);
+    font-size: 13.5px;
+    color: var(--text-primary);
+  }
+  .quiz-result.show { display: block; }
+  .quiz-result b { color: var(--accent-strong); }
+
+  /* ---------- goal picker ---------- */
+  .goal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 720px) { .goal-grid { grid-template-columns: 1fr; } }
+  .goal-card {
+    text-align: left;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 18px;
+    cursor: pointer;
+    transition: border-color .12s ease, background .12s ease;
+  }
+  .goal-card:hover { border-color: var(--border-strong); }
+  .goal-card.active { border-color: var(--accent); background: var(--accent-wash); box-shadow: var(--shadow); }
+  .goal-card .g-icon { font-size: 24px; margin-bottom: 8px; }
+  .goal-card .g-name { font-weight: 600; font-size: 15.5px; margin-bottom: 5px; }
+  .goal-card .g-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.4; }
+  .goal-result {
+    display: none; margin-top: 14px; padding: 12px 14px; border-radius: 10px;
+    background: var(--warn-wash); border: 1px solid var(--border); font-size: 13.5px; color: var(--text-primary);
+  }
+  .goal-result.show { display: block; }
+
+  /* ---------- strategy library ---------- */
+  .cat-group { margin-bottom: 22px; }
+  .cat-group:last-child { margin-bottom: 0; }
+  .cat-title { font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px; display:flex; align-items:center; gap:8px; }
+  .cat-swatch { width: 8px; height: 8px; border-radius: 50%; display:inline-block; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; }
+  .strat-card {
+    text-align: left;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 13px 14px;
+    cursor: pointer;
+    transition: border-color .12s ease, transform .12s ease;
+    position: relative;
+  }
+  .strat-card:hover { border-color: var(--border-strong); }
+  .strat-card.selected { border-color: var(--accent); background: var(--accent-wash); box-shadow: var(--shadow); }
+  .strat-card.suggested:not(.selected) { border-color: var(--accent-strong); }
+  .strat-card .name { font-weight: 600; font-size: 14.5px; margin-bottom: 4px; }
+  .strat-card .blurb { font-size: 12.5px; color: var(--text-secondary); line-height: 1.4; }
+  .badge-row { position:absolute; top:10px; right:10px; display:flex; gap:4px; }
+  .badge {
+    font-size: 9.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    padding: 2px 6px;
+    border-radius: 5px;
+  }
+  .badge.risk { background: var(--loss-wash); color: var(--loss); }
+  .badge.pick { background: var(--accent); color: white; }
+  .badge.income { background: var(--warn-wash); color: var(--warn); }
+  .cat-group.income-group .strat-card { border-color: var(--warn); }
+  .cat-group.income-group .strat-card:hover { border-color: var(--warn); box-shadow: 0 0 0 1px var(--warn); }
+  .cat-divider {
+    font-size: 12px; color: var(--text-muted); text-align: center;
+    margin: 4px 0 22px; padding-top: 18px; border-top: 1px dashed var(--border);
+  }
+
+  /* ---------- beginner intro ---------- */
+  .intro-card {
+    background: linear-gradient(180deg, var(--accent-wash), var(--surface) 65%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin: 22px 0;
+  }
+  .intro-card .eyebrow { color: var(--accent-strong); }
+  .intro-card h2 { font-size: 19px; margin-bottom: 8px; }
+  .intro-card p { font-size: 14.5px; color: var(--text-secondary); max-width: 68ch; margin: 0 0 14px; }
+  .glossary { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+  .glossary-term {
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .glossary-term .t { font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+  .glossary-term .d { font-size: 12.5px; color: var(--text-secondary); line-height: 1.4; }
+
+  /* ---------- workspace ---------- */
+  #workspace { display: none; }
+  #workspace.show { display: block; }
+  .ws-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom: 4px; }
+  .ws-head h2 { font-size: 22px; }
+  .ws-sub { color: var(--text-secondary); font-size: 13.5px; margin-bottom: 18px; }
+  .risk-flag {
+    display:flex; gap:10px; align-items:flex-start;
+    background: var(--loss-wash);
+    border: 1px solid var(--loss);
+    color: var(--text-primary);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    margin-bottom: 18px;
+  }
+  .risk-flag strong { color: var(--loss); }
+
+  .leg-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin-bottom: 18px; }
+  table.legs { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  table.legs th {
+    text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: .05em;
+    color: var(--text-muted); font-weight: 600; padding: 10px 6px; border-bottom: 1px solid var(--border);
+    background: var(--surface-sunken); white-space: nowrap;
+  }
+  table.legs td { padding: 8px 6px; border-bottom: 1px solid var(--border); font-size: 12.5px; vertical-align: middle; white-space: nowrap; }
+  table.legs tr:last-child td { border-bottom: none; }
+  table.legs th:first-child, table.legs td:first-child { width: 34%; padding-left: 12px; }
+  table.legs th:not(:first-child), table.legs td:not(:first-child) { width: 22%; }
+  table.legs input {
+    width: 100%; max-width: 60px; padding: 6px 5px; border-radius: 7px; border: 1px solid var(--border-strong);
+    background: var(--surface-2); color: var(--text-primary); font-family: "IBM Plex Mono", monospace; font-size: 12px;
+  }
+  table.legs input.qty-input { max-width: 36px; }
+  .side-tag { font-weight: 600; font-size: 10.5px; padding: 2px 6px; border-radius: 999px; display: inline-block; }
+  .side-tag.long { background: var(--profit-wash); color: var(--profit); }
+  .side-tag.short { background: var(--loss-wash); color: var(--loss); }
+  .leg-actions { display:flex; gap:10px; align-items:center; padding: 10px 12px; font-size: 12.5px; }
+  .btn {
+    border: 1px solid var(--border-strong);
+    background: var(--surface-2);
+    color: var(--text-primary);
+    border-radius: 9px;
+    padding: 9px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { background: var(--accent-strong); border-color: var(--accent-strong); color: #fff; }
+
+  .analysis-grid { display: grid; grid-template-columns: minmax(0,1.35fr) minmax(0,1fr); gap: 18px; margin-bottom: 18px; }
+  @media (max-width: 860px) { .analysis-grid { grid-template-columns: 1fr; } }
+
+  .panel { border: 1px solid var(--border); background: var(--surface); border-radius: 14px; padding: 16px; }
+  .panel h3 { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+
+  .chart-shell canvas { width: 100%; display: block; }
+  .chart-legend { display:flex; gap: 16px; margin-top: 10px; font-size: 12px; color: var(--text-secondary); flex-wrap:wrap; }
+  .chart-legend span { display:flex; align-items:center; gap:6px; }
+  .legend-swatch { width: 12px; height: 3px; border-radius: 2px; display:inline-block; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat-tile { background: var(--surface-sunken); border-radius: 10px; padding: 12px 13px; }
+  .stat-tile .k { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); margin-bottom: 5px; font-weight:600; }
+  .stat-tile .v { font-size: 17px; font-weight: 600; }
+  .stat-tile .v.profit { color: var(--profit); }
+  .stat-tile .v.loss { color: var(--loss); }
+  .stat-tile .sub { font-size: 11.5px; color: var(--text-secondary); margin-top: 2px; }
+  .bottom-line { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 22px; }
+  .bl-chip { flex: 1 1 150px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+  .bl-chip.income { background: var(--warn-wash); border-color: var(--warn); }
+  .bl-chip .k { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); margin-bottom: 6px; font-weight: 700; }
+  .bl-chip .v { font-size: 21px; font-weight: 700; font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+  .bl-chip .v.profit { color: var(--profit); }
+  .bl-chip .v.loss { color: var(--loss); }
+  .bl-chip .sub { font-size: 11.5px; color: var(--text-secondary); margin-top: 3px; }
+
+  .greeks-list { display: grid; gap: 10px; }
+  .greek-row { display: grid; grid-template-columns: 60px 1fr; gap: 10px; align-items: start; }
+  .greek-row .g-name { font-weight: 700; font-size: 13px; color: var(--accent-strong); }
+  .greek-row .g-val { font-size: 13px; }
+  .greek-row .g-note { font-size: 12.5px; color: var(--text-secondary); }
+
+  .coach-panel { border: 1px solid var(--border); background: var(--surface); border-radius: 14px; padding: 18px 20px; margin-bottom: 18px; }
+  .coach-panel h3 { font-size: 14px; font-weight: 600; margin-bottom: 10px; display:flex; align-items:center; gap:8px; }
+  .coach-panel p { font-size: 14.5px; color: var(--text-primary); margin: 0 0 10px; }
+  .coach-panel p:last-child { margin-bottom: 0; }
+  .coach-panel .warn-line { color: var(--loss); font-weight: 600; }
+
+  .scenario-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+  table.scenario { width: 100%; border-collapse: collapse; min-width: 480px; }
+  table.scenario th { text-align: right; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); font-weight: 600; padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--surface-sunken); }
+  table.scenario th:first-child, table.scenario td:first-child { text-align: left; }
+  table.scenario td { text-align: right; padding: 9px 12px; border-bottom: 1px solid var(--border); font-size: 13.5px; }
+  table.scenario tr:last-child td { border-bottom: none; }
+  table.scenario tr.current td { background: var(--accent-wash); font-weight: 600; }
+  .pl-pos { color: var(--profit); }
+  .pl-neg { color: var(--loss); }
+
+  footer { text-align:center; padding: 26px 16px 8px; color: var(--text-muted); font-size: 12px; max-width: 640px; margin: 0 auto; }
+</style>
+
+<body>
+  <header class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <div class="brand">
+          <svg class="brand-mark" viewBox="0 0 180 180" width="34" height="34" aria-hidden="true">
+            <defs><linearGradient id="markBg" x1="0" y1="0" x2="180" y2="180" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#3987e5"/><stop offset="1" stop-color="#184f95"/>
+            </linearGradient></defs>
+            <rect width="180" height="180" rx="40" fill="url(#markBg)"/>
+            <g transform="translate(0,-8)">
+              <path d="M90 103 L107 136 L73 136 Z" fill="#f5b400"/>
+              <rect x="35" y="95" width="110" height="10" rx="5" fill="#ffffff" transform="rotate(-16 90 100)"/>
+              <circle cx="37" cy="115" r="22" fill="#29c22f"/>
+              <text x="37" y="124" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">$</text>
+              <circle cx="143" cy="85" r="20" fill="#ffffff"/>
+              <text x="143" y="93" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#184f95" text-anchor="middle">₹</text>
+            </g>
+          </svg>
+          <h1>OptionsBuddy<span class="accent-dot">.</span></h1>
+        </div>
+        <p class="tagline">Pick a strategy, plug in your idea, and see exactly what you're risking, what you stand to make, and why — in plain English.</p>
+      </div>
+      <div class="account-row" id="accountRow">
+        <button class="acct-btn primary" id="signInBtn" type="button">Sign in</button>
+      </div>
+      <button class="theme-toggle" id="themeToggle" type="button">Theme: System</button>
+    </div>
+  </header>
+
+  <div class="auth-overlay" id="authOverlay">
+    <div class="auth-card">
+      <button class="auth-close" id="authCloseBtn" type="button" aria-label="Close">✕</button>
+      <h3 id="authTitle">Sign in</h3>
+      <p class="desc" id="authDesc">Sign in to save positions and your Finnhub key, and pick up right where you left off on any device.</p>
+      <div class="field">
+        <label for="authEmail">Email</label>
+        <input id="authEmail" type="email" autocomplete="email" />
+      </div>
+      <div class="field">
+        <label for="authPassword">Password</label>
+        <input id="authPassword" type="password" autocomplete="current-password" />
+      </div>
+      <div class="auth-actions">
+        <button class="btn" id="authCancelBtn" type="button">Cancel</button>
+        <button class="btn primary" id="authSubmitBtn" type="button">Sign in</button>
+      </div>
+      <div class="auth-msg" id="authMsg"></div>
+      <div class="auth-switch" id="authSwitch">New here? <button type="button" id="authModeSwitch">Create an account</button></div>
+    </div>
+  </div>
+
+  <main class="wrap">
+
+    <section id="landingScreen">
+      <div class="intro-card">
+        <div class="eyebrow">New to options?</div>
+        <h2>Think of it as renting out a stock you like.</h2>
+        <p>An option is a contract on 100 shares of a stock — the right to buy or sell at a set price by a set date. Most people who land here aren't chasing a lottery ticket; they want a steady bit of extra income from stocks they already own or watch. The strategies marked <strong style="color:var(--warn)">💰 Income</strong> in the library do exactly that: you collect a payment up front, and your only job is to understand what happens to that payment at different prices — which is exactly what this page shows you before you risk a dollar.</p>
+        <div class="glossary">
+          <div class="glossary-term"><div class="t">Strike price</div><div class="d">The price you're locked into buying or selling at, no matter where the stock actually trades.</div></div>
+          <div class="glossary-term"><div class="t">Premium</div><div class="d">What you pay (or get paid) for the contract — your cost, or your income, depending on the trade.</div></div>
+          <div class="glossary-term"><div class="t">Breakeven</div><div class="d">The stock price where the trade stops losing and starts winning. Below shows one, or a range.</div></div>
+        </div>
+      </div>
+
+      <div class="landing-gate">
+        <h3>Sign in to get started</h3>
+        <p class="desc">An account saves your positions and your Finnhub key across every device you use — sign in, or create a free one in a few seconds.</p>
+        <div class="landing-actions">
+          <button class="btn primary" id="landingSignInBtn" type="button">Sign in</button>
+          <button class="btn" id="landingSignUpBtn" type="button">Create a free account</button>
+        </div>
+        <button type="button" class="link-btn" id="landingSkipBtn">Continue without an account →</button>
+      </div>
+    </section>
+
+    <div id="appGate" style="display:none;">
+
+    <section class="block" id="positionsSection" style="display:none;">
+      <div class="eyebrow">Your account</div>
+      <h2>My positions</h2>
+      <p class="desc">Positions you save here track your real entry price and premiums — reopen this page on any device to see updated profit and loss.</p>
+      <div id="posListHost"></div>
+    </section>
+
+    <section class="block" id="goalSection">
+      <div class="eyebrow">Step 1</div>
+      <h2>What are you trying to do?</h2>
+      <p class="desc">Pick the one that matches why you're here — it points you at the right corner of the strategy library. You can always browse everything yourself further down.</p>
+      <div class="goal-grid">
+        <button type="button" class="goal-card" data-goal="income">
+          <div class="g-icon">💰</div>
+          <div class="g-name">Bring in some income</div>
+          <div class="g-desc">Collect a payment now from a stock you own or are watching, for taking on a defined, known risk.</div>
+        </button>
+        <button type="button" class="goal-card" data-goal="direction">
+          <div class="g-icon">📈</div>
+          <div class="g-name">Make a directional bet</div>
+          <div class="g-desc">You think a stock is headed up or down and want a way to profit from being right.</div>
+        </button>
+        <button type="button" class="goal-card" data-goal="protect">
+          <div class="g-icon">🛡️</div>
+          <div class="g-name">Protect stock I own</div>
+          <div class="g-desc">Cap the downside on shares you already hold, in case the price drops.</div>
+        </button>
+      </div>
+      <div class="goal-result" id="goalResult"></div>
+    </section>
+
+    <section class="block" id="setup">
+      <div class="eyebrow">Step 2</div>
+      <h2>Set up your trade idea</h2>
+      <p class="desc">Tell OptionsBuddy the underlying and your read on it. Strikes and starting prices below are estimated with Black-Scholes from what you enter here — you can always edit them once a strategy is loaded to match real quotes.</p>
+
+      <div class="setup-grid">
+        <div class="field">
+          <label for="ticker">Ticker</label>
+          <input id="ticker" type="text" value="AAPL" maxlength="8" autocapitalize="characters" />
+        </div>
+        <div class="field">
+          <label for="price">Current price ($)</label>
+          <input id="price" type="number" value="100" min="0.5" step="0.5" inputmode="decimal" />
+          <div class="live-row">
+            <button class="btn small" id="liveFetchBtn" type="button">⟳ Get live price</button>
+            <span class="hint" id="liveStatus"></span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="dte">Days to expiration</label>
+          <input id="dte" type="number" value="30" min="1" step="1" inputmode="numeric" />
+        </div>
+        <div class="field">
+          <label for="iv">Implied volatility (%)</label>
+          <input id="iv" type="number" value="35" min="1" step="1" inputmode="decimal" />
+          <div class="hint">No quote handy? 30–40% is a typical guess for an active single stock.</div>
+        </div>
+      </div>
+
+      <button class="adv-toggle" id="advToggle" type="button">Advanced: risk-free rate &amp; live pricing ▾</button>
+      <div class="adv-row" id="advRow">
+        <div class="field">
+          <label for="rate">Risk-free rate (%)</label>
+          <input id="rate" type="number" value="4.5" min="0" step="0.1" inputmode="decimal" />
+        </div>
+        <div class="field" style="grid-column: span 2;">
+          <label for="finnhubKey">Finnhub API key (for live price)</label>
+          <input id="finnhubKey" type="text" placeholder="paste your free key here" autocomplete="off" spellcheck="false" />
+          <div class="hint">Don't have one? Get a free key at <a href="https://finnhub.io/register" target="_blank" rel="noopener">finnhub.io/register</a> — about 30 seconds, no card needed. Never sent anywhere but Finnhub. Live fetch only works when this page is hosted on a normal site (e.g. GitHub Pages), not inside a Claude artifact preview. <span id="keySyncNote">Saved only in this browser right now — <button type="button" id="signInFromKeyBtn" class="link-btn">sign in</button> and it'll follow you to every device.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="quizSection">
+      <div class="eyebrow">Optional</div>
+      <h2>Not sure which strategy fits?</h2>
+      <p class="desc">Tell OptionsBuddy your outlook and it'll point you at strategies in the library below.</p>
+      <div class="quiz">
+        <div class="quiz-row">
+          <div class="quiz-group">
+            <label class="qlabel">Where do you think the price is headed?</label>
+            <div class="pill-row" id="outlookPills">
+              <button class="pill" data-val="strong-up" type="button">Strongly up</button>
+              <button class="pill" data-val="up" type="button">Up a little</button>
+              <button class="pill" data-val="flat" type="button">Sideways</button>
+              <button class="pill" data-val="down" type="button">Down a little</button>
+              <button class="pill" data-val="strong-down" type="button">Strongly down</button>
+            </div>
+          </div>
+          <div class="quiz-group">
+            <label class="qlabel">What about volatility?</label>
+            <div class="pill-row" id="volPills">
+              <button class="pill" data-val="up" type="button">Expect bigger moves</button>
+              <button class="pill" data-val="down" type="button">Expect it to calm down</button>
+              <button class="pill" data-val="unsure" type="button">Not sure</button>
+            </div>
+          </div>
+        </div>
+        <div class="quiz-result" id="quizResult"></div>
+      </div>
+    </section>
+
+    <section class="block" id="library">
+      <div class="eyebrow">Step 3</div>
+      <h2>Pick a strategy</h2>
+      <p class="desc">17 preloaded multi-leg setups, grouped by what they're built for.</p>
+      <div id="cardHost"></div>
+    </section>
+
+    <section id="workspace">
+      <section class="block">
+        <div class="ws-head">
+          <h2 id="wsTitle">Strategy</h2>
+        </div>
+        <p class="ws-sub" id="wsSub"></p>
+        <div id="riskFlagHost"></div>
+        <div class="bottom-line" id="bottomLineHost"></div>
+
+        <div class="leg-table-wrap">
+          <table class="legs" id="legTable">
+            <thead>
+              <tr><th>Position</th><th>Strike</th><th>Qty</th><th>Price</th></tr>
+            </thead>
+            <tbody id="legBody"></tbody>
+          </table>
+          <div class="leg-actions">
+            <button class="btn" id="resetLegsBtn" type="button">Reset to theoretical prices</button>
+            <button class="btn primary" id="savePositionBtn" type="button">💾 Save this position</button>
+            <span id="legEditedNote" style="color:var(--text-muted);"></span>
+          </div>
+        </div>
+
+        <div class="analysis-grid">
+          <div class="panel chart-shell">
+            <h3>Profit &amp; loss at expiration</h3>
+            <canvas id="payoffChart" width="640" height="340" role="img" aria-label="Payoff diagram"></canvas>
+            <div class="chart-legend">
+              <span><i class="legend-swatch" style="background:var(--profit)"></i>Profit zone</span>
+              <span><i class="legend-swatch" style="background:var(--loss)"></i>Loss zone</span>
+              <span><i class="legend-swatch" style="background:var(--accent)"></i>Current price</span>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>The numbers</h3>
+            <div class="stat-grid" id="statGrid"></div>
+          </div>
+        </div>
+
+        <div class="analysis-grid" style="margin-bottom:18px;">
+          <div class="panel">
+            <h3>Greeks, plainly</h3>
+            <div class="greeks-list" id="greeksList"></div>
+          </div>
+          <div class="panel">
+            <h3>What if the price is here at expiration?</h3>
+            <div class="scenario-wrap">
+              <table class="scenario" id="scenarioTable"></table>
+            </div>
+          </div>
+        </div>
+
+        <div class="coach-panel">
+          <h3>🧭 Your coach's take</h3>
+          <div id="coachText"></div>
+        </div>
+      </section>
+    </section>
+
+    </div>
+
+  </main>
+
+  <footer>
+    Educational tool, not financial advice. Prices are theoretical (Black-Scholes with a single flat IV) and will differ from what your broker quotes — always check the live chain before placing a trade. Options can expire worthless; only risk money you can afford to lose.
+  </footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ================= theme toggle ================= */
+  var root = document.documentElement;
+  var themeBtn = document.getElementById('themeToggle');
+  var themeState = localStorage.getItem && (function(){ try { return localStorage.getItem('ob-theme'); } catch(e){ return null; } })() || 'system';
+  function applyTheme(){
+    if (themeState === 'light') { root.setAttribute('data-theme','light'); themeBtn.textContent = 'Theme: Light'; }
+    else if (themeState === 'dark') { root.setAttribute('data-theme','dark'); themeBtn.textContent = 'Theme: Dark'; }
+    else { root.removeAttribute('data-theme'); themeBtn.textContent = 'Theme: System'; }
+  }
+  themeBtn.addEventListener('click', function(){
+    themeState = themeState === 'system' ? 'light' : themeState === 'light' ? 'dark' : 'system';
+    try { localStorage.setItem('ob-theme', themeState); } catch(e){}
+    applyTheme();
+    drawChart();
+  });
+  applyTheme();
+
+  /* ================= math: black-scholes ================= */
+  function erf(x){
+    var sign = x < 0 ? -1 : 1; x = Math.abs(x);
+    var a1=0.254829592,a2=-0.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=0.3275911;
+    var t = 1/(1+p*x);
+    var y = 1-(((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x);
+    return sign*y;
+  }
+  function normCDF(x){ return 0.5*(1+erf(x/Math.SQRT2)); }
+  function normPDF(x){ return Math.exp(-x*x/2)/Math.sqrt(2*Math.PI); }
+
+  function blackScholes(type, S, K, T, r, sigma){
+    T = Math.max(T, 1/365/2);
+    sigma = Math.max(sigma, 0.001);
+    var sqrtT = Math.sqrt(T);
+    var d1 = (Math.log(S/K) + (r + sigma*sigma/2)*T) / (sigma*sqrtT);
+    var d2 = d1 - sigma*sqrtT;
+    var pdf = normPDF(d1);
+    var Nd1=normCDF(d1), Nd2=normCDF(d2), Nmd1=normCDF(-d1), Nmd2=normCDF(-d2);
+    var price, delta, theta, rho;
+    if (type === 'call'){
+      price = S*Nd1 - K*Math.exp(-r*T)*Nd2;
+      delta = Nd1;
+      theta = (-(S*pdf*sigma)/(2*sqrtT) - r*K*Math.exp(-r*T)*Nd2)/365;
+      rho = (K*T*Math.exp(-r*T)*Nd2)/100;
+    } else {
+      price = K*Math.exp(-r*T)*Nmd2 - S*Nmd1;
+      delta = Nd1 - 1;
+      theta = (-(S*pdf*sigma)/(2*sqrtT) + r*K*Math.exp(-r*T)*Nmd2)/365;
+      rho = (-K*T*Math.exp(-r*T)*Nmd2)/100;
+    }
+    var gamma = pdf/(S*sigma*sqrtT);
+    var vega = (S*pdf*sqrtT)/100;
+    return { price: Math.max(price,0.01), delta: delta, gamma: gamma, theta: theta, vega: vega, rho: rho };
+  }
+
+  function roundStrike(x){
+    var inc = x < 25 ? 0.5 : x < 100 ? 1 : x < 250 ? 2.5 : 5;
+    return Math.round(x/inc) * inc;
+  }
+
+  function strikeLadder(S){
+    var incBase = S < 25 ? 0.5 : S < 100 ? 1 : S < 250 ? 2.5 : 5;
+    var k0 = roundStrike(S);
+    var kp1 = roundStrike(S + S*0.05); if (kp1 <= k0) kp1 = k0 + incBase;
+    var kp2 = roundStrike(S + S*0.10); if (kp2 <= kp1) kp2 = kp1 + incBase;
+    var km1 = roundStrike(S - S*0.05); if (km1 >= k0) km1 = k0 - incBase;
+    var km2 = roundStrike(S - S*0.10); if (km2 >= km1) km2 = km1 - incBase;
+    km1 = Math.max(km1, incBase); km2 = Math.max(km2, incBase/2);
+    return { m2: km2, m1: km1, z: k0, p1: kp1, p2: kp2 };
+  }
+
+  /* ================= strategy library ================= */
+  // leg: { type: 'call'|'put'|'stock', side: 'long'|'short', k: 'm2'|'m1'|'z'|'p1'|'p2'|null, qty }
+  var CATS = {
+    bullish:  { label: 'Bullish',                 color: 'var(--profit)' },
+    bearish:  { label: 'Bearish',                 color: 'var(--loss)' },
+    neutral:  { label: 'Neutral / range-bound',   color: 'var(--accent)' },
+    vol:      { label: 'Expecting a big move',    color: '#eda100' },
+    hedge:    { label: 'Hedge stock you own',     color: '#4a3aa7' }
+  };
+
+  var STRATS = [
+    { id:'long_call', name:'Long Call', cat:'bullish', risk:'defined',
+      blurb:'Buy a call. Simple bet the price rises; you can only lose the premium.',
+      legs:[{type:'call',side:'long',k:'z',qty:1}] },
+    { id:'bull_call_spread', name:'Bull Call Spread', cat:'bullish', risk:'defined',
+      blurb:'Buy a call, sell a further-out call. Cheaper than a long call; caps the upside too.',
+      legs:[{type:'call',side:'long',k:'z',qty:1},{type:'call',side:'short',k:'p1',qty:1}] },
+    { id:'bull_put_spread', name:'Bull Put Spread', cat:'bullish', risk:'defined', income:true,
+      blurb:'Sell a put, buy a cheaper further-out put. Collect a credit if the price holds up.',
+      legs:[{type:'put',side:'short',k:'m1',qty:1},{type:'put',side:'long',k:'m2',qty:1}] },
+    { id:'call_ratio_spread', name:'Call Ratio Spread', cat:'bullish', risk:'unlimited',
+      blurb:'Buy one call, sell two further-out calls. Often near-zero cost, but losses grow without limit if the price rallies hard past your short strikes.',
+      legs:[{type:'call',side:'long',k:'z',qty:1},{type:'call',side:'short',k:'p1',qty:2}] },
+    { id:'long_put', name:'Long Put', cat:'bearish', risk:'defined',
+      blurb:'Buy a put. Simple bet the price falls; you can only lose the premium.',
+      legs:[{type:'put',side:'long',k:'z',qty:1}] },
+    { id:'bear_put_spread', name:'Bear Put Spread', cat:'bearish', risk:'defined',
+      blurb:'Buy a put, sell a further-out put. Cheaper than a long put; caps the downside payoff too.',
+      legs:[{type:'put',side:'long',k:'z',qty:1},{type:'put',side:'short',k:'m1',qty:1}] },
+    { id:'bear_call_spread', name:'Bear Call Spread', cat:'bearish', risk:'defined', income:true,
+      blurb:'Sell a call, buy a further-out call. Collect a credit if the price stays below your strike.',
+      legs:[{type:'call',side:'short',k:'p1',qty:1},{type:'call',side:'long',k:'p2',qty:1}] },
+    { id:'iron_condor', name:'Iron Condor', cat:'neutral', risk:'defined', income:true,
+      blurb:'Sell a put spread and a call spread. Best if the price stays in a range through expiration.',
+      legs:[{type:'put',side:'short',k:'m1',qty:1},{type:'put',side:'long',k:'m2',qty:1},{type:'call',side:'short',k:'p1',qty:1},{type:'call',side:'long',k:'p2',qty:1}] },
+    { id:'iron_butterfly', name:'Iron Butterfly', cat:'neutral', risk:'defined',
+      blurb:'Sell an at-the-money straddle, buy wings for protection. Highest payout if price barely moves.',
+      legs:[{type:'put',side:'short',k:'z',qty:1},{type:'put',side:'long',k:'m2',qty:1},{type:'call',side:'short',k:'z',qty:1},{type:'call',side:'long',k:'p2',qty:1}] },
+    { id:'long_call_butterfly', name:'Call Butterfly', cat:'neutral', risk:'defined',
+      blurb:'Buy a call, sell two at a higher strike, buy one further out. Cheap bet the price pins near the middle strike.',
+      legs:[{type:'call',side:'long',k:'m1',qty:1},{type:'call',side:'short',k:'z',qty:2},{type:'call',side:'long',k:'p1',qty:1}] },
+    { id:'long_put_butterfly', name:'Put Butterfly', cat:'neutral', risk:'defined',
+      blurb:'Same idea as a call butterfly, built with puts. Cheap bet the price pins near the middle strike.',
+      legs:[{type:'put',side:'long',k:'m1',qty:1},{type:'put',side:'short',k:'z',qty:2},{type:'put',side:'long',k:'p1',qty:1}] },
+    { id:'short_straddle', name:'Short Straddle', cat:'neutral', risk:'unlimited',
+      blurb:'Sell a call and a put at the same strike. Big credit, but losses grow without limit if price runs far.',
+      legs:[{type:'call',side:'short',k:'z',qty:1},{type:'put',side:'short',k:'z',qty:1}] },
+    { id:'short_strangle', name:'Short Strangle', cat:'neutral', risk:'unlimited',
+      blurb:'Sell an out-of-the-money call and put. Wider profit zone than a short straddle, still open-ended risk.',
+      legs:[{type:'call',side:'short',k:'p1',qty:1},{type:'put',side:'short',k:'m1',qty:1}] },
+    { id:'long_straddle', name:'Long Straddle', cat:'vol', risk:'defined',
+      blurb:'Buy a call and a put at the same strike. Profits from a big move in either direction.',
+      legs:[{type:'call',side:'long',k:'z',qty:1},{type:'put',side:'long',k:'z',qty:1}] },
+    { id:'long_strangle', name:'Long Strangle', cat:'vol', risk:'defined',
+      blurb:'Buy an out-of-the-money call and put. Cheaper than a straddle, needs a bigger move to pay off.',
+      legs:[{type:'call',side:'long',k:'p1',qty:1},{type:'put',side:'long',k:'m1',qty:1}] },
+    { id:'covered_call', name:'Covered Call', cat:'hedge', risk:'defined', income:true,
+      blurb:'Own 100 shares, sell a call against them. Collect income; gives up upside past your strike.',
+      legs:[{type:'stock',side:'long',k:null,qty:1},{type:'call',side:'short',k:'p1',qty:1}] },
+    { id:'protective_put', name:'Protective Put', cat:'hedge', risk:'defined',
+      blurb:'Own 100 shares, buy a put as insurance. Caps your downside for the cost of the premium.',
+      legs:[{type:'stock',side:'long',k:null,qty:1},{type:'put',side:'long',k:'m1',qty:1}] },
+    { id:'collar', name:'Collar', cat:'hedge', risk:'defined',
+      blurb:'Own 100 shares, buy a put, sell a call to help pay for it. Locks in a floor and a ceiling.',
+      legs:[{type:'stock',side:'long',k:null,qty:1},{type:'put',side:'long',k:'m1',qty:1},{type:'call',side:'short',k:'p1',qty:1}] }
+  ];
+
+  var CAT_ORDER = ['bullish','bearish','neutral','vol','hedge'];
+
+  /* ================= state ================= */
+  var state = {
+    S: 100, dte: 30, iv: 0.35, r: 0.045,
+    strategyId: null,
+    goal: null,
+    legs: [],       // active legs with computed strike/premium
+    legsEdited: false
+  };
+
+  var els = {
+    ticker: document.getElementById('ticker'),
+    price: document.getElementById('price'),
+    dte: document.getElementById('dte'),
+    iv: document.getElementById('iv'),
+    rate: document.getElementById('rate'),
+    finnhubKey: document.getElementById('finnhubKey'),
+    keySyncNote: document.getElementById('keySyncNote'),
+    accountRow: document.getElementById('accountRow'),
+    authOverlay: document.getElementById('authOverlay'),
+    authTitle: document.getElementById('authTitle'),
+    authDesc: document.getElementById('authDesc'),
+    authEmail: document.getElementById('authEmail'),
+    authPassword: document.getElementById('authPassword'),
+    authSubmitBtn: document.getElementById('authSubmitBtn'),
+    authMsg: document.getElementById('authMsg'),
+    authSwitch: document.getElementById('authSwitch'),
+    positionsSection: document.getElementById('positionsSection'),
+    posListHost: document.getElementById('posListHost'),
+    savePositionBtn: document.getElementById('savePositionBtn'),
+    liveFetchBtn: document.getElementById('liveFetchBtn'),
+    liveStatus: document.getElementById('liveStatus'),
+    cardHost: document.getElementById('cardHost'),
+    workspace: document.getElementById('workspace'),
+    wsTitle: document.getElementById('wsTitle'),
+    wsSub: document.getElementById('wsSub'),
+    riskFlagHost: document.getElementById('riskFlagHost'),
+    legBody: document.getElementById('legBody'),
+    legEditedNote: document.getElementById('legEditedNote'),
+    statGrid: document.getElementById('statGrid'),
+    bottomLineHost: document.getElementById('bottomLineHost'),
+    greeksList: document.getElementById('greeksList'),
+    scenarioTable: document.getElementById('scenarioTable'),
+    coachText: document.getElementById('coachText'),
+    canvas: document.getElementById('payoffChart')
+  };
+
+  /* ================= advanced toggle ================= */
+  document.getElementById('advToggle').addEventListener('click', function(){
+    var row = document.getElementById('advRow');
+    row.classList.toggle('open');
+  });
+
+  /* ================= quiz ================= */
+  var quiz = { outlook: null, vol: null };
+  function wirePills(hostId, key){
+    var host = document.getElementById(hostId);
+    host.querySelectorAll('.pill').forEach(function(p){
+      p.addEventListener('click', function(){
+        host.querySelectorAll('.pill').forEach(function(o){ o.classList.remove('active'); });
+        p.classList.add('active');
+        quiz[key] = p.getAttribute('data-val');
+        runQuiz();
+      });
+    });
+  }
+  wirePills('outlookPills','outlook');
+  wirePills('volPills','vol');
+
+  /* ================= goal picker ================= */
+  var GOAL_COPY = {
+    income: 'Good starting point. I\'ve marked the <b>💰 Income</b> strategies in the library — they sell time and collect a payment up front, with a known worst case going in. Scroll down and look for the gold-bordered row.',
+    direction: 'Tell me which way below (up, down, or sideways) and how big a move you expect — I\'ll point you at the specific strategy that fits, further down.',
+    protect: 'These pair a put (or a put + a call) with shares you already own, so a drop in the stock can\'t hurt you past a floor you choose. Look for the highlighted cards in the library.'
+  };
+  document.querySelectorAll('.goal-card').forEach(function(card){
+    card.addEventListener('click', function(){
+      document.querySelectorAll('.goal-card').forEach(function(c){ c.classList.remove('active'); });
+      card.classList.add('active');
+      var goal = card.getAttribute('data-goal');
+      state.goal = goal;
+      var res = document.getElementById('goalResult');
+      res.innerHTML = GOAL_COPY[goal];
+      res.classList.add('show');
+
+      document.querySelectorAll('.strat-card').forEach(function(c){ c.classList.remove('suggested'); });
+      if (goal === 'direction'){
+        document.getElementById('quizSection').scrollIntoView({ behavior:'smooth', block:'start' });
+        return;
+      }
+      var ids = goal === 'income'
+        ? STRATS.filter(function(s){ return s.income; }).map(function(s){ return s.id; })
+        : ['protective_put','collar'];
+      ids.forEach(function(id){
+        var el = document.querySelector('.strat-card[data-id="'+id+'"]');
+        if (el) el.classList.add('suggested');
+      });
+      document.getElementById('library').scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  });
+
+  function suggestFor(outlook, vol){
+    // returns {ids:[...], text: '...'}
+    if (!outlook) return null;
+    var strongMove = (outlook === 'strong-up' || outlook === 'strong-down');
+    if (outlook === 'strong-up') {
+      return { ids: vol==='up' ? ['long_call','long_strangle'] : ['bull_call_spread','long_call'],
+        text: 'A strong bullish view usually calls for <b>Bull Call Spread</b> or <b>Long Call</b> — the spread is cheaper and defined-risk, the long call gives more upside if you\'re confident.' };
+    }
+    if (outlook === 'up') {
+      return { ids: ['bull_put_spread','covered_call'],
+        text: 'A modest bullish lean fits <b>Bull Put Spread</b> (collect a credit, defined risk) or <b>Covered Call</b> if you already hold the shares.' };
+    }
+    if (outlook === 'down') {
+      return { ids: ['bear_call_spread','protective_put'],
+        text: 'A modest bearish lean fits <b>Bear Call Spread</b> (collect a credit, defined risk), or <b>Protective Put</b> if you\'re hedging shares you own.' };
+    }
+    if (outlook === 'strong-down') {
+      return { ids: vol==='up' ? ['long_put','long_strangle'] : ['bear_put_spread','long_put'],
+        text: 'A strong bearish view usually calls for <b>Bear Put Spread</b> or <b>Long Put</b> — the spread is cheaper and defined-risk, the long put gives more payoff if you\'re confident.' };
+    }
+    // flat / sideways
+    if (vol === 'up') {
+      return { ids: ['long_straddle','long_strangle'],
+        text: 'Sideways direction but expecting a big move either way is the classic case for <b>Long Straddle</b> or <b>Long Strangle</b> — you profit from a large move in either direction.' };
+    }
+    return { ids: ['iron_condor','iron_butterfly'],
+      text: 'Sideways and calm points at <b>Iron Condor</b> or <b>Iron Butterfly</b> — both collect a credit that you keep if the price stays in a range.' };
+  }
+
+  function runQuiz(){
+    var res = document.getElementById('quizResult');
+    var s = suggestFor(quiz.outlook, quiz.vol);
+    document.querySelectorAll('.strat-card').forEach(function(c){ c.classList.remove('suggested'); });
+    if (!s) { res.classList.remove('show'); return; }
+    res.innerHTML = s.text + ' Look for the <b>pick</b> tag below.';
+    res.classList.add('show');
+    s.ids.forEach(function(id){
+      var card = document.querySelector('.strat-card[data-id="'+id+'"]');
+      if (card) card.classList.add('suggested');
+    });
+    var first = document.querySelector('.strat-card.suggested');
+    if (first) first.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+
+  /* ================= render strategy cards ================= */
+  function stratCardHtml(s){
+    var badges = '';
+    if (s.income) badges += '<span class="badge income">💰 Income</span>';
+    if (s.risk === 'unlimited') badges += '<span class="badge risk">Unlimited risk</span>';
+    return '<button type="button" class="strat-card" data-id="'+s.id+'">'+
+      (badges ? '<div class="badge-row">'+badges+'</div>' : '') +
+      '<div class="name">'+s.name+'</div><div class="blurb">'+s.blurb+'</div></button>';
+  }
+
+  function renderCards(){
+    var byCat = {};
+    STRATS.forEach(function(s){ (byCat[s.cat] = byCat[s.cat] || []).push(s); });
+    var html = '';
+
+    var incomePicks = STRATS.filter(function(s){ return s.income; });
+    if (incomePicks.length){
+      html += '<div class="cat-group income-group"><div class="cat-title"><span class="cat-swatch" style="background:var(--warn)"></span>💰 Popular for income — start here</div><div class="card-grid">';
+      incomePicks.forEach(function(s){ html += stratCardHtml(s); });
+      html += '</div></div><div class="cat-divider">or browse every strategy by outlook</div>';
+    }
+
+    CAT_ORDER.forEach(function(catId){
+      var cat = CATS[catId];
+      var items = byCat[catId] || [];
+      html += '<div class="cat-group"><div class="cat-title"><span class="cat-swatch" style="background:'+cat.color+'"></span>'+cat.label+'</div><div class="card-grid">';
+      items.forEach(function(s){ html += stratCardHtml(s); });
+      html += '</div></div>';
+    });
+    els.cardHost.innerHTML = html;
+    els.cardHost.querySelectorAll('.strat-card').forEach(function(card){
+      card.addEventListener('click', function(){ selectStrategy(card.getAttribute('data-id')); });
+    });
+  }
+  renderCards();
+
+  /* ================= strategy selection & leg generation ================= */
+  function readInputs(){
+    state.S = Math.max(parseFloat(els.price.value) || 1, 0.5);
+    state.dte = Math.max(parseInt(els.dte.value,10) || 1, 0);
+    state.iv = Math.max(parseFloat(els.iv.value) || 1, 1) / 100;
+    state.r = Math.max(parseFloat(els.rate.value) || 0, 0) / 100;
+  }
+
+  function generateLegs(strategyId){
+    var strat = STRATS.filter(function(s){ return s.id === strategyId; })[0];
+    if (!strat) return [];
+    var ladder = strikeLadder(state.S);
+    var T = state.dte/365;
+    return strat.legs.map(function(tmpl){
+      if (tmpl.type === 'stock'){
+        return { type:'stock', side: tmpl.side, strike: null, qty: tmpl.qty, premium: state.S };
+      }
+      var K = ladder[tmpl.k];
+      var bs = blackScholes(tmpl.type, state.S, K, T, state.r, state.iv);
+      var premium = Math.round(bs.price * 100) / 100;
+      return { type: tmpl.type, side: tmpl.side, strike: K, qty: tmpl.qty, premium: premium };
+    });
+  }
+
+  function selectStrategy(id){
+    state.strategyId = id;
+    state.legsEdited = false;
+    readInputs();
+    state.legs = generateLegs(id);
+    document.querySelectorAll('.strat-card').forEach(function(c){
+      c.classList.toggle('selected', c.getAttribute('data-id') === id);
+    });
+    renderWorkspace();
+    els.workspace.classList.add('show');
+    requestAnimationFrame(function(){
+      var target = document.querySelector('.leg-table-wrap') || els.workspace;
+      target.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  }
+
+  document.getElementById('resetLegsBtn').addEventListener('click', function(){
+    if (!state.strategyId) return;
+    readInputs();
+    state.legs = generateLegs(state.strategyId);
+    state.legsEdited = false;
+    renderWorkspace();
+  });
+
+  // Live-update legs (strike/premium) when inputs change, unless user hand-edited a leg field.
+  function onPositionInputChange(){
+    if (!state.strategyId) return;
+    readInputs();
+    if (!state.legsEdited) {
+      state.legs = generateLegs(state.strategyId);
+    }
+    renderWorkspace();
+  }
+  [els.price, els.dte, els.iv, els.rate].forEach(function(inp){
+    inp.addEventListener('input', onPositionInputChange);
+  });
+  els.ticker.addEventListener('input', function(){ if (state.strategyId) renderWorkspace(); });
+
+  /* ================= live price (Finnhub) ================= */
+  // Uses Finnhub's free /quote endpoint, which supports direct browser CORS calls
+  // (no server proxy needed). Only reaches the network when this page is hosted
+  // somewhere that allows outbound fetch — e.g. GitHub Pages — not inside a
+  // Claude artifact preview, which sandboxes outbound requests by design.
+  try {
+    var savedKey = localStorage.getItem('ob-finnhub-key');
+    if (savedKey) els.finnhubKey.value = savedKey;
+  } catch(e){}
+  els.finnhubKey.addEventListener('input', function(){
+    try { localStorage.setItem('ob-finnhub-key', els.finnhubKey.value.trim()); } catch(e){}
+  });
+
+  function setLiveStatus(text, cls){
+    els.liveStatus.textContent = text;
+    els.liveStatus.className = cls || '';
+  }
+
+  function fetchLivePrice(){
+    var ticker = (els.ticker.value || '').trim().toUpperCase();
+    var key = (els.finnhubKey.value || '').trim();
+    if (!ticker){ setLiveStatus('Enter a ticker first.', 'err'); return; }
+    if (!key){ setLiveStatus('Add a free Finnhub API key below (Advanced) first.', 'err'); return; }
+
+    setLiveStatus('Fetching…', '');
+    els.liveFetchBtn.disabled = true;
+
+    var url = 'https://finnhub.io/api/v1/quote?symbol=' + encodeURIComponent(ticker) + '&token=' + encodeURIComponent(key);
+    var controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+    var timeoutId = controller ? setTimeout(function(){ controller.abort(); }, 8000) : null;
+
+    fetch(url, controller ? { signal: controller.signal } : {})
+      .then(function(res){
+        if (timeoutId) clearTimeout(timeoutId);
+        if (res.status === 401 || res.status === 403){
+          throw { reachedServer: true, message: 'Finnhub rejected that API key — double-check it was copied correctly.' };
+        }
+        if (!res.ok){
+          throw { reachedServer: true, message: 'Finnhub returned an error (status ' + res.status + ').' };
+        }
+        return res.json();
+      })
+      .then(function(data){
+        if (!data || typeof data.c !== 'number' || data.c <= 0){
+          throw { reachedServer: true, message: 'No live quote for "' + ticker + '" — check the ticker symbol.' };
+        }
+        els.price.value = data.c.toFixed(2);
+        onPositionInputChange();
+        var stamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        setLiveStatus('Live: $' + data.c.toFixed(2) + ' as of ' + stamp, 'ok');
+      })
+      .catch(function(err){
+        var msg;
+        if (err && err.reachedServer){
+          msg = err.message;
+        } else if (err && err.name === 'AbortError'){
+          msg = 'Timed out reaching Finnhub — try again, or enter the price manually.';
+        } else {
+          // Request never reached the server at all — most likely blocked outbound
+          // fetch (e.g. this page is running inside a Claude artifact preview).
+          msg = 'Couldn\'t reach live pricing from here — enter the price manually. If you\'re viewing this inside a Claude artifact preview, that\'s expected: it blocks outbound requests by design. Open the GitHub Pages version instead.';
+        }
+        setLiveStatus(msg, 'err');
+      })
+      .finally(function(){
+        els.liveFetchBtn.disabled = false;
+      });
+  }
+
+  els.liveFetchBtn.addEventListener('click', fetchLivePrice);
+  els.ticker.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' && els.finnhubKey.value.trim()) fetchLivePrice();
+  });
+
+  /* ================= account: sign in / sign up ================= */
+  // Fill these in once a real Supabase project exists (Project Settings > API in
+  // your Supabase dashboard) — until then, sign-in shows a friendly "not set up
+  // yet" message instead of erroring, so the rest of the app still works.
+  var SUPABASE_URL = 'https://ocfhbqxdokqhecnrswml.supabase.co';
+  var SUPABASE_ANON_KEY = 'sb_publishable_ltaNA7nnVozoSCOcZIjg';
+  var sb = null;
+  try {
+    if (window.supabase && SUPABASE_URL.indexOf('YOUR_SUPABASE_URL') === -1){
+      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+  } catch(e){}
+
+  var authMode = 'signin'; // 'signin' | 'signup'
+  var currentUser = null;
+
+  function openAuth(mode){
+    authMode = mode || 'signin';
+    renderAuthMode();
+    setAuthMsg('', '');
+    els.authOverlay.classList.add('show');
+    els.authEmail.focus();
+  }
+  function closeAuth(){
+    els.authOverlay.classList.remove('show');
+  }
+  function setAuthMsg(text, cls){
+    els.authMsg.textContent = text;
+    els.authMsg.className = 'auth-msg' + (cls ? ' ' + cls : '');
+  }
+  function renderAuthMode(){
+    if (authMode === 'signup'){
+      els.authTitle.textContent = 'Create an account';
+      els.authDesc.textContent = 'Free — just an email and password. Lets you save positions and your Finnhub key across devices.';
+      els.authSubmitBtn.textContent = 'Create account';
+      els.authSwitch.innerHTML = 'Already have an account? <button type="button" id="authModeSwitch">Sign in</button>';
+    } else {
+      els.authTitle.textContent = 'Sign in';
+      els.authDesc.textContent = 'Sign in to save positions and your Finnhub key, and pick up right where you left off on any device.';
+      els.authSubmitBtn.textContent = 'Sign in';
+      els.authSwitch.innerHTML = 'New here? <button type="button" id="authModeSwitch">Create an account</button>';
+    }
+    document.getElementById('authModeSwitch').addEventListener('click', function(){
+      openAuth(authMode === 'signup' ? 'signin' : 'signup');
+    });
+  }
+  renderAuthMode();
+
+  /* ---- landing gate: show only the intro + sign-in first ---- */
+  function showApp(){
+    document.getElementById('landingScreen').style.display = 'none';
+    document.getElementById('appGate').style.display = '';
+  }
+  function showLanding(){
+    document.getElementById('landingScreen').style.display = '';
+    document.getElementById('appGate').style.display = 'none';
+  }
+  document.getElementById('landingSignInBtn').addEventListener('click', function(){ openAuth('signin'); });
+  document.getElementById('landingSignUpBtn').addEventListener('click', function(){ openAuth('signup'); });
+  document.getElementById('landingSkipBtn').addEventListener('click', function(){
+    try { localStorage.setItem('ob-skip-landing', '1'); } catch(e){}
+    showApp();
+  });
+  (function(){
+    try {
+      if (localStorage.getItem('ob-skip-landing') === '1') showApp();
+    } catch(e){}
+  })();
+
+  document.getElementById('signInBtn').addEventListener('click', function(){ openAuth('signin'); });
+  document.getElementById('authCloseBtn').addEventListener('click', closeAuth);
+  document.getElementById('authCancelBtn').addEventListener('click', closeAuth);
+  els.authOverlay.addEventListener('click', function(e){ if (e.target === els.authOverlay) closeAuth(); });
+  (function(){
+    var b = document.getElementById('signInFromKeyBtn');
+    if (b) b.addEventListener('click', function(){ openAuth('signin'); });
+  })();
+
+  els.authSubmitBtn.addEventListener('click', function(){
+    if (!sb){
+      setAuthMsg('Accounts aren\'t connected on this copy of the app yet.', 'err');
+      return;
+    }
+    var email = (els.authEmail.value || '').trim();
+    var password = els.authPassword.value || '';
+    if (!email || !password){ setAuthMsg('Enter both an email and a password.', 'err'); return; }
+    if (password.length < 6){ setAuthMsg('Password needs to be at least 6 characters.', 'err'); return; }
+    els.authSubmitBtn.disabled = true;
+    setAuthMsg('Working…', '');
+    var action = authMode === 'signup'
+      ? sb.auth.signUp({ email: email, password: password })
+      : sb.auth.signInWithPassword({ email: email, password: password });
+    action.then(function(res){
+      if (res.error){ setAuthMsg(res.error.message, 'err'); return; }
+      if (authMode === 'signup' && res.data && res.data.user && !res.data.session){
+        setAuthMsg('Check your email to confirm your account, then sign in.', 'ok');
+        return;
+      }
+      setAuthMsg('Signed in!', 'ok');
+      showApp();
+      setTimeout(closeAuth, 500);
+    }).catch(function(){
+      setAuthMsg('Couldn\'t reach the account server — try again in a moment.', 'err');
+    }).finally(function(){
+      els.authSubmitBtn.disabled = false;
+    });
+  });
+
+  function renderAccountRow(){
+    if (currentUser){
+      els.accountRow.innerHTML = '<span class="acct-chip">Signed in as <b>'+currentUser.email+'</b></span>' +
+        '<button class="acct-btn" id="signOutBtn" type="button">Sign out</button>';
+      document.getElementById('signOutBtn').addEventListener('click', function(){ if (sb) sb.auth.signOut(); });
+      els.positionsSection.style.display = '';
+      if (els.keySyncNote) els.keySyncNote.textContent = 'Synced to your account — saved automatically as you type.';
+    } else {
+      els.accountRow.innerHTML = '<button class="acct-btn primary" id="signInBtn" type="button">Sign in</button>';
+      document.getElementById('signInBtn').addEventListener('click', function(){ openAuth('signin'); });
+      els.positionsSection.style.display = 'none';
+      els.posListHost.innerHTML = '';
+      if (els.keySyncNote){
+        els.keySyncNote.innerHTML = 'Saved only in this browser right now — <button type="button" id="signInFromKeyBtn" class="link-btn">sign in</button> and it\'ll follow you to every device.';
+        document.getElementById('signInFromKeyBtn').addEventListener('click', function(){ openAuth('signin'); });
+      }
+    }
+  }
+
+  /* ---- Finnhub key <-> account sync ---- */
+  var keySaveTimer = null;
+  function loadFinnhubKeyFromAccount(){
+    if (!currentUser) return;
+    var key = currentUser.user_metadata && currentUser.user_metadata.finnhub_key;
+    if (key && !els.finnhubKey.value){
+      els.finnhubKey.value = key;
+      try { localStorage.setItem('ob-finnhub-key', key); } catch(e){}
+    }
+  }
+  function saveFinnhubKeyToAccount(key){
+    if (!sb || !currentUser || !key) return;
+    sb.auth.updateUser({ data: { finnhub_key: key } });
+  }
+  els.finnhubKey.addEventListener('input', function(){
+    if (!currentUser) return;
+    clearTimeout(keySaveTimer);
+    var key = els.finnhubKey.value.trim();
+    keySaveTimer = setTimeout(function(){ saveFinnhubKeyToAccount(key); }, 800);
+  });
+
+  /* ---- session bootstrap ---- */
+  if (sb){
+    sb.auth.getSession().then(function(res){
+      currentUser = res.data && res.data.session ? res.data.session.user : null;
+      renderAccountRow();
+      if (currentUser){ loadFinnhubKeyFromAccount(); loadPositions(); showApp(); }
+    });
+    sb.auth.onAuthStateChange(function(event, session){
+      currentUser = session ? session.user : null;
+      renderAccountRow();
+      if (currentUser){ loadFinnhubKeyFromAccount(); loadPositions(); }
+    });
+  }
+
+  /* ================= saved positions ================= */
+  els.savePositionBtn.addEventListener('click', function(){
+    if (!currentUser){ openAuth('signin'); return; }
+    if (!sb || !state.strategyId || !state.legs.length) return;
+    var strat = STRATS.filter(function(s){ return s.id === state.strategyId; })[0];
+    if (!strat) return;
+    var expDate = new Date(Date.now() + state.dte*86400000);
+    var row = {
+      user_id: currentUser.id,
+      ticker: tickerName(),
+      strategy_id: strat.id,
+      strategy_name: strat.name,
+      entry_price: state.S,
+      entry_iv: state.iv,
+      entry_rate: state.r,
+      expiration_date: expDate.toISOString().slice(0,10),
+      legs: state.legs,
+      net_cost: netCost(state.legs),
+      status: 'open'
+    };
+    els.savePositionBtn.disabled = true;
+    els.savePositionBtn.textContent = 'Saving…';
+    sb.from('positions').insert(row).then(function(res){
+      if (res.error){ alert('Couldn\'t save: ' + res.error.message); }
+      else { loadPositions(); }
+    }).finally(function(){
+      els.savePositionBtn.disabled = false;
+      els.savePositionBtn.textContent = '💾 Save this position';
+    });
+  });
+
+  function loadPositions(){
+    if (!sb || !currentUser) return;
+    sb.from('positions').select('*').eq('user_id', currentUser.id).order('created_at', { ascending:false })
+      .then(function(res){
+        if (res.error){ els.posListHost.innerHTML = '<div class="pos-empty">Couldn\'t load positions: '+res.error.message+'</div>'; return; }
+        renderPositions(res.data || []);
+      });
+  }
+
+  function fetchQuoteFor(ticker, key){
+    var url = 'https://finnhub.io/api/v1/quote?symbol=' + encodeURIComponent(ticker) + '&token=' + encodeURIComponent(key);
+    return fetch(url).then(function(res){
+      if (!res.ok) throw new Error('quote failed');
+      return res.json();
+    }).then(function(data){
+      if (!data || typeof data.c !== 'number' || data.c <= 0) throw new Error('no quote');
+      return data.c;
+    });
+  }
+
+  function renderPositions(rows){
+    if (!rows.length){
+      els.posListHost.innerHTML = '<div class="pos-empty">No saved positions yet — set up a trade above and hit "Save this position."</div>';
+      return;
+    }
+    var open = rows.filter(function(r){ return r.status === 'open'; });
+    var closed = rows.filter(function(r){ return r.status !== 'open'; });
+    var html = '<div class="pos-list">' + (open.length ? open.map(renderPositionCard).join('') : '<div class="pos-empty">No open positions.</div>') + '</div>';
+    if (closed.length){
+      html += '<button type="button" class="pos-closed-toggle" id="posClosedToggle">Show '+closed.length+' closed position'+(closed.length>1?'s':'')+' ▾</button>';
+      html += '<div class="pos-list" id="posClosedList" style="display:none; margin-top:10px;">' + closed.map(renderPositionCard).join('') + '</div>';
+    }
+    els.posListHost.innerHTML = html;
+    var toggle = document.getElementById('posClosedToggle');
+    if (toggle) toggle.addEventListener('click', function(){
+      var list = document.getElementById('posClosedList');
+      var showing = list.style.display !== 'none';
+      list.style.display = showing ? 'none' : '';
+      toggle.textContent = (showing ? 'Show ' : 'Hide ') + closed.length + ' closed position' + (closed.length>1?'s':'') + (showing ? ' ▾' : ' ▴');
+    });
+    els.posListHost.querySelectorAll('.pos-close-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){ closePosition(btn.getAttribute('data-id'), rows); });
+    });
+    els.posListHost.querySelectorAll('.pos-delete-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){ deletePosition(btn.getAttribute('data-id')); });
+    });
+  }
+
+  function renderPositionCard(row){
+    var legs = row.legs || [];
+    var cost = row.net_cost;
+    var costLabel = cost >= 0 ? 'Paid' : 'Collected';
+    var exp = new Date(row.expiration_date + 'T00:00:00');
+    var daysLeft = Math.round((exp - new Date()) / 86400000);
+    var isOpen = row.status === 'open';
+    var cardId = 'plcard_' + row.id;
+
+    var plHtml;
+    if (!isOpen && row.closed_pl != null){
+      plHtml = '<div class="pos-stat"><div class="k">Final P&amp;L</div><div class="v" style="color:'+(row.closed_pl>=0?'var(--profit)':'var(--loss)')+'">'+fmtMoney(row.closed_pl,{plus:true})+'</div></div>';
+    } else if (isOpen){
+      var key = (els.finnhubKey.value || '').trim();
+      if (key){
+        plHtml = '<div class="pos-stat" id="'+cardId+'"><div class="k">Unrealized P&amp;L</div><div class="v" style="color:var(--text-muted)">loading…</div></div>';
+        fetchQuoteFor(row.ticker, key).then(function(price){
+          var T = Math.max(daysLeft,0) / 365;
+          var mtm = markToMarketValue(legs, price, T, row.entry_rate, row.entry_iv);
+          var pl = mtm - cost;
+          var el = document.getElementById(cardId);
+          if (el) el.innerHTML = '<div class="k">Unrealized P&amp;L</div><div class="v" style="color:'+(pl>=0?'var(--profit)':'var(--loss)')+'">'+fmtMoney(pl,{plus:true})+'</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">at $'+price.toFixed(2)+'</div>';
+        }).catch(function(){
+          var el = document.getElementById(cardId);
+          if (el) el.innerHTML = '<div class="k">Unrealized P&amp;L</div><div class="v" style="color:var(--text-muted); font-size:12px;">couldn\'t fetch a quote</div>';
+        });
+      } else {
+        plHtml = '<div class="pos-stat"><div class="k">Unrealized P&amp;L</div><div class="v" style="color:var(--text-muted); font-size:12px;">add a Finnhub key above to see this live</div></div>';
+      }
+    } else {
+      plHtml = '';
+    }
+
+    return '<div class="pos-card'+(isOpen?'':' closed')+'">'+
+      '<div class="pos-head"><span class="ticker">'+row.ticker+'</span><span class="strat-name">'+row.strategy_name+'</span></div>'+
+      '<div class="pos-meta">Entered '+row.entry_date+' at $'+Number(row.entry_price).toFixed(2)+' · '+(isOpen ? (daysLeft>=0 ? daysLeft+' days to expiration' : 'expired') : 'closed '+(row.closed_at||'').slice(0,10))+'</div>'+
+      '<div class="pos-stats">'+
+        '<div class="pos-stat"><div class="k">'+costLabel+'</div><div class="v">'+fmtMoney(Math.abs(cost))+'</div></div>'+
+        plHtml+
+      '</div>'+
+      (isOpen
+        ? '<div class="pos-actions"><button class="btn small pos-close-btn" type="button" data-id="'+row.id+'">Mark closed</button><button class="btn small pos-delete-btn" type="button" data-id="'+row.id+'">Delete</button></div>'
+        : '<div class="pos-actions"><button class="btn small pos-delete-btn" type="button" data-id="'+row.id+'">Delete</button></div>') +
+      '</div>';
+  }
+
+  function closePosition(id, rows){
+    var row = rows.filter(function(r){ return String(r.id) === String(id); })[0];
+    if (!row) return;
+    var key = (els.finnhubKey.value || '').trim();
+    var finish = function(closedPl){
+      sb.from('positions').update({ status:'closed', closed_at: new Date().toISOString(), closed_pl: closedPl }).eq('id', id).then(function(){ loadPositions(); });
+    };
+    if (key){
+      fetchQuoteFor(row.ticker, key).then(function(price){
+        finish(totalPL(row.legs || [], price));
+      }).catch(function(){ finish(null); });
+    } else {
+      finish(null);
+    }
+  }
+
+  function deletePosition(id){
+    if (!sb) return;
+    if (!confirm('Delete this saved position? This can\'t be undone.')) return;
+    sb.from('positions').delete().eq('id', id).then(function(){ loadPositions(); });
+  }
+
+  /* ================= P&L math over a leg set =================
+     Every leg carries its own entry cost basis in `premium` (for stock
+     legs this is the entry share price, set once at creation time) — so
+     these functions never need a separately-passed "entry price"; only
+     the *current/reference* underlying price (for computing payoff or
+     mark-to-market at that price) is passed in. That's what lets a saved
+     position be reopened days later and still price correctly against
+     today's price while remembering what was actually paid. */
+  var MULT = 100;
+  function legPL(leg, sT){
+    var sign = leg.side === 'long' ? 1 : -1;
+    if (leg.type === 'stock'){
+      return sign * (sT - leg.premium) * MULT * leg.qty;
+    }
+    var intrinsic = leg.type === 'call' ? Math.max(0, sT - leg.strike) : Math.max(0, leg.strike - sT);
+    return sign * (intrinsic - leg.premium) * MULT * leg.qty;
+  }
+  function totalPL(legs, sT){
+    var t = 0;
+    for (var i=0;i<legs.length;i++) t += legPL(legs[i], sT);
+    return t;
+  }
+  function netCost(legs){
+    var c = 0;
+    legs.forEach(function(l){
+      var sign = l.side === 'long' ? 1 : -1;
+      c += sign * l.premium * MULT * l.qty;
+    });
+    return c;
+  }
+  // Theoretical value of the position *right now* (or at any reference
+  // price/time), using the same sign convention as netCost — so
+  // (markToMarketValue - netCost) is unrealized P&L. Used both for the
+  // live builder (T = time to the chosen expiration) and for reopening a
+  // saved position (T = time remaining until ITS expiration date).
+  function markToMarketValue(legs, refS, T, r, iv){
+    var v = 0;
+    legs.forEach(function(l){
+      var sign = l.side === 'long' ? 1 : -1;
+      if (l.type === 'stock'){
+        v += sign * refS * MULT * l.qty;
+        return;
+      }
+      var price = blackScholes(l.type, refS, l.strike, T, r, iv).price;
+      v += sign * price * MULT * l.qty;
+    });
+    return v;
+  }
+  function portfolioGreeks(legs, currentS){
+    var T = Math.max(state.dte/365, 1/365/2);
+    var out = { delta:0, gamma:0, theta:0, vega:0 };
+    legs.forEach(function(l){
+      var sign = l.side === 'long' ? 1 : -1;
+      if (l.type === 'stock'){
+        out.delta += sign * MULT * l.qty;
+        return;
+      }
+      var g = blackScholes(l.type, currentS, l.strike, T, state.r, state.iv);
+      out.delta += sign * g.delta * MULT * l.qty;
+      out.gamma += sign * g.gamma * MULT * l.qty;
+      out.theta += sign * g.theta * MULT * l.qty;
+      out.vega  += sign * g.vega  * MULT * l.qty;
+    });
+    return out;
+  }
+
+  function analyze(legs, currentS){
+    var strikes = legs.filter(function(l){ return l.strike != null; }).map(function(l){ return l.strike; });
+    var hiBound = Math.max(currentS, strikes.length ? Math.max.apply(null,strikes) : currentS) * 2.2;
+    var samplePts = [];
+    for (var i=0;i<=440;i++) samplePts.push(hiBound * i/440);
+    strikes.forEach(function(k){ samplePts.push(k); samplePts.push(Math.max(k-0.01,0)); samplePts.push(k+0.01); });
+    samplePts.push(0);
+    samplePts = Array.from(new Set(samplePts.map(function(x){ return Math.round(x*100)/100; }))).sort(function(a,b){ return a-b; });
+
+    var pls = samplePts.map(function(sT){ return totalPL(legs, sT); });
+    var maxPL = -Infinity, minPL = Infinity, maxIdx=0, minIdx=0;
+    pls.forEach(function(v,i){ if (v>maxPL){maxPL=v;maxIdx=i;} if (v<minPL){minPL=v;minIdx=i;} });
+
+    // tail slope near top of range to detect unbounded profit/loss
+    var n = samplePts.length;
+    var topSlope = (pls[n-1]-pls[n-30]) / (samplePts[n-1]-samplePts[n-30]);
+    var maxProfitUnlimited = topSlope > 0.5;
+    var maxLossUnlimited = topSlope < -0.5;
+
+    // breakevens: sign changes
+    var breakevens = [];
+    for (var i=1;i<pls.length;i++){
+      if ((pls[i-1] < 0 && pls[i] >= 0) || (pls[i-1] > 0 && pls[i] <= 0)){
+        var x0=samplePts[i-1], x1=samplePts[i], y0=pls[i-1], y1=pls[i];
+        var t = (y1===y0) ? 0 : (0-y0)/(y1-y0);
+        breakevens.push(Math.round((x0 + t*(x1-x0))*100)/100);
+      }
+    }
+    breakevens = Array.from(new Set(breakevens));
+
+    return {
+      samplePts: samplePts, pls: pls,
+      maxProfit: maxProfitUnlimited ? Infinity : maxPL,
+      maxLoss: maxLossUnlimited ? -Infinity : minPL,
+      breakevens: breakevens,
+      hiBound: hiBound
+    };
+  }
+
+  /* ================= rendering ================= */
+  function fmtMoney(v, opts){
+    opts = opts || {};
+    if (v === Infinity) return 'Unlimited';
+    if (v === -Infinity) return 'Unlimited';
+    var neg = v < 0;
+    var s = '$' + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: opts.cents ? 2 : 0, maximumFractionDigits: opts.cents ? 2 : 0 });
+    return (neg ? '-' : (opts.plus ? '+' : '')) + s;
+  }
+  function fmtPrice(v){ return '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+  function legLabel(leg){
+    if (leg.type === 'stock') return '100 sh';
+    return leg.type === 'call' ? 'Call' : 'Put';
+  }
+
+  function renderLegTable(){
+    var rows = state.legs.map(function(leg, idx){
+      var strikeCell = leg.type === 'stock' ? '<span class="num" style="color:var(--text-muted)">—</span>' :
+        '<input type="number" step="0.5" inputmode="decimal" class="num strike-input" data-idx="'+idx+'" value="'+leg.strike+'" aria-label="Strike">';
+      var priceLabel = leg.type === 'stock' ? 'Entry price' : 'Premium';
+      return '<tr>'+
+        '<td><span class="side-tag '+leg.side+'">'+(leg.side==='long'?'Buy':'Sell')+'</span> '+legLabel(leg)+'</td>'+
+        '<td>'+strikeCell+'</td>'+
+        '<td><input type="number" step="1" min="1" inputmode="numeric" class="num qty-input" data-idx="'+idx+'" value="'+leg.qty+'" aria-label="Quantity"></td>'+
+        '<td><input type="number" step="0.01" inputmode="decimal" class="num prem-input" data-idx="'+idx+'" value="'+leg.premium.toFixed(2)+'" aria-label="'+priceLabel+'"></td>'+
+        '</tr>';
+    }).join('');
+    els.legBody.innerHTML = rows;
+
+    els.legBody.querySelectorAll('.strike-input').forEach(function(inp){
+      inp.addEventListener('input', function(){
+        var i = +inp.getAttribute('data-idx');
+        state.legs[i].strike = parseFloat(inp.value) || state.legs[i].strike;
+        state.legsEdited = true;
+        renderAnalysis();
+        renderEditedNote();
+      });
+    });
+    els.legBody.querySelectorAll('.qty-input').forEach(function(inp){
+      inp.addEventListener('input', function(){
+        var i = +inp.getAttribute('data-idx');
+        state.legs[i].qty = Math.max(1, parseInt(inp.value,10) || 1);
+        state.legsEdited = true;
+        renderAnalysis();
+        renderEditedNote();
+      });
+    });
+    els.legBody.querySelectorAll('.prem-input').forEach(function(inp){
+      inp.addEventListener('input', function(){
+        var i = +inp.getAttribute('data-idx');
+        state.legs[i].premium = Math.max(0.01, parseFloat(inp.value) || state.legs[i].premium);
+        state.legsEdited = true;
+        renderAnalysis();
+        renderEditedNote();
+      });
+    });
+  }
+
+  function renderEditedNote(){
+    els.legEditedNote.textContent = state.legsEdited ? 'Using your edited values — position inputs above won’t overwrite these until you reset.' : '';
+  }
+
+  function tickerName(){ return (els.ticker.value || 'the stock').trim().toUpperCase(); }
+
+  function renderWorkspace(){
+    var strat = STRATS.filter(function(s){ return s.id === state.strategyId; })[0];
+    if (!strat) return;
+    els.wsTitle.textContent = strat.name;
+    els.wsSub.textContent = strat.blurb + ' — built around ' + tickerName() + ' at ' + fmtPrice(state.S) + ', ' + state.dte + ' days to expiration.';
+
+    els.riskFlagHost.innerHTML = strat.risk === 'unlimited'
+      ? '<div class="risk-flag">⚠️ <div><strong>This trade has undefined risk.</strong> If '+tickerName()+' moves sharply against you, losses aren\'t capped by the legs themselves. Many new traders size these very small, or start with the defined-risk version (a spread) instead.</div></div>'
+      : '';
+
+    renderLegTable();
+    renderEditedNote();
+    renderAnalysis();
+  }
+
+  function incomeYield(strat, legs, cost, a){
+    if (!strat || !strat.income) return null;
+    var hasStock = legs.some(function(l){ return l.type === 'stock'; });
+    var credit, capital, capitalLabel;
+    if (hasStock){
+      // covered-call style: the "income" is the premium collected from the short option leg(s),
+      // measured against the value of the stock backing the trade — not the whole position's net cost.
+      credit = legs.filter(function(l){ return l.type !== 'stock' && l.side === 'short'; })
+        .reduce(function(sum,l){ return sum + l.premium * MULT * l.qty; }, 0);
+      capital = state.S * MULT;
+      capitalLabel = 'the stock\'s value';
+    } else {
+      if (cost >= 0) return null; // only meaningful for net-credit spreads
+      credit = Math.abs(cost);
+      capital = Math.abs(a.maxLoss);
+      capitalLabel = 'your max risk';
+    }
+    if (!credit || credit <= 0 || !capital || !isFinite(capital) || capital <= 0) return null;
+    var periodPct = credit / capital * 100;
+    var annualPct = periodPct * (365 / Math.max(state.dte, 1));
+    return { periodPct: periodPct, annualPct: annualPct, capitalLabel: capitalLabel };
+  }
+
+  function renderBottomLine(strat, a, cost, iy){
+    var collectLabel = cost >= 0 ? 'You pay' : 'You collect';
+    var chips =
+      '<div class="bl-chip"><div class="k">'+collectLabel+'</div><div class="v">'+fmtMoney(Math.abs(cost),{cents:false})+'</div></div>'+
+      '<div class="bl-chip"><div class="k">Worst case</div><div class="v loss">'+fmtMoney(Math.abs(a.maxLoss)===Infinity?Infinity:Math.abs(a.maxLoss))+'</div></div>'+
+      '<div class="bl-chip"><div class="k">Breakeven'+(a.breakevens.length>1?'s':'')+'</div><div class="v" style="font-size:17px;">'+(a.breakevens.length ? a.breakevens.map(fmtPrice).join(' / ') : '—')+'</div></div>';
+    if (iy){
+      chips += '<div class="bl-chip income"><div class="k">Income yield</div><div class="v">'+iy.periodPct.toFixed(1)+'%</div>'+
+        '<div class="sub">≈ '+iy.annualPct.toFixed(0)+'% annualized* on '+iy.capitalLabel+'</div></div>';
+    }
+    els.bottomLineHost.innerHTML = chips;
+  }
+
+  function renderAnalysis(){
+    var a = analyze(state.legs, state.S);
+    var cost = netCost(state.legs);
+    var g = portfolioGreeks(state.legs, state.S);
+    var strat = STRATS.filter(function(s){ return s.id === state.strategyId; })[0];
+    var iy = incomeYield(strat, state.legs, cost, a);
+    renderBottomLine(strat, a, cost, iy);
+
+    // stats
+    var costLabel = cost >= 0 ? 'Net cost (you pay)' : 'Net credit (you receive)';
+    var costVal = fmtMoney(Math.abs(cost), {cents:false});
+    var rrText = (a.maxLoss === -Infinity || a.maxProfit === Infinity) ? '—' :
+      (a.maxProfit === 0 ? '—' : '1 : ' + (Math.abs(a.maxProfit)/Math.max(Math.abs(a.maxLoss),0.01)).toFixed(2));
+
+    els.statGrid.innerHTML =
+      '<div class="stat-tile"><div class="k">Max profit</div><div class="v profit">'+fmtMoney(a.maxProfit)+'</div></div>'+
+      '<div class="stat-tile"><div class="k">Max loss</div><div class="v loss">'+fmtMoney(Math.abs(a.maxLoss)===Infinity? Infinity : Math.abs(a.maxLoss))+'</div></div>'+
+      '<div class="stat-tile"><div class="k">Breakeven'+(a.breakevens.length>1?'s':'')+'</div><div class="v">'+(a.breakevens.length ? a.breakevens.map(fmtPrice).join(' / ') : '—')+'</div></div>'+
+      '<div class="stat-tile"><div class="k">'+costLabel+'</div><div class="v">'+costVal+'</div></div>'+
+      '<div class="stat-tile" style="grid-column:1/-1;"><div class="k">Risk : Reward</div><div class="v">'+rrText+'</div></div>';
+
+    // greeks
+    var dPer1 = g.delta;
+    var thetaDay = g.theta;
+    var vega1 = g.vega;
+    els.greeksList.innerHTML =
+      greekRow('Δ', dPer1.toFixed(0), 'Delta — for every $1 '+tickerName()+' moves, this position\'s value changes by about '+fmtMoney(Math.abs(dPer1),{cents:false})+ (dPer1>=0?' in your favor if it rises.':' in your favor if it falls.')) +
+      greekRow('Γ', g.gamma.toFixed(1), 'Gamma — how fast delta itself changes as the price moves. Higher near expiration and near your strikes.') +
+      greekRow('Θ', fmtMoney(thetaDay,{plus:thetaDay>=0,cents:true}), 'Theta — '+(thetaDay>=0?'time decay is working for you':'time decay is working against you')+': roughly '+fmtMoney(Math.abs(thetaDay),{cents:true})+' per day, all else equal.') +
+      greekRow('V', fmtMoney(vega1,{plus:vega1>=0,cents:true}), 'Vega — if implied volatility rises 1 point, this position\'s value moves by about '+fmtMoney(Math.abs(vega1),{cents:true})+'.');
+
+    // scenario table
+    var levels = [-0.20,-0.10,-0.05,0,0.05,0.10,0.20];
+    var rows = levels.map(function(pct){
+      var px = Math.max(0.5, state.S * (1+pct));
+      var pl = totalPL(state.legs, px);
+      var isCurrent = pct === 0;
+      return { px: px, pct: pct, pl: pl, isCurrent: isCurrent };
+    });
+    var thead = '<thead><tr><th>Price</th><th>vs today</th><th>P&amp;L</th></tr></thead>';
+    var tbody = '<tbody>' + rows.map(function(r){
+      return '<tr class="'+(r.isCurrent?'current':'')+'">'+
+        '<td class="num">'+fmtPrice(r.px)+'</td>'+
+        '<td class="num">'+(r.pct===0?'today':(r.pct>0?'+':'')+(r.pct*100).toFixed(0)+'%')+'</td>'+
+        '<td class="num '+(r.pl>=0?'pl-pos':'pl-neg')+'">'+fmtMoney(r.pl,{plus:true})+'</td>'+
+        '</tr>';
+    }).join('') + '</tbody>';
+    els.scenarioTable.innerHTML = thead + tbody;
+
+    renderCoach(a, g, cost);
+    state._lastAnalysis = a;
+    drawChart(a);
+  }
+
+  function greekRow(sym, val, note){
+    return '<div class="greek-row"><div class="g-name">'+sym+'</div><div><div class="g-val num">'+val+'</div><div class="g-note">'+note+'</div></div></div>';
+  }
+
+  function renderCoach(a, g, cost){
+    var name = tickerName();
+    var strat = STRATS.filter(function(s){ return s.id === state.strategyId; })[0];
+    var biasWord = g.delta > 5 ? 'bullish' : g.delta < -5 ? 'bearish' : 'close to market-neutral';
+    var p = [];
+
+    p.push('This '+strat.name.toLowerCase()+' is '+biasWord+' on '+name+' right now — your net delta is about '+g.delta.toFixed(0)+', meaning the position behaves a bit like owning '+Math.abs(g.delta).toFixed(0)+' shares '+(g.delta>=0?'long':'short')+'.');
+
+    if (a.maxLoss === -Infinity){
+      p.push('<span class="warn-line">Risk is not capped here.</span> If '+name+' moves hard against you, the loss keeps growing past what you\'ve put up — this is not a "worst case, then done" trade like the defined-risk strategies in the library.');
+    } else {
+      p.push('Worst case, you lose '+fmtMoney(Math.abs(a.maxLoss))+' — that\'s the most this trade can cost you, full stop, and it happens if '+name+' settles at the wrong side of your strikes by expiration.');
+    }
+
+    if (a.maxProfit === Infinity){
+      p.push('Best case is open-ended — the further '+name+' runs in your favor, the more this makes, with no ceiling.');
+    } else {
+      p.push('Best case, you make '+fmtMoney(a.maxProfit)+'.');
+    }
+
+    if (a.breakevens.length === 1){
+      p.push(name+' needs to be '+(a.breakevens[0]>=state.S?'above':'below')+' '+fmtPrice(a.breakevens[0])+' at expiration just for you to break even — past that, you\'re in profit.');
+    } else if (a.breakevens.length === 2){
+      p.push('You break even at '+fmtPrice(Math.min.apply(null,a.breakevens))+' and '+fmtPrice(Math.max.apply(null,a.breakevens))+' — profit lives between (or outside, depending on the shape) those two prices, and you can see exactly which in the chart above.');
+    }
+
+    var thetaWord = g.theta >= 0 ? 'on your side' : 'working against you';
+    p.push('Time is currently '+thetaWord+': about '+fmtMoney(Math.abs(g.theta),{cents:true})+' a day in theta, '+(g.theta>=0?'so a quiet, unmoving '+name+' actually helps this position':'so a quiet, unmoving '+name+' slowly costs you')+'.');
+
+    var costLine = cost >= 0
+      ? 'You\'re putting up '+fmtMoney(Math.abs(cost))+' to open this — that\'s your capital at risk before considering the max-loss figure above.'
+      : 'You collect '+fmtMoney(Math.abs(cost))+' up front to open this — that credit is yours to keep if '+name+' cooperates through expiration.';
+    p.push(costLine);
+
+    var strat2 = STRATS.filter(function(s){ return s.id === state.strategyId; })[0];
+    var iy = incomeYield(strat2, state.legs, cost, a);
+    if (iy){
+      p.push('As income: that credit works out to about '+iy.periodPct.toFixed(1)+'% of '+iy.capitalLabel+' over '+state.dte+' days — roughly '+iy.annualPct.toFixed(0)+'% annualized if you repeated a trade like this back-to-back.<span style="color:var(--text-muted)"> *That\'s a math exercise, not a promise — real premiums, prices, and available capital move around every time you re-enter, and there\'s no guarantee you can repeat it at all.</span>');
+    }
+
+    els.coachText.innerHTML = p.map(function(t){ return '<p>'+t+'</p>'; }).join('');
+  }
+
+  /* ================= chart ================= */
+  function cssVar(name){
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+
+  function drawChart(a){
+    a = a || state._lastAnalysis;
+    if (!a) return;
+    var canvas = els.canvas;
+    var cssW = canvas.clientWidth || 640;
+    var cssH = 340;
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = cssW * dpr;
+    canvas.height = cssH * dpr;
+    canvas.style.height = cssH + 'px';
+    var ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,cssW,cssH);
+
+    var pad = { l: 54, r: 16, t: 16, b: 34 };
+    var plotW = cssW - pad.l - pad.r;
+    var plotH = cssH - pad.t - pad.b;
+
+    var xs = a.samplePts, ys = a.pls;
+    var xMin = 0, xMax = a.hiBound;
+    var yAbsMax = Math.max(1, Math.abs(Math.min.apply(null,ys)), Math.abs(Math.max.apply(null,ys)));
+    yAbsMax *= 1.15;
+    var yMin = -yAbsMax, yMax = yAbsMax;
+
+    function X(px){ return pad.l + (px - xMin)/(xMax-xMin) * plotW; }
+    function Y(v){ return pad.t + (1 - (v - yMin)/(yMax-yMin)) * plotH; }
+
+    var gridline = cssVar('--gridline');
+    var muted = cssVar('--text-muted');
+    var textSec = cssVar('--text-secondary');
+    var profit = cssVar('--profit');
+    var loss = cssVar('--loss');
+    var accent = cssVar('--accent');
+
+    ctx.font = '11px "IBM Plex Mono", monospace';
+    ctx.fillStyle = muted;
+    ctx.strokeStyle = gridline;
+    ctx.lineWidth = 1;
+
+    // horizontal gridlines (0 and outer)
+    var zeroY = Y(0);
+    [yMin, yMin/2, 0, yMax/2, yMax].forEach(function(v){
+      var yy = Y(v);
+      ctx.beginPath(); ctx.moveTo(pad.l, yy); ctx.lineTo(cssW-pad.r, yy); ctx.stroke();
+      ctx.fillStyle = muted;
+      ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+      ctx.fillText((v>=0?'+':'') + Math.round(v).toLocaleString('en-US'), pad.l - 8, yy);
+    });
+
+    // x ticks: min, strikes range, max
+    var xTicks = [xMin, xMax*0.25, xMax*0.5, xMax*0.75, xMax];
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    xTicks.forEach(function(v){
+      ctx.fillStyle = muted;
+      ctx.fillText('$'+Math.round(v), X(v), cssH - pad.b + 8);
+    });
+
+    // profit/loss filled area, split at zero
+    function drawArea(colorFill, above){
+      ctx.beginPath();
+      var started = false;
+      for (var i=0;i<xs.length;i++){
+        var yv = ys[i];
+        var clip = above ? Math.max(yv,0) : Math.min(yv,0);
+        var px = X(xs[i]), py = Y(clip);
+        if (!started){ ctx.moveTo(px, py); started = true; } else { ctx.lineTo(px, py); }
+      }
+      ctx.lineTo(X(xs[xs.length-1]), zeroY);
+      ctx.lineTo(X(xs[0]), zeroY);
+      ctx.closePath();
+      ctx.fillStyle = colorFill;
+      ctx.fill();
+    }
+    ctx.save();
+    ctx.globalAlpha = 0.16;
+    drawArea(profit, true);
+    drawArea(loss, false);
+    ctx.restore();
+
+    // zero baseline
+    ctx.strokeStyle = cssVar('--border-strong') || gridline;
+    ctx.beginPath(); ctx.moveTo(pad.l, zeroY); ctx.lineTo(cssW-pad.r, zeroY); ctx.stroke();
+
+    // P&L curve, colored by sign per-segment
+    ctx.lineWidth = 2.25;
+    for (var i=1;i<xs.length;i++){
+      var y0 = ys[i-1], y1 = ys[i];
+      ctx.strokeStyle = (y0+y1) >= 0 ? profit : loss;
+      ctx.beginPath();
+      ctx.moveTo(X(xs[i-1]), Y(y0));
+      ctx.lineTo(X(xs[i]), Y(y1));
+      ctx.stroke();
+    }
+
+    // breakeven markers
+    ctx.fillStyle = textSec;
+    a.breakevens.forEach(function(be){
+      if (be < xMin || be > xMax) return;
+      var bx = X(be);
+      ctx.setLineDash([3,3]);
+      ctx.strokeStyle = muted;
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(bx, pad.t); ctx.lineTo(bx, cssH-pad.b); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.beginPath(); ctx.arc(bx, zeroY, 3.5, 0, Math.PI*2); ctx.fillStyle = cssVar('--surface'); ctx.fill();
+      ctx.lineWidth = 2; ctx.strokeStyle = textSec; ctx.stroke();
+    });
+
+    // current price marker
+    var curX = X(state.S);
+    if (state.S >= xMin && state.S <= xMax){
+      ctx.strokeStyle = accent;
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([5,3]);
+      ctx.beginPath(); ctx.moveTo(curX, pad.t); ctx.lineTo(curX, cssH-pad.b); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = accent;
+      ctx.beginPath(); ctx.arc(curX, pad.t+6, 4, 0, Math.PI*2); ctx.fill();
+    }
+
+    // axis line
+    ctx.strokeStyle = gridline;
+    ctx.beginPath(); ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, cssH-pad.b); ctx.stroke();
+  }
+
+  window.addEventListener('resize', function(){ drawChart(); });
+
+  /* ================= boot ================= */
+  readInputs();
+})();
+</script>
+</body>
