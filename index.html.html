@@ -1,0 +1,910 @@
+<title>OptionsBuddy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap');
+
+  :root{
+    --bg:#ffffff; --panel:#ffffff; --sunken:#f6f7f9;
+    --ink:#12141a; --ink-soft:#5b6270; --ink-faint:#949aa8;
+    --border:#e4e6ea; --border-soft:#eef0f3;
+    --accent:#2f6fed; --accent-soft:#ebf1fe; --accent-ink:#1c4fc4;
+    --good:#16824f; --good-soft:#e8f7ef;
+    --bad:#c13f3f; --bad-soft:#fbecec;
+    --warn:#b06a06; --warn-soft:#fbf1de;
+    --shadow:0 1px 2px rgba(18,20,26,.04), 0 8px 24px rgba(18,20,26,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0e1015; --panel:#161923; --sunken:#1b1f2a;
+      --ink:#eef0f4; --ink-soft:#aab0bd; --ink-faint:#747c8c;
+      --border:#2a2f3b; --border-soft:#232732;
+      --accent:#6f9dff; --accent-soft:#1a2440; --accent-ink:#9cbcff;
+      --good:#4fd68f; --good-soft:#123526;
+      --bad:#ff8a8a; --bad-soft:#3a1e1e;
+      --warn:#f3bd5c; --warn-soft:#3a2c10;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 26px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0e1015; --panel:#161923; --sunken:#1b1f2a;
+    --ink:#eef0f4; --ink-soft:#aab0bd; --ink-faint:#747c8c;
+    --border:#2a2f3b; --border-soft:#232732;
+    --accent:#6f9dff; --accent-soft:#1a2440; --accent-ink:#9cbcff;
+    --good:#4fd68f; --good-soft:#123526;
+    --bad:#ff8a8a; --bad-soft:#3a1e1e;
+    --warn:#f3bd5c; --warn-soft:#3a2c10;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 26px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",ui-sans-serif,system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:20px 18px 90px;}
+  a{color:var(--accent);}
+
+  header.top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0 18px;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand .mark{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),#6a4fd0);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex:none;}
+  .brand .word{font-family:"Fraunces",ui-serif,serif;font-weight:700;font-size:1.35rem;letter-spacing:-0.01em;}
+  .brand .word .dot{color:var(--accent);}
+  .theme-btn{font-family:"IBM Plex Mono",monospace;font-size:0.72rem;letter-spacing:0.04em;border:1px solid var(--border);background:var(--panel);color:var(--ink-soft);padding:7px 12px;border-radius:999px;cursor:pointer;}
+  .theme-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+  .hdr-actions{display:flex;align-items:center;gap:8px;position:relative;}
+  .signin-btn{font-family:"Inter",sans-serif;font-size:0.82rem;font-weight:600;border:none;background:var(--accent);color:#fff;padding:8px 15px;border-radius:999px;cursor:pointer;}
+  .signin-btn:hover{background:var(--accent-ink);}
+  .signin-btn.signed-in{background:var(--sunken);color:var(--ink);border:1px solid var(--border);}
+  .signin-pop{position:absolute;top:calc(100% + 8px);right:0;width:230px;background:var(--panel);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:14px;z-index:20;}
+  .signin-pop.hidden{display:none;}
+  .signin-pop p{margin:0 0 8px;font-size:0.78rem;color:var(--ink-soft);}
+  .signin-pop input{width:100%;border:1px solid var(--border);background:var(--sunken);color:var(--ink);padding:7px 9px;border-radius:7px;font-size:0.85rem;margin-bottom:8px;}
+  .signin-pop .row{display:flex;gap:8px;}
+  .signin-pop .row button{flex:1;font-size:0.78rem;padding:7px 0;border-radius:7px;cursor:pointer;}
+  .signin-pop .save{background:var(--accent);color:#fff;border:none;}
+  .signin-pop .clear{background:transparent;color:var(--ink-soft);border:1px solid var(--border);}
+
+  .lede{color:var(--ink-soft);font-size:1.02rem;margin:0 0 18px;max-width:56ch;}
+  .lede a{white-space:nowrap;}
+
+  details.glossary{border:1px solid var(--border);border-radius:12px;background:var(--panel);margin-bottom:22px;overflow:hidden;}
+  details.glossary summary{cursor:pointer;padding:13px 16px;font-weight:600;font-size:0.92rem;list-style:none;display:flex;align-items:center;justify-content:space-between;}
+  details.glossary summary::-webkit-details-marker{display:none;}
+  details.glossary summary::after{content:"+";font-size:1.2rem;color:var(--ink-faint);}
+  details.glossary[open] summary::after{content:"–";}
+  .glossary-body{padding:0 16px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;font-size:0.86rem;}
+  .glossary-body b{display:block;margin-bottom:3px;}
+  .glossary-body span{color:var(--ink-soft);}
+
+  h2.step-title{font-size:1.15rem;margin:0 0 3px;letter-spacing:-0.01em;}
+  .step-sub{color:var(--ink-soft);font-size:0.88rem;margin:0 0 14px;}
+  .step-num{font-family:"IBM Plex Mono",monospace;font-size:0.7rem;letter-spacing:0.12em;color:var(--accent);text-transform:uppercase;margin:0 0 4px;}
+
+  .intent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:30px;}
+  .intent-card{border:1px solid var(--border);background:var(--panel);border-radius:14px;padding:16px;cursor:pointer;text-align:left;font:inherit;color:inherit;transition:border-color .15s, transform .1s;}
+  .intent-card:hover{border-color:var(--accent);}
+  .intent-card.active{border-color:var(--accent);background:var(--accent-soft);}
+  .intent-card .emoji{font-size:1.4rem;margin-bottom:8px;display:block;}
+  .intent-card h3{margin:0 0 4px;font-size:1rem;}
+  .intent-card p{margin:0;font-size:0.83rem;color:var(--ink-soft);}
+
+  .strat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:30px;}
+  .strat-card{border:1px solid var(--border);background:var(--panel);border-radius:14px;padding:14px 15px;cursor:pointer;text-align:left;font:inherit;color:inherit;}
+  .strat-card:hover{border-color:var(--accent);}
+  .strat-card.active{border-color:var(--accent);background:var(--accent-soft);}
+  .strat-card .tagrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .strat-card h3{margin:0;font-size:0.98rem;}
+  .badge{font-family:"IBM Plex Mono",monospace;font-size:0.62rem;letter-spacing:0.06em;text-transform:uppercase;padding:3px 7px;border-radius:999px;white-space:nowrap;}
+  .badge.bullish{background:var(--good-soft);color:var(--good);}
+  .badge.bearish{background:var(--bad-soft);color:var(--bad);}
+  .badge.neutral{background:var(--accent-soft);color:var(--accent-ink);}
+  .badge.bigmove{background:#f1ecfb;color:#6a4fb0;}
+  :root:not([data-theme="light"]) .badge.bigmove{background:#271f3d;color:#c3adff;}
+  .badge.hedge{background:var(--warn-soft);color:var(--warn);}
+  .strat-card p{margin:0;font-size:0.82rem;color:var(--ink-soft);}
+  .strat-card .risk{font-size:0.7rem;color:var(--ink-faint);margin-top:6px;}
+  .hidden{display:none !important;}
+
+  .workspace{border:1px solid var(--border);border-radius:16px;background:var(--panel);padding:20px;box-shadow:var(--shadow);margin-bottom:26px;}
+  .ws-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:4px;}
+  .ws-head h2{margin:0;font-size:1.3rem;letter-spacing:-0.01em;}
+  .ws-outlook{color:var(--ink-soft);font-size:0.88rem;margin:0 0 18px;}
+
+  .field-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px;}
+  .field label{display:block;font-size:0.72rem;font-family:"IBM Plex Mono",monospace;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px;}
+  .field input, .field select{width:100%;border:1px solid var(--border);background:var(--sunken);color:var(--ink);padding:8px 10px;border-radius:8px;font-size:0.92rem;font-family:"IBM Plex Mono",monospace;}
+  .field input:focus, .field select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent);}
+
+  .legs-box{border:1px dashed var(--border);border-radius:10px;padding:12px;margin-bottom:14px;}
+  .legs-box .leg-row{display:flex;align-items:center;gap:10px;font-size:0.85rem;padding:5px 0;flex-wrap:wrap;}
+  .legs-box .leg-row .leg-label{min-width:150px;color:var(--ink-soft);}
+  .legs-box .leg-row input{width:100px;border:1px solid var(--border);background:var(--sunken);color:var(--ink);padding:5px 8px;border-radius:6px;font-family:"IBM Plex Mono",monospace;}
+  .legs-box .leg-row .leg-delta{font-family:"IBM Plex Mono",monospace;font-size:0.76rem;color:var(--accent-ink);background:var(--accent-soft);padding:3px 8px;border-radius:999px;}
+
+  details.guide{border:1px solid var(--border-soft);background:var(--sunken);border-radius:10px;margin-bottom:14px;}
+  details.guide summary{cursor:pointer;padding:10px 14px;font-size:0.82rem;font-weight:600;color:var(--ink-soft);list-style:none;display:flex;justify-content:space-between;align-items:center;}
+  details.guide summary::-webkit-details-marker{display:none;}
+  details.guide summary::after{content:"ⓘ";font-size:0.85rem;}
+  .guide-body{padding:0 14px 14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;font-size:0.8rem;}
+  .guide-body b{display:block;margin-bottom:4px;}
+  .guide-body table{width:100%;border-collapse:collapse;}
+  .guide-body td{padding:2px 0;color:var(--ink-soft);}
+  .guide-body td.range{font-family:"IBM Plex Mono",monospace;color:var(--ink);white-space:nowrap;padding-right:8px;}
+
+  .live-row{display:flex;gap:8px;align-items:end;margin-bottom:14px;flex-wrap:wrap;}
+  .live-row .field{flex:1;min-width:160px;}
+  button.btn{background:var(--accent);color:#fff;border:none;padding:9px 14px;border-radius:8px;font-weight:600;font-size:0.85rem;cursor:pointer;}
+  button.btn:hover{background:var(--accent-ink);}
+  button.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent);}
+  .live-note{font-size:0.74rem;color:var(--ink-faint);margin:-8px 0 14px;}
+
+  .results{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:18px 0;}
+  .result{background:var(--sunken);border-radius:10px;padding:12px 13px;}
+  .result .k{font-family:"IBM Plex Mono",monospace;font-size:0.66rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px;}
+  .result .v{font-size:1.15rem;font-weight:700;font-variant-numeric:tabular-nums;}
+  .result.good .v{color:var(--good);}
+  .result.bad .v{color:var(--bad);}
+
+  canvas#payoff{width:100%;height:240px;display:block;margin:6px 0 4px;background:var(--sunken);border-radius:10px;cursor:crosshair;touch-action:none;}
+  .chart-hint{font-size:0.72rem;color:var(--ink-faint);margin:0 0 18px;text-align:center;}
+
+  .greeks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:20px;}
+  .greek{font-size:0.82rem;padding:9px 11px;background:var(--sunken);border-radius:9px;}
+  .greek b{font-variant-numeric:tabular-nums;}
+
+  .coach{border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .coach-head{background:var(--sunken);padding:9px 14px;font-family:"IBM Plex Mono",monospace;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);}
+  .coach-body{padding:14px;display:flex;flex-direction:column;gap:9px;}
+  .coach-line{display:flex;gap:9px;font-size:0.88rem;align-items:flex-start;}
+  .coach-line .dot{flex:none;width:8px;height:8px;border-radius:50%;margin-top:6px;}
+  .coach-line.ok .dot{background:var(--good);}
+  .coach-line.warn .dot{background:var(--warn);}
+  .coach-line.bad .dot{background:var(--bad);}
+  .coach-line.info .dot{background:var(--accent);}
+  .coach-line p{margin:0;}
+  .coach-line em{font-style:normal;font-weight:600;}
+
+  .accordion{border:1px solid var(--border);border-radius:14px;background:var(--panel);margin-top:8px;}
+  .accordion summary{cursor:pointer;padding:15px 18px;font-weight:700;font-size:1rem;list-style:none;}
+  .accordion summary::-webkit-details-marker{display:none;}
+  .habits{padding:0 18px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;}
+  .habit{font-size:0.83rem;background:var(--sunken);border-radius:9px;padding:11px 12px;}
+  .habit b{display:block;margin-bottom:3px;}
+  .habit span{color:var(--ink-soft);}
+
+  footer{margin-top:28px;font-size:0.78rem;color:var(--ink-faint);text-align:center;}
+  footer p{margin:4px 0;}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">
+      <span class="mark">🔑</span>
+      <span class="word">OptionsBuddy<span class="dot">.</span></span>
+    </div>
+    <div class="hdr-actions">
+      <button class="theme-btn" id="themeBtn" type="button">Theme: System</button>
+      <button class="signin-btn" id="signinBtn" type="button">Sign in</button>
+      <div class="signin-pop hidden" id="signinPop">
+        <p>Local to this browser only — no account or server, just a name so the app can say hi. Not used for anything else.</p>
+        <input type="text" id="signinName" placeholder="Your name" maxlength="24">
+        <div class="row">
+          <button class="save" id="signinSave" type="button">Save</button>
+          <button class="clear" id="signinClear" type="button">Sign out</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <p class="lede">Pick a strategy, plug in your idea, and see exactly what you're risking, what you stand to make, and why — with tastytrade-style coaching built in. Not financial advice — just the math and the mechanics, in plain English. <a href="https://claude.ai/code/artifact/0f5b6fe0-22ff-4482-88ff-01cd39d79c7e" target="_blank" rel="noopener">Full coach's Playbook ↗</a></p>
+
+  <details class="glossary">
+    <summary>New to options? Three words you'll see everywhere</summary>
+    <div class="glossary-body">
+      <div><b>Strike price</b><span>The price you're locked into buying or selling at, no matter where the stock actually goes.</span></div>
+      <div><b>Premium</b><span>What you pay (or get paid) for the contract — your cost if you buy it, your income if you sell it.</span></div>
+      <div><b>Breakeven</b><span>The stock price where the trade stops losing and starts winning, once premium is accounted for.</span></div>
+    </div>
+  </details>
+
+  <p class="step-num">Step 1</p>
+  <h2 class="step-title">What are you trying to do?</h2>
+  <p class="step-sub">Pick the one that matches why you're here — it points you at the right corner of the strategy library below. You can always browse everything yourself further down.</p>
+  <div class="intent-grid" id="intentGrid"></div>
+
+  <p class="step-num">Step 2</p>
+  <h2 class="step-title" id="stratListTitle">Pick a strategy</h2>
+  <p class="step-sub" id="stratListSub">Showing strategies for your goal above.</p>
+  <div class="strat-grid" id="stratGrid"></div>
+
+  <div class="workspace hidden" id="workspace"></div>
+
+  <details class="accordion">
+    <summary>Before any position: the six habits</summary>
+    <div class="habits">
+      <div class="habit"><b>Probability &gt; max profit</b><span>A high-probability small win beats a low-probability big one, run enough times.</span></div>
+      <div class="habit"><b>Let IV Rank pick the strategy</b><span>High IV Rank → sell premium. Low IV Rank → buy premium.</span></div>
+      <div class="habit"><b>~45 DTE in, 21 DTE out</b><span>Enter around 45 days out; manage or close by 21 regardless of P&amp;L.</span></div>
+      <div class="habit"><b>Take the 50%, skip the drama</b><span>Many close credit trades at 50% of max profit rather than riding to expiration.</span></div>
+      <div class="habit"><b>Small size, high occurrence</b><span>No single trade should be a big slice of the account.</span></div>
+      <div class="habit"><b>Defined risk until you don't need to be</b><span>Spreads and condors cap the downside; undefined risk wants a bigger account.</span></div>
+    </div>
+  </details>
+
+  <footer>
+    <p>Educational tool, not personalized financial advice. Payoffs are theoretical (Black-Scholes), not live option-chain quotes. Coaching heuristics are drawn from tastytrade/tastylive's public options education.</p>
+    <p id="buildTag"></p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- theme ---------- */
+  var THEME_KEY = "ob_theme";
+  function applyTheme(t){
+    if(t==="light"||t==="dark") document.documentElement.setAttribute("data-theme", t);
+    else document.documentElement.removeAttribute("data-theme");
+    document.getElementById("themeBtn").textContent = "Theme: " + (t==="system"?"System":t.charAt(0).toUpperCase()+t.slice(1));
+  }
+  var savedTheme = "system";
+  try{ savedTheme = localStorage.getItem(THEME_KEY) || "system"; }catch(e){}
+  applyTheme(savedTheme);
+  document.getElementById("themeBtn").addEventListener("click", function(){
+    var order = ["system","light","dark"];
+    var cur = order.indexOf(savedTheme);
+    savedTheme = order[(cur+1)%order.length];
+    try{ localStorage.setItem(THEME_KEY, savedTheme); }catch(e){}
+    applyTheme(savedTheme);
+  });
+
+  /* ---------- local "sign in" (name tag only — no account, no server) ---------- */
+  var NAME_KEY = "ob_user_name";
+  var signinBtn = document.getElementById("signinBtn");
+  var signinPop = document.getElementById("signinPop");
+  var signinName = document.getElementById("signinName");
+  function refreshSignin(){
+    var name = "";
+    try{ name = localStorage.getItem(NAME_KEY) || ""; }catch(e){}
+    if(name){
+      signinBtn.textContent = "Hi, " + name;
+      signinBtn.classList.add("signed-in");
+    } else {
+      signinBtn.textContent = "Sign in";
+      signinBtn.classList.remove("signed-in");
+    }
+    signinName.value = name;
+  }
+  refreshSignin();
+  signinBtn.addEventListener("click", function(e){
+    e.stopPropagation();
+    signinPop.classList.toggle("hidden");
+    if(!signinPop.classList.contains("hidden")) signinName.focus();
+  });
+  document.getElementById("signinSave").addEventListener("click", function(){
+    var v = signinName.value.trim();
+    try{ if(v) localStorage.setItem(NAME_KEY, v); else localStorage.removeItem(NAME_KEY); }catch(e){}
+    refreshSignin();
+    signinPop.classList.add("hidden");
+  });
+  document.getElementById("signinClear").addEventListener("click", function(){
+    try{ localStorage.removeItem(NAME_KEY); }catch(e){}
+    refreshSignin();
+    signinPop.classList.add("hidden");
+  });
+  document.addEventListener("click", function(e){
+    if(!signinPop.contains(e.target) && e.target!==signinBtn) signinPop.classList.add("hidden");
+  });
+
+  /* ---------- math ---------- */
+  function erf(x){
+    var s = x<0?-1:1; x=Math.abs(x);
+    var a1=0.254829592,a2=-0.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=0.3275911;
+    var t=1/(1+p*x);
+    var y=1-(((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x);
+    return s*y;
+  }
+  function ncdf(x){ return 0.5*(1+erf(x/Math.SQRT2)); }
+  function npdf(x){ return Math.exp(-x*x/2)/Math.sqrt(2*Math.PI); }
+
+  function bs(type, S, K, T, r, sigma){
+    if(T<=0 || sigma<=0){
+      var intrinsic = type==="call" ? Math.max(S-K,0) : Math.max(K-S,0);
+      return {price:intrinsic, delta: type==="call" ? (S>K?1:0) : (S<K?-1:0), theta:0, vega:0};
+    }
+    var d1 = (Math.log(S/K) + (r + sigma*sigma/2)*T) / (sigma*Math.sqrt(T));
+    var d2 = d1 - sigma*Math.sqrt(T);
+    var price, delta;
+    if(type==="call"){
+      price = S*ncdf(d1) - K*Math.exp(-r*T)*ncdf(d2);
+      delta = ncdf(d1);
+    } else {
+      price = K*Math.exp(-r*T)*ncdf(-d2) - S*ncdf(-d1);
+      delta = ncdf(d1)-1;
+    }
+    var theta_annual = -(S*npdf(d1)*sigma)/(2*Math.sqrt(T)) - (type==="call"?1:-1)*r*K*Math.exp(-r*T)*ncdf((type==="call"?1:-1)*d2);
+    var theta = theta_annual/365;
+    var vega = S*npdf(d1)*Math.sqrt(T)/100; // per 1 vol point
+    return {price:price, delta:delta, theta:theta, vega:vega};
+  }
+
+  /* ---------- strategy library ---------- */
+  // strikePct: offset from spot as a fraction (0 = ATM). ivEnv: 'sell' wants high IV rank, 'buy' wants low IV rank, 'either' = no strong preference.
+  var STRATS = [
+    {id:"long_call", name:"Long Call", cat:"bullish", outlook:"Strongly bullish, expecting a real move.", ivEnv:"buy", dte:60,
+      legs:[{type:"call",pos:"long",pct:0.02}],
+      tip:"Needs IV low and a real move to happen before expiration — theta fights you the whole way.",
+      watch:"IV crush after a catalyst can hurt even a correct directional call."},
+    {id:"bull_call_spread", name:"Bull Call Spread", cat:"bullish", outlook:"Moderately bullish, defined risk (debit).", ivEnv:"either", dte:45,
+      legs:[{type:"call",pos:"long",pct:0},{type:"call",pos:"short",pct:0.08}],
+      tip:"You're trading some upside for a lower cost and a hard cap on loss.",
+      watch:"Profit is capped even if the stock rips straight through your short strike."},
+    {id:"bull_put_spread", name:"Bull Put Spread", cat:"bullish", outlook:"Bullish to neutral, income (credit).", ivEnv:"sell", dte:45,
+      legs:[{type:"put",pos:"short",pct:-0.05},{type:"put",pos:"long",pct:-0.12}],
+      tip:"The tastytrade workhorse income trade — small, defined, repeatable.",
+      watch:"A fast drop through the short strike happens quicker than it feels like it should."},
+    {id:"covered_call", name:"Covered Call", cat:"bullish", outlook:"Neutral to mildly bullish on stock you hold.", ivEnv:"sell", dte:35,
+      legs:[{type:"stock",pos:"long",pct:0},{type:"call",pos:"short",pct:0.06}],
+      tip:"You're getting paid to cap your upside above the strike — decide in advance if that trade is worth it.",
+      watch:"Selling too close to the money can get shares called away right before a rally."},
+    {id:"csp", name:"Cash-Secured Put", cat:"bullish", outlook:"Neutral to bullish; happy to own the stock.", ivEnv:"sell", dte:35,
+      legs:[{type:"put",pos:"short",pct:-0.06}],
+      tip:"A limit order to buy stock you already wanted, with a paycheck attached for waiting.",
+      watch:"If assigned, cost basis is strike minus premium — make sure that's still a price you like."},
+    {id:"long_put", name:"Long Put", cat:"bearish", outlook:"Strongly bearish, expecting a real move.", ivEnv:"buy", dte:60,
+      legs:[{type:"put",pos:"long",pct:-0.02}],
+      tip:"Same logic as a long call, aimed down — a strong opinion with bad timing still loses money.",
+      watch:"IV often rises as stocks fall, which can help — but a slow grind down still bleeds theta."},
+    {id:"bear_put_spread", name:"Bear Put Spread", cat:"bearish", outlook:"Moderately bearish, defined risk (debit).", ivEnv:"either", dte:45,
+      legs:[{type:"put",pos:"long",pct:0},{type:"put",pos:"short",pct:-0.08}],
+      tip:"Mirror image of the bull call spread — same defined-risk trade-off, aimed the other way.",
+      watch:"Profit caps out below the short strike, even on a crash."},
+    {id:"bear_call_spread", name:"Bear Call Spread", cat:"bearish", outlook:"Bearish to neutral, income (credit).", ivEnv:"sell", dte:45,
+      legs:[{type:"call",pos:"short",pct:0.05},{type:"call",pos:"long",pct:0.12}],
+      tip:"Mirror image of the bull put spread — same workhorse logic, upside-down.",
+      watch:"A sharp melt-up can run through the short strike fast, especially in thinner names."},
+    {id:"iron_condor", name:"Iron Condor", cat:"neutral", outlook:"Range-bound, no strong directional view.", ivEnv:"sell", dte:45,
+      legs:[{type:"put",pos:"short",pct:-0.07},{type:"put",pos:"long",pct:-0.14},{type:"call",pos:"short",pct:0.07},{type:"call",pos:"long",pct:0.14}],
+      tip:"tastytrade's bread-and-butter trade — small, defined, high-probability, boring on purpose.",
+      watch:"Resist holding to expiration for the last few dollars — that's where pin risk and gamma risk live."},
+    {id:"iron_fly", name:"Iron Butterfly", cat:"neutral", outlook:"Range-bound, more precise view.", ivEnv:"sell", dte:45,
+      legs:[{type:"put",pos:"short",pct:0},{type:"put",pos:"long",pct:-0.10},{type:"call",pos:"short",pct:0},{type:"call",pos:"long",pct:0.10}],
+      tip:"More credit, tighter profit zone — you're betting on where it stays range-bound, not just whether.",
+      watch:"Needs more precision than a condor; a wrong guess on center hurts faster."},
+    {id:"short_strangle", name:"Short Strangle", cat:"neutral", outlook:"Range-bound. Undefined risk.", ivEnv:"sell", dte:45,
+      legs:[{type:"put",pos:"short",pct:-0.08},{type:"call",pos:"short",pct:0.08}],
+      tip:"tastytrade's most-backtested “sell high IV, buy back at half” trade — but undefined risk wants real capital behind it.",
+      watch:"A surprise move can produce an outsized loss; risk is theoretically uncapped on the call side."},
+    {id:"short_straddle", name:"Short Straddle", cat:"neutral", outlook:"Very tight range expected. Undefined risk.", ivEnv:"sell", dte:45,
+      legs:[{type:"put",pos:"short",pct:0},{type:"call",pos:"short",pct:0}],
+      tip:"The highest premium of any single-expiration strategy, and the least room for error.",
+      watch:"Undefined risk in both directions at once — size it very small."},
+    {id:"long_straddle", name:"Long Straddle", cat:"bigmove", outlook:"Expect a large move, direction unclear.", ivEnv:"buy", dte:30,
+      legs:[{type:"put",pos:"long",pct:0},{type:"call",pos:"long",pct:0}],
+      tip:"Being right on direction isn't enough — the move also has to happen before IV collapses.",
+      watch:"Buying right before earnings, when IV is already sky-high, means paying peak price."},
+    {id:"long_strangle", name:"Long Strangle", cat:"bigmove", outlook:"Expect a large move, lower cost entry.", ivEnv:"buy", dte:30,
+      legs:[{type:"put",pos:"long",pct:-0.05},{type:"call",pos:"long",pct:0.05}],
+      tip:"Cheaper than a straddle, but needs a bigger move to pay off — decide which trade-off fits.",
+      watch:"Needs a larger move than a straddle just to reach breakeven."},
+    {id:"protective_put", name:"Protective Put", cat:"hedge", outlook:"Bullish long-term, cap near-term downside.", ivEnv:"buy", dte:60,
+      legs:[{type:"stock",pos:"long",pct:0},{type:"put",pos:"long",pct:-0.08}],
+      tip:"This literally is insurance — a known premium to cap an unknown loss.",
+      watch:"If the stock doesn't fall, the premium is a pure cost, like insurance you didn't end up needing."},
+    {id:"collar", name:"Collar", cat:"hedge", outlook:"Protect a large gain, cap further upside.", ivEnv:"either", dte:45,
+      legs:[{type:"stock",pos:"long",pct:0},{type:"put",pos:"long",pct:-0.08},{type:"call",pos:"short",pct:0.08}],
+      tip:"Trading away some upside for downside protection, often for little or no net cost.",
+      watch:"If the stock rallies hard, the short call caps your gain right when you'd want it most."}
+  ];
+
+  var CATS = {
+    bullish:{label:"Bullish", emoji:"📈"},
+    bearish:{label:"Bearish", emoji:"📉"},
+    neutral:{label:"Neutral / range-bound", emoji:"➖"},
+    bigmove:{label:"Big-move play", emoji:"💥"},
+    hedge:{label:"Hedge stock you own", emoji:"🛡️"}
+  };
+
+  var INTENTS = [
+    {id:"income", emoji:"💰", title:"Bring in some income", desc:"Collect a payment now from a stock you own or are watching, for taking on a defined, known risk.",
+      cats:["bullish","neutral"], filter:function(s){ return s.ivEnv==="sell"; }},
+    {id:"direction", emoji:"📈", title:"Make a directional bet", desc:"You have a real opinion the stock goes up or down, and want defined or leveraged exposure to it.",
+      cats:["bullish","bearish"], filter:function(s){ return s.ivEnv!=="sell" && s.cat!=="hedge" && s.cat!=="bigmove"; }},
+    {id:"bigmove", emoji:"💥", title:"Bet on a big move either way", desc:"Something's coming — earnings, a decision, a catalyst — and you expect a swing but not which direction.",
+      cats:["bigmove"], filter:function(s){ return s.cat==="bigmove"; }},
+    {id:"hedge", emoji:"🛡️", title:"Protect a position I own", desc:"You like the stock but want to cap the downside without selling it.",
+      cats:["hedge"], filter:function(s){ return s.cat==="hedge"; }},
+    {id:"all", emoji:"🗂️", title:"Just browse everything", desc:"Show all strategies grouped by outlook — I'll pick myself.",
+      cats:null, filter:function(){ return true; }}
+  ];
+
+  var state = { intent: "all", strategy: null };
+
+  /* ---------- render step 1 ---------- */
+  var intentGrid = document.getElementById("intentGrid");
+  INTENTS.forEach(function(intent){
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "intent-card";
+    btn.innerHTML = '<span class="emoji">'+intent.emoji+'</span><h3>'+intent.title+'</h3><p>'+intent.desc+'</p>';
+    btn.addEventListener("click", function(){
+      state.intent = intent.id;
+      Array.prototype.forEach.call(intentGrid.children, function(c){ c.classList.remove("active"); });
+      btn.classList.add("active");
+      renderStratList();
+      document.getElementById("stratListTitle").scrollIntoView({behavior:"smooth", block:"start"});
+    });
+    intentGrid.appendChild(btn);
+  });
+
+  /* ---------- render step 2 ---------- */
+  var stratGrid = document.getElementById("stratGrid");
+  function renderStratList(){
+    stratGrid.innerHTML = "";
+    var intent = INTENTS.filter(function(i){return i.id===state.intent;})[0] || INTENTS[INTENTS.length-1];
+    document.getElementById("stratListSub").textContent = state.intent==="all" ? "Every strategy in the library, grouped by outlook." : "Showing strategies that fit “" + intent.title + "”.";
+    var list = STRATS.filter(intent.filter);
+    list.forEach(function(s){
+      var card = document.createElement("button");
+      card.type = "button";
+      card.className = "strat-card";
+      var undefinedRisk = (s.id==="short_strangle" || s.id==="short_straddle");
+      card.innerHTML = '<div class="tagrow"><h3>'+s.name+'</h3><span class="badge '+s.cat+'">'+CATS[s.cat].emoji+' '+CATS[s.cat].label+'</span></div>'+
+        '<p>'+s.outlook+'</p>'+
+        (undefinedRisk ? '<div class="risk">⚠ Undefined risk — needs a properly sized account</div>' : '<div class="risk">Defined risk</div>');
+      card.addEventListener("click", function(){
+        state.strategy = s.id;
+        Array.prototype.forEach.call(stratGrid.children, function(c){ c.classList.remove("active"); });
+        card.classList.add("active");
+        renderWorkspace(s);
+      });
+      stratGrid.appendChild(card);
+    });
+  }
+  renderStratList();
+
+  /* ---------- workspace ---------- */
+  var ws = document.getElementById("workspace");
+
+  function fmtMoney(n){
+    if(n===Infinity) return "Unlimited";
+    if(n===-Infinity) return "Unlimited";
+    var sign = n<0 ? "-" : "";
+    return sign + "$" + Math.abs(n).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  function computeLegPremiums(legs, S, iv, T, r){
+    return legs.map(function(leg){
+      if(leg.type==="stock") return S; // cost basis
+      var g = bs(leg.type, S, leg.strike, T, r, iv);
+      return g.price;
+    });
+  }
+
+  function pnlAt(price, legs, premiums){
+    var total = 0;
+    legs.forEach(function(leg, i){
+      var sign = leg.pos==="long" ? 1 : -1;
+      if(leg.type==="stock"){
+        total += sign*(price - premiums[i])*100;
+      } else {
+        var intrinsic = leg.type==="call" ? Math.max(price-leg.strike,0) : Math.max(leg.strike-price,0);
+        total += sign*(intrinsic - premiums[i])*100;
+      }
+    });
+    return total;
+  }
+
+  function analyze(legs, S, iv, dte, r){
+    var T = Math.max(dte,0)/365;
+    var premiums = computeLegPremiums(legs, S, iv, T, r);
+    var strikes = legs.filter(function(l){return l.type!=="stock";}).map(function(l){return l.strike;});
+    var samplePoints = [0].concat(strikes).concat([S*3]);
+    samplePoints = samplePoints.filter(function(v,i,a){return a.indexOf(v)===i;}).sort(function(a,b){return a-b;});
+
+    // slope as price -> +infinity
+    var slopeHigh = 0;
+    legs.forEach(function(leg){
+      var sign = leg.pos==="long"?1:-1;
+      if(leg.type==="stock") slopeHigh += sign*100;
+      else if(leg.type==="call") slopeHigh += sign*100;
+      // puts contribute 0 slope at high price
+    });
+
+    var vals = samplePoints.map(function(p){ return pnlAt(p, legs, premiums); });
+    var maxProfit = Math.max.apply(null, vals);
+    var maxLoss = Math.min.apply(null, vals);
+    if(slopeHigh>0) maxProfit = Infinity;
+    if(slopeHigh<0) maxLoss = -Infinity;
+
+    // breakevens: scan segments between consecutive sample points for sign change (linear between kinks)
+    var breakevens = [];
+    for(var i=0;i<samplePoints.length-1;i++){
+      var p1=samplePoints[i], p2=samplePoints[i+1];
+      var v1=pnlAt(p1,legs,premiums), v2=pnlAt(p2,legs,premiums);
+      if((v1<0&&v2>0)||(v1>0&&v2<0)){
+        var frac = v1/(v1-v2);
+        breakevens.push(p1 + frac*(p2-p1));
+      }
+    }
+    // extend last segment to +infinity check using slopeHigh from last sample point
+    if(slopeHigh!==0){
+      var lastP = samplePoints[samplePoints.length-1];
+      var lastV = pnlAt(lastP, legs, premiums);
+      if((lastV<0 && slopeHigh>0) || (lastV>0 && slopeHigh<0)){
+        var t = -lastV/slopeHigh;
+        if(t>0) breakevens.push(lastP+t);
+      }
+    }
+
+    var netGreeks = {delta:0, theta:0, vega:0};
+    legs.forEach(function(leg,i){
+      var sign = leg.pos==="long"?1:-1;
+      if(leg.type==="stock"){ netGreeks.delta += sign*1; }
+      else {
+        var g = bs(leg.type, S, leg.strike, T, r, iv);
+        netGreeks.delta += sign*g.delta*100;
+        netGreeks.theta += sign*g.theta*100;
+        netGreeks.vega += sign*g.vega*100;
+      }
+    });
+
+    var netCost = 0; // positive = net debit paid, negative = net credit received
+    legs.forEach(function(leg,i){
+      if(leg.type==="stock") return;
+      var sign = leg.pos==="long"?1:-1;
+      netCost += sign*premiums[i]*100;
+    });
+
+    return {premiums:premiums, maxProfit:maxProfit, maxLoss:maxLoss, breakevens:breakevens, greeks:netGreeks, netCost:netCost, samplePoints:samplePoints};
+  }
+
+  var MARGIN = {L:8, R:8, T:12, B:12};
+
+  function drawPayoff(canvas, legs, premiums, S, lo, hi, hoverPrice){
+    var ctx = canvas.getContext("2d");
+    var dpr = window.devicePixelRatio || 1;
+    var w = canvas.clientWidth, h = canvas.clientHeight;
+    canvas.width = w*dpr; canvas.height = h*dpr;
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.scale(dpr,dpr);
+    ctx.clearRect(0,0,w,h);
+
+    var N = 160;
+    var pts = [];
+    var minV=Infinity, maxV=-Infinity;
+    for(var i=0;i<=N;i++){
+      var price = lo + (hi-lo)*i/N;
+      var v = pnlAt(price, legs, premiums);
+      pts.push([price,v]);
+      if(v<minV) minV=v;
+      if(v>maxV) maxV=v;
+    }
+    if(minV===maxV){ minV-=10; maxV+=10; }
+    var pad = (maxV-minV)*0.12;
+    minV -= pad; maxV += pad;
+
+    var mL=MARGIN.L,mR=MARGIN.R,mT=MARGIN.T,mB=MARGIN.B;
+    var plotW = w-mL-mR, plotH = h-mT-mB;
+    function X(price){ return mL + (price-lo)/(hi-lo)*plotW; }
+    function Y(v){ return mT + (maxV-v)/(maxV-minV)*plotH; }
+
+    var css = getComputedStyle(document.documentElement);
+    var ink = css.getPropertyValue("--ink-faint").trim() || "#999";
+    var inkStrong = css.getPropertyValue("--ink").trim() || "#111";
+    var border = css.getPropertyValue("--border").trim() || "#ddd";
+    var good = css.getPropertyValue("--good").trim() || "green";
+    var bad = css.getPropertyValue("--bad").trim() || "red";
+    var accent = css.getPropertyValue("--accent").trim() || "blue";
+    var panel = css.getPropertyValue("--panel").trim() || "#fff";
+
+    // zero line
+    ctx.strokeStyle = border; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(mL, Y(0)); ctx.lineTo(w-mR, Y(0)); ctx.stroke();
+
+    // current price line
+    ctx.strokeStyle = accent; ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(X(S), mT); ctx.lineTo(X(S), h-mB); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // fill + line, colored by sign per-segment
+    for(i=0;i<pts.length-1;i++){
+      var a=pts[i], b=pts[i+1];
+      ctx.strokeStyle = (a[1]+b[1])>=0 ? good : bad;
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      ctx.moveTo(X(a[0]), Y(a[1]));
+      ctx.lineTo(X(b[0]), Y(b[1]));
+      ctx.stroke();
+    }
+
+    ctx.fillStyle = ink;
+    ctx.font = "11px IBM Plex Mono, monospace";
+    ctx.fillText("$"+S.toFixed(0)+" now", Math.min(Math.max(X(S)-24,mL),w-mR-60), 12);
+
+    if(hoverPrice!=null){
+      var hv = pnlAt(hoverPrice, legs, premiums);
+      var hx = X(hoverPrice), hy = Y(Math.max(minV,Math.min(maxV,hv)));
+      ctx.strokeStyle = inkStrong; ctx.lineWidth = 1; ctx.setLineDash([3,3]);
+      ctx.beginPath(); ctx.moveTo(hx, mT); ctx.lineTo(hx, h-mB); ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.beginPath(); ctx.arc(hx, hy, 4, 0, Math.PI*2);
+      ctx.fillStyle = hv>=0 ? good : bad; ctx.fill();
+      ctx.strokeStyle = panel; ctx.lineWidth = 1.5; ctx.stroke();
+
+      var label = "$"+hoverPrice.toFixed(2)+"  →  "+(hv>=0?"+":"-")+"$"+Math.abs(hv).toFixed(0);
+      ctx.font = "12px IBM Plex Mono, monospace";
+      var tw = ctx.measureText(label).width + 14;
+      var bx = Math.min(Math.max(hx - tw/2, mL), w-mR-tw);
+      var by = hy < h/2 ? hy+10 : hy-28;
+      ctx.fillStyle = inkStrong;
+      ctx.globalAlpha = 0.92;
+      ctx.beginPath();
+      if(ctx.roundRect) ctx.roundRect(bx, by, tw, 20, 5); else ctx.rect(bx,by,tw,20);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = panel;
+      ctx.fillText(label, bx+7, by+14);
+    }
+  }
+
+  function coachLine(kind, html){
+    return '<div class="coach-line '+kind+'"><span class="dot"></span><p>'+html+'</p></div>';
+  }
+
+  function renderWorkspace(s){
+    ws.classList.remove("hidden");
+    var defaultSpot = 100;
+
+    var legsHtml = s.legs.map(function(leg, i){
+      var label = leg.type==="stock" ? "Stock (cost basis)" : (leg.pos==="long"?"Long ":"Short ") + leg.type.toUpperCase();
+      var defVal = leg.type==="stock" ? defaultSpot : Math.round(defaultSpot*(1+leg.pct));
+      var deltaTag = leg.type==="stock" ? "" : '<span class="leg-delta" data-delta="'+i+'">Δ —</span>';
+      return '<div class="leg-row"><span class="leg-label">'+label+'</span><input type="number" step="0.5" data-leg="'+i+'" value="'+defVal+'">'+deltaTag+'</div>';
+    }).join("");
+
+    ws.innerHTML =
+      '<div class="ws-head"><h2>'+s.name+'</h2><span class="badge '+s.cat+'">'+CATS[s.cat].emoji+' '+CATS[s.cat].label+'</span></div>'+
+      '<p class="ws-outlook">'+s.outlook+'</p>'+
+
+      '<div class="live-row">'+
+        '<div class="field"><label>Finnhub API key (optional)</label><input type="text" id="fhKey" placeholder="saved to this browser only"></div>'+
+        '<div class="field" style="max-width:110px"><label>Symbol</label><input type="text" id="fhSym" placeholder="AAPL"></div>'+
+        '<button class="btn ghost" id="fhGet" type="button">Get live price</button>'+
+        '<button class="btn ghost" id="fhEarn" type="button">Get next earnings</button>'+
+      '</div>'+
+      '<p class="live-note" id="fhNote">Live price fills the Current Price field below. Key is stored only in this browser.</p>'+
+
+      '<div class="field-grid">'+
+        '<div class="field"><label>Current price</label><input type="number" id="fSpot" value="'+defaultSpot+'" step="0.5"></div>'+
+        '<div class="field"><label>Implied volatility %</label><input type="number" id="fIv" value="30" step="1"></div>'+
+        '<div class="field"><label>Days to expiration</label><input type="number" id="fDte" value="'+s.dte+'" step="1"></div>'+
+        '<div class="field"><label>IV Rank (0-100, your estimate)</label><input type="number" id="fIvr" value="50" min="0" max="100" step="1"></div>'+
+        '<div class="field"><label>Next earnings date (optional)</label><input type="date" id="fEarn"></div>'+
+      '</div>'+
+
+      '<details class="guide">'+
+        '<summary>IV Rank &amp; delta — general guidelines</summary>'+
+        '<div class="guide-body">'+
+          '<div><b>IV Rank (where current IV sits vs. its own 52-week range)</b><table>'+
+            '<tr><td class="range">0–25</td><td>Low — premium is cheap. Better for buying (long calls/puts, straddles).</td></tr>'+
+            '<tr><td class="range">25–50</td><td>Moderate — workable either way, no strong edge.</td></tr>'+
+            '<tr><td class="range">50–75</td><td>Elevated — favors selling premium (spreads, condors, strangles).</td></tr>'+
+            '<tr><td class="range">75–100</td><td>High — richest premium, but often means the stock is already moving.</td></tr>'+
+          '</table></div>'+
+          '<div><b>Delta (rough odds a short strike finishes in-the-money)</b><table>'+
+            '<tr><td class="range">~10–16Δ</td><td>Far OTM — ~84–90% POP, small credit. Conservative short strike.</td></tr>'+
+            '<tr><td class="range">~16–30Δ</td><td>Classic credit-spread / condor zone — ~70–84% POP.</td></tr>'+
+            '<tr><td class="range">~40–60Δ</td><td>Near the money — bigger premium and risk, lower POP.</td></tr>'+
+            '<tr><td class="range">~100Δ</td><td>Deep ITM — behaves almost exactly like the stock itself.</td></tr>'+
+          '</table></div>'+
+        '</div>'+
+      '</details>'+
+
+      '<div class="legs-box"><div style="font-size:0.72rem;font-family:\'IBM Plex Mono\',monospace;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px;">Strikes &amp; legs (editable) — delta updates live against the guide above</div>'+legsHtml+'</div>'+
+
+      '<div class="field-grid">'+
+        '<div class="field"><label>Credit received / debit paid ($, optional)</label><input type="number" id="fFill" placeholder="e.g. 180"></div>'+
+        '<div class="field"><label>Current value to close ($, optional)</label><input type="number" id="fNow" placeholder="e.g. 90"></div>'+
+        '<div class="field"><label>Account size ($, optional)</label><input type="number" id="fAcct" placeholder="e.g. 20000"></div>'+
+      '</div>'+
+
+      '<div class="results" id="results"></div>'+
+      '<canvas id="payoff"></canvas>'+
+      '<p class="chart-hint">Drag or hover the chart to see P&amp;L at any price.</p>'+
+      '<div class="greeks" id="greeks"></div>'+
+      '<div class="coach"><div class="coach-head">Coach</div><div class="coach-body" id="coachBody"></div></div>';
+
+    var $ = function(id){ return document.getElementById(id); };
+    var legInputs = ws.querySelectorAll('input[data-leg]');
+
+    try{ $("fhKey").value = localStorage.getItem("ob_finnhub_key") || ""; }catch(e){}
+    $("fhKey").addEventListener("change", function(){ try{ localStorage.setItem("ob_finnhub_key", $("fhKey").value); }catch(e){} });
+
+    $("fhGet").addEventListener("click", function(){
+      var key = $("fhKey").value.trim(), sym = $("fhSym").value.trim().toUpperCase();
+      if(!key || !sym){ $("fhNote").textContent = "Enter both an API key and a symbol first."; return; }
+      $("fhNote").textContent = "Fetching...";
+      fetch("https://finnhub.io/api/v1/quote?symbol="+encodeURIComponent(sym)+"&token="+encodeURIComponent(key))
+        .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
+        .then(function(data){
+          if(data && data.c){
+            $("fSpot").value = data.c;
+            legInputs.forEach(function(inp){
+              var leg = s.legs[+inp.dataset.leg];
+              inp.value = leg.type==="stock" ? data.c : Math.round(data.c*(1+leg.pct)*2)/2;
+            });
+            $("fhNote").textContent = "Live price: $"+data.c+" (Finnhub).";
+            recompute();
+          } else {
+            $("fhNote").textContent = "No price returned — check the symbol.";
+          }
+        })
+        .catch(function(err){
+          $("fhNote").textContent = "Couldn't reach Finnhub from here (" + err.message + "). If you're previewing this inside a sandboxed frame, open the published page directly and try again.";
+        });
+    });
+
+    $("fhEarn").addEventListener("click", function(){
+      var key = $("fhKey").value.trim(), sym = $("fhSym").value.trim().toUpperCase();
+      if(!key || !sym){ $("fhNote").textContent = "Enter both an API key and a symbol first."; return; }
+      $("fhNote").textContent = "Looking up next earnings date...";
+      var today = new Date();
+      var from = today.toISOString().slice(0,10);
+      var toDate = new Date(today.getTime() + 120*86400000);
+      var to = toDate.toISOString().slice(0,10);
+      fetch("https://finnhub.io/api/v1/calendar/earnings?from="+from+"&to="+to+"&symbol="+encodeURIComponent(sym)+"&token="+encodeURIComponent(key))
+        .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
+        .then(function(data){
+          var rows = (data && data.earningsCalendar) || [];
+          if(rows.length){
+            rows.sort(function(a,b){ return a.date<b.date?-1:1; });
+            $("fEarn").value = rows[0].date;
+            $("fhNote").textContent = "Next earnings for "+sym+": "+rows[0].date+" (Finnhub).";
+            recompute();
+          } else {
+            $("fhNote").textContent = "No upcoming earnings date found for "+sym+" — this endpoint may be limited on the free tier. You can enter the date manually.";
+          }
+        })
+        .catch(function(err){
+          $("fhNote").textContent = "Couldn't fetch an earnings date (" + err.message + ") — this endpoint may need a paid Finnhub tier, or you're in a sandboxed preview. Enter the date manually if you have it.";
+        });
+    });
+
+    var chart = null; // {legs, premiums, S, lo, hi} for the interactive canvas
+    var payoffCanvas = $("payoff");
+    function priceFromClientX(clientX){
+      var rect = payoffCanvas.getBoundingClientRect();
+      var x = clientX - rect.left;
+      var frac = (x - MARGIN.L) / (rect.width - MARGIN.L - MARGIN.R);
+      frac = Math.max(0, Math.min(1, frac));
+      return chart.lo + frac*(chart.hi - chart.lo);
+    }
+    function onPointerMove(evt){
+      if(!chart) return;
+      var price = priceFromClientX(evt.clientX);
+      drawPayoff(payoffCanvas, chart.legs, chart.premiums, chart.S, chart.lo, chart.hi, price);
+    }
+    function onPointerLeave(){
+      if(!chart) return;
+      drawPayoff(payoffCanvas, chart.legs, chart.premiums, chart.S, chart.lo, chart.hi, null);
+    }
+    payoffCanvas.addEventListener("pointermove", onPointerMove);
+    payoffCanvas.addEventListener("pointerdown", onPointerMove);
+    payoffCanvas.addEventListener("pointerleave", onPointerLeave);
+
+    function recompute(){
+      var S = parseFloat($("fSpot").value)||0;
+      var iv = (parseFloat($("fIv").value)||0)/100;
+      var dte = parseFloat($("fDte").value)||0;
+      var ivr = Math.max(0,Math.min(100, parseFloat($("fIvr").value)||0));
+      var r = 0.04;
+
+      var legs = s.legs.map(function(leg, i){
+        var strike = parseFloat(legInputs[i].value)||S;
+        return {type:leg.type, pos:leg.pos, strike:strike};
+      });
+
+      var out = analyze(legs, S, iv, dte, r);
+
+      var resHtml = "";
+      resHtml += '<div class="result '+(out.maxProfit>0?'good':'')+'"><div class="k">Max profit</div><div class="v">'+fmtMoney(out.maxProfit)+'</div></div>';
+      resHtml += '<div class="result '+(out.maxLoss<0?'bad':'')+'"><div class="k">Max loss</div><div class="v">'+fmtMoney(out.maxLoss)+'</div></div>';
+      resHtml += '<div class="result"><div class="k">Breakeven'+(out.breakevens.length>1?"s":"")+'</div><div class="v">'+(out.breakevens.length? out.breakevens.map(function(b){return "$"+b.toFixed(2);}).join(" / ") : "—")+'</div></div>';
+      resHtml += '<div class="result"><div class="k">'+(out.netCost>=0?"Net debit":"Net credit")+'</div><div class="v">'+fmtMoney(Math.abs(out.netCost))+'</div></div>';
+      $("results").innerHTML = resHtml;
+
+      var lo = S*0.7, hi = S*1.3;
+      chart = {legs:legs, premiums:out.premiums, S:S, lo:lo, hi:hi};
+      drawPayoff(payoffCanvas, legs, out.premiums, S, lo, hi, null);
+
+      var T = Math.max(dte,0)/365;
+      legInputs.forEach(function(inp, i){
+        var leg = legs[i];
+        if(leg.type==="stock") return;
+        var g0 = bs(leg.type, S, leg.strike, T, r, iv);
+        var d = leg.pos==="long" ? g0.delta : -g0.delta;
+        var tag = ws.querySelector('[data-delta="'+i+'"]');
+        if(tag) tag.textContent = "Δ " + (d>=0?"+":"") + d.toFixed(2);
+      });
+
+      var g = out.greeks;
+      var deltaWord = g.delta>=0 ? "long" : "short";
+      $("greeks").innerHTML =
+        '<div class="greek">Delta <b>'+g.delta.toFixed(1)+'</b> — behaves like being '+deltaWord+' ~'+Math.abs(g.delta).toFixed(0)+' shares of stock right now.</div>'+
+        '<div class="greek">Theta <b>'+fmtMoney(g.theta)+'/day</b> — '+(g.theta>=0?'time decay is paying you':'time decay is costing you')+' if nothing else changes.</div>'+
+        '<div class="greek">Vega <b>'+fmtMoney(g.vega)+'</b> — position value change per 1-point move in implied volatility.</div>';
+
+      // coach messages
+      var lines = "";
+      if(s.ivEnv==="sell"){
+        if(ivr<30) lines += coachLine("bad","<em>IV Rank looks low ("+ivr+") for a premium-selling trade like this</em> — you're not getting paid much for the risk. Consider waiting for higher IV or picking a debit strategy instead.");
+        else if(ivr<50) lines += coachLine("warn","<em>IV Rank is middling ("+ivr+")</em> — workable, but this trade is more attractive above ~50.");
+        else lines += coachLine("ok","<em>IV Rank ("+ivr+") looks supportive</em> for selling premium here.");
+      } else if(s.ivEnv==="buy"){
+        if(ivr>60) lines += coachLine("bad","<em>IV Rank looks high ("+ivr+")</em> for buying premium — you'd be paying up, and a post-event IV crush could hurt even if you're right on direction.");
+        else if(ivr>40) lines += coachLine("warn","<em>IV Rank is middling ("+ivr+")</em> — fine, but this is a more attractive setup below ~40.");
+        else lines += coachLine("ok","<em>IV Rank ("+ivr+") is low</em>, which is the right environment to be buying premium like this.");
+      } else {
+        lines += coachLine("info","This strategy works across most IV environments — the short leg largely offsets the long leg's sensitivity to IV.");
+      }
+
+      if(dte<=21) lines += coachLine("warn","<em>You're inside the 21-DTE window</em> tastytrade traders watch closely — gamma risk accelerates from here. Many would close or roll rather than hold.");
+      else if(dte>=40 && dte<=50) lines += coachLine("ok","<em>~"+dte+" DTE</em> sits right in the classic 45-DTE entry window.");
+
+      var earnVal = $("fEarn").value;
+      if(earnVal){
+        var earnDate = new Date(earnVal+"T00:00:00");
+        var daysToEarn = Math.round((earnDate - new Date())/86400000);
+        if(daysToEarn>=0 && daysToEarn<=dte){
+          var undefinedRiskNow = (s.id==="short_strangle" || s.id==="short_straddle");
+          if(s.cat==="bigmove"){
+            lines += coachLine("ok","<em>Earnings in "+daysToEarn+" day"+(daysToEarn===1?"":"s")+"</em> falls inside this trade's window — that's exactly the catalyst this strategy is built for. Just make sure you're entering before IV has already priced in the whole move.");
+          } else if(undefinedRiskNow){
+            lines += coachLine("bad","<em>Earnings in "+daysToEarn+" day"+(daysToEarn===1?"":"s")+"</em> falls inside this trade's window, and this is an undefined-risk position — a surprise gap can produce an outsized loss with no floor or ceiling.");
+          } else if(s.ivEnv==="sell"){
+            lines += coachLine("warn","<em>Earnings in "+daysToEarn+" day"+(daysToEarn===1?"":"s")+"</em> falls inside this trade's window — your risk here is capped, but expect the chance of a gap through a strike overnight.");
+          } else {
+            lines += coachLine("warn","<em>Earnings in "+daysToEarn+" day"+(daysToEarn===1?"":"s")+"</em> falls inside this trade's window — a surprise gap against your position is a real risk here.");
+          }
+        }
+      }
+
+      var fill = parseFloat($("fFill").value), now = parseFloat($("fNow").value);
+      if(!isNaN(fill) && !isNaN(now) && fill>0){
+        var isCredit = s.ivEnv==="sell";
+        var pct = isCredit ? ((fill-now)/fill*100) : ((now-fill)/fill*100);
+        if(isFinite(pct)){
+          if(pct>=50) lines += coachLine("ok","You've captured about <em>"+pct.toFixed(0)+"%</em> of the target — many tastytrade-style traders take a trade off around 50% rather than holding for the rest.");
+          else if(pct>0) lines += coachLine("info","You've captured about <em>"+pct.toFixed(0)+"%</em> so far — no rush, but know your exit plan.");
+          else lines += coachLine("warn","This position is currently underwater versus your fill — decide your management plan before it decides for you.");
+        }
+      }
+
+      var acct = parseFloat($("fAcct").value);
+      if(!isNaN(acct) && acct>0 && isFinite(out.maxLoss)){
+        var riskPct = Math.abs(out.maxLoss)/acct*100;
+        if(riskPct>5) lines += coachLine("bad","This trade risks about <em>"+riskPct.toFixed(1)+"%</em> of the account size you entered — most small-size, high-occurrence approaches keep single trades well under 5%.");
+        else lines += coachLine("ok","This trade risks about <em>"+riskPct.toFixed(1)+"%</em> of the account size you entered — reasonably sized.");
+      }
+
+      lines += coachLine("info","<em>Coach's note:</em> "+s.tip);
+      lines += coachLine("warn","<em>Watch out:</em> "+s.watch);
+
+      $("coachBody").innerHTML = lines;
+    }
+
+    ws.querySelectorAll("input").forEach(function(inp){
+      if(inp.id==="fhKey"||inp.id==="fhSym") return;
+      inp.addEventListener("input", recompute);
+    });
+    recompute();
+    ws.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  document.getElementById("buildTag").textContent = "Rebuilt " + new Date().toISOString().slice(0,10) + " with tastytrade-style coaching integrated.";
+})();
+</script>
