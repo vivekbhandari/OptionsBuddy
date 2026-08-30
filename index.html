@@ -277,12 +277,18 @@
     display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom: 8px;
   }
   .chain-head .label { font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; }
+  .chain-controls { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .chain-controls select {
+    min-width: 150px; padding: 8px 10px; border-radius: 9px; border: 1px solid var(--border-strong);
+    background: var(--surface-2); color: var(--text-primary); font: inherit;
+  }
   .chain-table-wrap { overflow-x: auto; }
   .chain-table { width:100%; border-collapse: collapse; font-size: 12px; }
   .chain-table th, .chain-table td { padding: 7px 8px; border-bottom: 1px solid var(--gridline); text-align: left; }
   .chain-table th { color: var(--text-muted); font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; }
   .chain-table .pos { color: var(--profit); }
   .chain-table .neg { color: var(--loss); }
+  .chain-table tbody tr.highlight td { background: var(--accent-wash); }
 
   /* ---------- quiz ---------- */
   .quiz {
@@ -704,7 +710,10 @@
       <div class="chain-panel" id="chainPanel">
         <div class="chain-head">
           <div class="label">Live option chain</div>
-          <button class="btn small" id="chainFetchBtn" type="button">⟳ Load live chain</button>
+          <div class="chain-controls">
+            <select id="chainExpiration" aria-label="Expiration date"></select>
+            <button class="btn small" id="chainFetchBtn" type="button">⟳ Load live chain</button>
+          </div>
         </div>
         <div id="chainStatus" class="hint">Add a Finnhub key in Advanced below to load the nearest call/put prices.</div>
         <div class="chain-table-wrap" id="chainTableWrap" style="display:none;">
@@ -1035,6 +1044,7 @@
     liveFetchBtn: document.getElementById('liveFetchBtn'),
     liveStatus: document.getElementById('liveStatus'),
     chainFetchBtn: document.getElementById('chainFetchBtn'),
+    chainExpiration: document.getElementById('chainExpiration'),
     chainStatus: document.getElementById('chainStatus'),
     chainTableWrap: document.getElementById('chainTableWrap'),
     chainTableBody: document.getElementById('chainTableBody'),
@@ -1381,20 +1391,35 @@
       var aDist = Math.abs(Number(a.strike || 0) - price);
       var bDist = Math.abs(Number(b.strike || 0) - price);
       return aDist - bDist;
-    }).slice(0, 3);
-    return ranked.map(function(row){
+    });
+    return ranked.slice(0, 5).map(function(row){
       var strike = Number(row.strike || row.k || 0);
       var last = Number(row.lastPrice || row.last || 0);
       var bid = Number(row.bid || 0);
       var ask = Number(row.ask || 0);
       var vol = Number(row.volume || row.v || 0);
-      return '<tr><td class="'+(type === 'Call' ? 'pos' : 'neg')+'">'+type+'</td><td>$'+strike.toFixed(2)+'</td><td>$'+(Number.isFinite(last) ? last.toFixed(2) : '—')+'</td><td>$'+(Number.isFinite(bid) ? bid.toFixed(2) : '—')+'</td><td>$'+(Number.isFinite(ask) ? ask.toFixed(2) : '—')+'</td><td>'+ (Number.isFinite(vol) ? vol.toLocaleString() : '—') +'</td></tr>';
+      var isHighlight = Math.abs(strike - price) <= 2.5;
+      return '<tr class="'+(isHighlight ? 'highlight' : '')+'"><td class="'+(type === 'Call' ? 'pos' : 'neg')+'">'+type+'</td><td>$'+strike.toFixed(2)+'</td><td>$'+(Number.isFinite(last) ? last.toFixed(2) : '—')+'</td><td>$'+(Number.isFinite(bid) ? bid.toFixed(2) : '—')+'</td><td>$'+(Number.isFinite(ask) ? ask.toFixed(2) : '—')+'</td><td>'+ (Number.isFinite(vol) ? vol.toLocaleString() : '—') +'</td></tr>';
     }).join('');
+  }
+
+  function populateExpirationOptions(expirations){
+    var list = Array.isArray(expirations) ? expirations : [];
+    if (!list.length){
+      els.chainExpiration.innerHTML = '<option value="">No expirations</option>';
+      return;
+    }
+    var options = list.map(function(date){
+      return '<option value="'+date+'">'+date+'</option>';
+    }).join('');
+    els.chainExpiration.innerHTML = options;
+    els.chainExpiration.value = list[0];
   }
 
   function fetchOptionChain(){
     var ticker = (els.ticker.value || '').trim().toUpperCase();
     var key = (els.finnhubKey.value || '').trim();
+    var expiration = els.chainExpiration.value || '';
     if (!ticker){
       els.chainStatus.textContent = 'Enter a ticker first.';
       els.chainStatus.className = 'hint err';
@@ -1412,6 +1437,7 @@
     els.chainTableWrap.style.display = 'none';
 
     var url = 'https://finnhub.io/api/v1/stock/option-chain?symbol=' + encodeURIComponent(ticker) + '&token=' + encodeURIComponent(key);
+    if (expiration) url += '&expiration=' + encodeURIComponent(expiration);
     var controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
     var timeoutId = controller ? setTimeout(function(){ controller.abort(); }, 8000) : null;
 
@@ -1428,6 +1454,8 @@
       })
       .then(function(data){
         var optionChain = data && (data.optionChain || data);
+        var expirations = Array.isArray(optionChain && optionChain.expirationDates) ? optionChain.expirationDates : (Array.isArray(data && data.expirationDates) ? data.expirationDates : []);
+        if (expirations.length){ populateExpirationOptions(expirations); }
         var calls = Array.isArray(optionChain && optionChain.calls) ? optionChain.calls : (Array.isArray(data && data.calls) ? data.calls : []);
         var puts = Array.isArray(optionChain && optionChain.puts) ? optionChain.puts : (Array.isArray(data && data.puts) ? data.puts : []);
         var rows = [];
@@ -1440,7 +1468,7 @@
         rows.forEach(function(group){ html += renderChainRows(group.rows, group.type); });
         els.chainTableBody.innerHTML = html || '<tr><td colspan="6">No chain rows available.</td></tr>';
         els.chainTableWrap.style.display = 'block';
-        els.chainStatus.textContent = 'Nearest live strikes for ' + ticker + '.';
+        els.chainStatus.textContent = 'Nearest live strikes for ' + ticker + ' · ' + (els.chainExpiration.value || 'latest expiry');
         els.chainStatus.className = 'hint ok';
       })
       .catch(function(err){
@@ -1462,6 +1490,7 @@
 
   els.liveFetchBtn.addEventListener('click', fetchLivePrice);
   els.chainFetchBtn.addEventListener('click', fetchOptionChain);
+  els.chainExpiration.addEventListener('change', fetchOptionChain);
   els.ticker.addEventListener('keydown', function(e){
     if (e.key === 'Enter' && els.finnhubKey.value.trim()) fetchLivePrice();
   });
