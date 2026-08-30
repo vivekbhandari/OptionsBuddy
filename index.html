@@ -150,10 +150,19 @@
   .auth-overlay.show { display:flex; }
   .auth-card {
     background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-    padding: 22px; max-width: 360px; width: 100%; box-shadow: var(--shadow);
+    padding: 22px; max-width: 560px; width: 100%; box-shadow: var(--shadow);
   }
-  .auth-card h3 { font-size: 18px; margin-bottom: 6px; }
-  .auth-card .desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
+  .auth-card-header {
+    display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+    margin-bottom: 8px;
+  }
+  .auth-card h3 {
+    font-size: clamp(28px, 3vw, 38px); line-height: 1.1; margin: 0;
+  }
+  .auth-card .desc {
+    font-size: 15px; color: var(--text-secondary); margin: 0 0 18px;
+    max-width: 38ch;
+  }
   .auth-card .field { margin-bottom: 12px; }
   .auth-card label { display:block; font-size:12px; font-weight:600; color: var(--text-secondary); margin-bottom:5px; }
   .auth-card input {
@@ -161,14 +170,22 @@
     background: var(--surface-2); color: var(--text-primary); font-size: 14px;
   }
   .auth-actions { display:flex; gap:8px; margin-top: 16px; }
-  .auth-actions .btn { flex:1; }
+  .auth-actions .btn { flex:1; min-height: 48px; border-radius: 12px; }
   .auth-msg { font-size: 12.5px; margin-top: 10px; min-height: 16px; }
   .auth-msg.err { color: var(--loss); }
   .auth-msg.ok { color: var(--profit); }
+  .auth-extra-row { display:flex; justify-content:flex-end; margin: -4px 0 12px; }
   .auth-switch { font-size: 12.5px; color: var(--text-secondary); margin-top: 14px; text-align:center; }
   .auth-switch button { background:none; border:none; color: var(--accent); font-weight:600; cursor:pointer; font-size: inherit; padding:0; }
   .auth-close { position:absolute; top:14px; right:14px; background:none; border:none; color: var(--text-muted); font-size: 18px; cursor:pointer; line-height:1; }
   .auth-card { position: relative; }
+  .auth-brand {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 26px; line-height: 1;
+    color: var(--text-primary);
+    opacity: 0.85;
+    transform: translateY(2px);
+  }
   .link-btn { background:none; border:none; color: var(--accent); font-weight:600; cursor:pointer; font-size: inherit; padding:0; text-decoration: underline; }
 
   .landing-gate {
@@ -546,15 +563,21 @@
   <div class="auth-overlay" id="authOverlay">
     <div class="auth-card">
       <button class="auth-close" id="authCloseBtn" type="button" aria-label="Close">✕</button>
-      <h3 id="authTitle">Sign in</h3>
+      <div class="auth-card-header">
+        <h3 id="authTitle">Sign in</h3>
+        <div class="auth-brand" aria-hidden="true">àœ•</div>
+      </div>
       <p class="desc" id="authDesc">Sign in to save positions and your Finnhub key, and pick up right where you left off on any device.</p>
       <div class="field">
         <label for="authEmail">Email</label>
         <input id="authEmail" type="email" autocomplete="email" />
       </div>
-      <div class="field">
+      <div class="field" id="authPasswordWrap">
         <label for="authPassword">Password</label>
         <input id="authPassword" type="password" autocomplete="current-password" />
+      </div>
+      <div class="auth-extra-row" id="authForgotPasswordRow">
+        <button type="button" id="authForgotPasswordBtn" class="link-btn">Forgot password?</button>
       </div>
       <div class="auth-actions">
         <button class="btn" id="authCancelBtn" type="button">Cancel</button>
@@ -972,9 +995,11 @@
     authDesc: document.getElementById('authDesc'),
     authEmail: document.getElementById('authEmail'),
     authPassword: document.getElementById('authPassword'),
+    authPasswordWrap: document.getElementById('authPasswordWrap'),
     authSubmitBtn: document.getElementById('authSubmitBtn'),
     authMsg: document.getElementById('authMsg'),
     authSwitch: document.getElementById('authSwitch'),
+    authForgotPasswordRow: document.getElementById('authForgotPasswordRow'),
     positionsSection: document.getElementById('positionsSection'),
     posListHost: document.getElementById('posListHost'),
     savePositionBtn: document.getElementById('savePositionBtn'),
@@ -1334,7 +1359,7 @@
     }
   } catch(e){}
 
-  var authMode = 'signin'; // 'signin' | 'signup'
+  var authMode = 'signin'; // 'signin' | 'signup' | 'forgot'
   var currentUser = null;
 
   function openAuth(mode){
@@ -1352,11 +1377,20 @@
     els.authMsg.className = 'auth-msg' + (cls ? ' ' + cls : '');
   }
   function renderAuthMode(){
+    var showPassword = authMode !== 'forgot';
+    if (els.authPasswordWrap) els.authPasswordWrap.style.display = showPassword ? '' : 'none';
+    if (els.authForgotPasswordRow) els.authForgotPasswordRow.style.display = authMode === 'forgot' ? 'none' : '';
+
     if (authMode === 'signup'){
       els.authTitle.textContent = 'Create an account';
       els.authDesc.textContent = 'Free — just an email and password. Lets you save positions and your Finnhub key across devices.';
       els.authSubmitBtn.textContent = 'Create account';
       els.authSwitch.innerHTML = 'Already have an account? <button type="button" id="authModeSwitch">Sign in</button>';
+    } else if (authMode === 'forgot'){
+      els.authTitle.textContent = 'Reset your password';
+      els.authDesc.textContent = 'Enter your email and we’ll send a reset link. No password needed.';
+      els.authSubmitBtn.textContent = 'Send reset link';
+      els.authSwitch.innerHTML = 'Remembered it? <button type="button" id="authModeSwitch">Back to sign in</button>';
     } else {
       els.authTitle.textContent = 'Sign in';
       els.authDesc.textContent = 'Sign in to save positions and your Finnhub key, and pick up right where you left off on any device.';
@@ -1364,10 +1398,52 @@
       els.authSwitch.innerHTML = 'New here? <button type="button" id="authModeSwitch">Create an account</button>';
     }
     document.getElementById('authModeSwitch').addEventListener('click', function(){
-      openAuth(authMode === 'signup' ? 'signin' : 'signup');
+      if (authMode === 'forgot') openAuth('signin');
+      else openAuth(authMode === 'signup' ? 'signin' : 'signup');
     });
   }
   renderAuthMode();
+
+  function requestPasswordReset(){
+    var email = (els.authEmail.value || '').trim();
+    if (!email){
+      setAuthMsg('Enter the email for your account first.', 'err');
+      els.authEmail.focus();
+      return;
+    }
+    if (!sb || !sb.auth || typeof sb.auth.resetPasswordForEmail !== 'function'){
+      setAuthMsg('Set a valid Supabase URL and anon key in the app config before using forgot password.', 'err');
+      return;
+    }
+
+    els.authSubmitBtn.disabled = true;
+    var forgotBtn = document.getElementById('authForgotPasswordBtn');
+    if (forgotBtn) forgotBtn.disabled = true;
+    setAuthMsg('Sending reset email…', '');
+
+    var resetUrl = window.location.origin + window.location.pathname;
+    sb.auth.resetPasswordForEmail({ email: email, redirectTo: resetUrl })
+      .then(function(res){
+        if (res && res.error){
+          var message = res.error.message || 'Couldn\'t send a reset email right now.';
+          if (/invalid api key|not enabled|not configured|unknown endpoint|Unauthorized|401/i.test(message)){
+            message = 'Your Supabase project URL/anon key is invalid or Email Recovery is disabled in the Supabase dashboard.';
+          }
+          setAuthMsg(message, 'err');
+          return;
+        }
+        setAuthMsg('Check your email for a password reset link.', 'ok');
+      })
+      .catch(function(){
+        setAuthMsg('Couldn\'t send a reset email right now — try again in a moment.', 'err');
+      })
+      .finally(function(){
+        els.authSubmitBtn.disabled = false;
+        if (forgotBtn) forgotBtn.disabled = false;
+      });
+  }
+
+  document.getElementById('authForgotPasswordBtn').addEventListener('click', function(){ openAuth('forgot'); });
 
   /* ---- landing gate: show only the intro + sign-in first ---- */
   function showApp(){
@@ -1400,6 +1476,10 @@
   })();
 
   els.authSubmitBtn.addEventListener('click', function(){
+    if (authMode === 'forgot'){
+      requestPasswordReset();
+      return;
+    }
     if (!sb){
       setAuthMsg('Accounts aren\'t connected on this copy of the app yet.', 'err');
       return;
