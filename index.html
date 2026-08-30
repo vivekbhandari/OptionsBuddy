@@ -1422,7 +1422,7 @@
     setAuthMsg('Sending reset email…', '');
 
     var resetUrl = window.location.origin + window.location.pathname;
-    sb.auth.resetPasswordForEmail({ email: email, redirectTo: resetUrl })
+    sb.auth.resetPasswordForEmail(email, { redirectTo: resetUrl })
       .then(function(res){
         if (res && res.error){
           var message = res.error.message || 'Couldn\'t send a reset email right now.';
