@@ -1830,18 +1830,86 @@
       els.authDesc.textContent = 'Enter your email and we’ll send a reset link. No password needed.';
       els.authSubmitBtn.textContent = 'Send reset link';
       els.authSwitch.innerHTML = 'Remembered it? <button type="button" id="authModeSwitch">Back to sign in</button>';
+    } else if (authMode === 'reset'){
+      els.authTitle.textContent = 'Set a new password';
+      els.authDesc.textContent = 'Choose a new password for your account. Use a strong one you can remember for future sign-ins.';
+      els.authSubmitBtn.textContent = 'Update password';
+      els.authSwitch.innerHTML = 'Need another email? <button type="button" id="authModeSwitch">Back to sign in</button>';
+      if (els.authPasswordWrap) els.authPasswordWrap.style.display = '';
+      if (els.authPassword) els.authPassword.setAttribute('placeholder', 'Choose a new password');
     } else {
       els.authTitle.textContent = 'Sign in';
       els.authDesc.textContent = 'Sign in to save positions and your Finnhub key, and pick up right where you left off on any device.';
       els.authSubmitBtn.textContent = 'Sign in';
       els.authSwitch.innerHTML = 'New here? <button type="button" id="authModeSwitch">Create an account</button>';
+      if (els.authPassword) els.authPassword.setAttribute('placeholder', '');
     }
     document.getElementById('authModeSwitch').addEventListener('click', function(){
-      if (authMode === 'forgot') openAuth('signin');
+      if (authMode === 'forgot' || authMode === 'reset') openAuth('signin');
       else openAuth(authMode === 'signup' ? 'signin' : 'signup');
     });
   }
   renderAuthMode();
+
+  function parseRecoveryTokenFromUrl(){
+    var query = window.location.search || '';
+    var hash = window.location.hash || '';
+    var combined = query + hash;
+    if (!combined) return null;
+    if (combined.indexOf('type=recovery') === -1 && combined.indexOf('recovery') === -1) return null;
+    var params = {};
+    var raw = (query || '') + (hash || '');
+    raw.replace(/[?&]([^=]+)=([^&]+)/g, function(_, key, value){ params[key] = decodeURIComponent(value); });
+    if (hash && hash.indexOf('#') === 0) {
+      var hashParts = hash.slice(1).split('&');
+      hashParts.forEach(function(part){
+        var pair = part.split('=');
+        if (pair[0]) params[pair[0]] = decodeURIComponent(pair.slice(1).join('='));
+      });
+    }
+    return params;
+  }
+
+  function maybeHandleRecoveryRedirect(){
+    if (!sb || !sb.auth) return;
+    var params = parseRecoveryTokenFromUrl();
+    if (!params || params.type !== 'recovery') return;
+    authMode = 'reset';
+    renderAuthMode();
+    setAuthMsg('Use the form below to set a new password for future sign-ins.', 'ok');
+    openAuth('reset');
+  }
+
+  function completePasswordReset(){
+    var password = els.authPassword.value || '';
+    if (!password || password.length < 6){
+      setAuthMsg('Choose a password with at least 6 characters.', 'err');
+      els.authPassword.focus();
+      return;
+    }
+    els.authSubmitBtn.disabled = true;
+    setAuthMsg('Updating password…', '');
+    sb.auth.updateUser({ password: password })
+      .then(function(res){
+        if (res && res.error){
+          setAuthMsg(res.error.message || 'Couldn’t update the password. Try the reset link again.', 'err');
+          return;
+        }
+        setAuthMsg('Password updated. You can sign in with the new password from now on.', 'ok');
+        setTimeout(function(){
+          closeAuth();
+          authMode = 'signin';
+          renderAuthMode();
+          els.authPassword.value = '';
+        }, 1200);
+      })
+      .catch(function(){
+        setAuthMsg('Couldn’t save the new password — try the reset link again.', 'err');
+      })
+      .finally(function(){
+        els.authSubmitBtn.disabled = false;
+      });
+  }
 
   function requestPasswordReset(){
     var email = (els.authEmail.value || '').trim();
@@ -1860,7 +1928,7 @@
     if (forgotBtn) forgotBtn.disabled = true;
     setAuthMsg('Sending reset email…', '');
 
-    var resetUrl = window.location.origin + window.location.pathname;
+    var resetUrl = window.location.origin + window.location.pathname + '?mode=reset';
     sb.auth.resetPasswordForEmail(email, { redirectTo: resetUrl })
       .then(function(res){
         if (res && res.error){
@@ -1883,6 +1951,8 @@
   }
 
   document.getElementById('authForgotPasswordBtn').addEventListener('click', function(){ openAuth('forgot'); });
+
+  maybeHandleRecoveryRedirect();
 
   /* ---- landing gate: show only the intro + sign-in first ---- */
   function showApp(){
@@ -2098,6 +2168,10 @@
   els.authSubmitBtn.addEventListener('click', function(){
     if (authMode === 'forgot'){
       requestPasswordReset();
+      return;
+    }
+    if (authMode === 'reset'){
+      completePasswordReset();
       return;
     }
     if (!sb){
