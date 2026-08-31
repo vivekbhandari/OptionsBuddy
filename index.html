@@ -702,8 +702,8 @@
 
     <div class="top-nav" id="topNav" style="display:none;">
       <button type="button" class="nav-btn active" data-view="home">Home</button>
-      <button type="button" class="nav-btn" data-view="positions">Positions</button>
-      <button type="button" class="nav-btn" data-view="account">Account</button>
+      <button type="button" class="nav-btn" data-view="add-position">Add Position</button>
+      <button type="button" class="nav-btn" data-view="onboarding">Trade Onboarding</button>
     </div>
 
     <section id="landingScreen">
@@ -821,14 +821,14 @@
     </section>
 
     <section id="accountPage" class="page-panel" style="display:none;">
-      <div class="eyebrow">Account</div>
-      <h2>API settings</h2>
-      <p class="page-subtitle">Store your Finnhub API key in your account so it stays available on every device and every visit.</p>
+      <div class="eyebrow">Trade onboarding</div>
+      <h2>Build a plan before you place the trade</h2>
+      <p class="page-subtitle">Map your goal, confirm your risk, and use the live market inputs to position your next trade with clarity.</p>
       <div class="pos-editor-shell">
         <div class="field" style="max-width: 620px;">
           <label for="accountFinnhubKey">Finnhub API key</label>
           <input id="accountFinnhubKey" type="password" placeholder="paste your free Finnhub key here" autocomplete="off" spellcheck="false" />
-          <div class="hint">This key is used for live quotes, earnings lookups, and the option-chain feed. It is saved to your account profile so you do not need to enter it again.</div>
+          <div class="hint">This key powers live price and option-chain data. Save it once and reuse it across sessions.</div>
         </div>
         <div class="pos-editor-actions">
           <button type="button" class="btn primary" id="saveAccountKeyBtn">Save key</button>
@@ -1274,24 +1274,24 @@
   function setAppView(view){
     state.currentView = view || 'home';
     var home = document.getElementById('homeDashboard');
-    var positions = document.getElementById('positionsPage');
-    var account = document.getElementById('accountPage');
+    var addPosition = document.getElementById('positionsPage');
+    var onboarding = document.getElementById('accountPage');
     var workspace = document.getElementById('workspace');
     var navButtons = document.querySelectorAll('.nav-btn');
 
     home.style.display = state.currentView === 'home' ? 'block' : 'none';
-    positions.style.display = state.currentView === 'positions' ? 'block' : 'none';
-    account.style.display = state.currentView === 'account' ? 'block' : 'none';
-    workspace.style.display = state.currentView === 'positions' ? 'block' : 'none';
+    addPosition.style.display = state.currentView === 'add-position' ? 'block' : 'none';
+    onboarding.style.display = state.currentView === 'onboarding' ? 'block' : 'none';
+    workspace.style.display = state.currentView === 'add-position' ? 'block' : 'none';
 
     navButtons.forEach(function(btn){
       btn.classList.toggle('active', btn.getAttribute('data-view') === state.currentView);
     });
 
-    if (state.currentView === 'positions') {
+    if (state.currentView === 'add-position') {
       document.getElementById('positionsPage').scrollIntoView({ behavior:'smooth', block:'start' });
     }
-    if (state.currentView === 'account') {
+    if (state.currentView === 'onboarding') {
       document.getElementById('accountPage').scrollIntoView({ behavior:'smooth', block:'start' });
     }
   }
@@ -1301,18 +1301,19 @@
   });
 
   document.getElementById('homeNewPositionBtn').addEventListener('click', function(){
-    setAppView('positions');
+    setAppView('add-position');
     document.getElementById('positionsPage').scrollIntoView({ behavior:'smooth', block:'start' });
   });
   document.getElementById('homeStrategyBtn').addEventListener('click', function(){
+    setAppView('onboarding');
     document.getElementById('library').scrollIntoView({ behavior:'smooth', block:'start' });
   });
   document.getElementById('newPositionPageBtn').addEventListener('click', function(){
     loadPositionEditorState(null);
-    setAppView('positions');
+    setAppView('add-position');
   });
   document.getElementById('positionsStrategyBtn').addEventListener('click', function(){
-    setAppView('positions');
+    setAppView('onboarding');
     document.getElementById('library').scrollIntoView({ behavior:'smooth', block:'start' });
   });
 
@@ -2074,7 +2075,7 @@
 
   function openPositionEditor(row){
     loadPositionEditorState(row || null);
-    setAppView('positions');
+    setAppView('add-position');
     document.getElementById('positionsPage').scrollIntoView({ behavior:'smooth', block:'start' });
   }
 
