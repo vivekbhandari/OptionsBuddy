@@ -724,7 +724,7 @@
     <div class="top-nav" id="topNav" style="display:none;">
       <button type="button" class="nav-btn active" data-view="home">Home</button>
       <button type="button" class="nav-btn" data-view="add-position">Add Position</button>
-      <button type="button" class="nav-btn" data-view="onboarding">Trade Onboarding</button>
+      <button type="button" class="nav-btn" data-view="account">Account</button>
     </div>
 
     <section id="landingScreen">
@@ -842,9 +842,9 @@
     </section>
 
     <section id="accountPage" class="page-panel" style="display:none;">
-      <div class="eyebrow">Trade onboarding</div>
-      <h2>Build a plan before you place the trade</h2>
-      <p class="page-subtitle">Map your goal, confirm your risk, and use the live market inputs to position your next trade with clarity.</p>
+      <div class="eyebrow">Account</div>
+      <h2>Finnhub API settings</h2>
+      <p class="page-subtitle">Store your Finnhub key here so live price and option-chain data are available without re-entering it every time.</p>
       <div class="pos-editor-shell">
         <div class="field" style="max-width: 620px;">
           <label for="accountFinnhubKey">Finnhub API key</label>
@@ -1296,7 +1296,7 @@
     state.currentView = view || 'home';
     var home = document.getElementById('homeDashboard');
     var addPosition = document.getElementById('positionsPage');
-    var onboarding = document.getElementById('accountPage');
+    var account = document.getElementById('accountPage');
     var workspace = document.getElementById('workspace');
     var goalSection = document.getElementById('goalSection');
     var setupSection = document.getElementById('setup');
@@ -1306,15 +1306,15 @@
 
     var isHome = state.currentView === 'home';
     var isAddPosition = state.currentView === 'add-position';
-    var isOnboarding = state.currentView === 'onboarding';
+    var isAccount = state.currentView === 'account';
 
     home.style.display = isHome ? 'block' : 'none';
     addPosition.style.display = isAddPosition ? 'block' : 'none';
-    onboarding.style.display = isOnboarding ? 'block' : 'none';
-    workspace.style.display = isOnboarding ? 'block' : 'none';
+    account.style.display = isAccount ? 'block' : 'none';
+    workspace.style.display = isAddPosition ? 'block' : 'none';
 
     [goalSection, setupSection, quizSection, librarySection].forEach(function(section){
-      if (section) section.style.display = isOnboarding ? 'block' : 'none';
+      if (section) section.style.display = isHome ? 'block' : 'none';
     });
 
     navButtons.forEach(function(btn){
@@ -1324,7 +1324,7 @@
     if (state.currentView === 'add-position') {
       document.getElementById('positionsPage').scrollIntoView({ behavior:'smooth', block:'start' });
     }
-    if (state.currentView === 'onboarding') {
+    if (state.currentView === 'account') {
       document.getElementById('accountPage').scrollIntoView({ behavior:'smooth', block:'start' });
     }
   }
@@ -1338,7 +1338,7 @@
     document.getElementById('positionsPage').scrollIntoView({ behavior:'smooth', block:'start' });
   });
   document.getElementById('homeStrategyBtn').addEventListener('click', function(){
-    setAppView('onboarding');
+    setAppView('home');
     document.getElementById('library').scrollIntoView({ behavior:'smooth', block:'start' });
   });
   document.getElementById('newPositionPageBtn').addEventListener('click', function(){
@@ -1346,7 +1346,7 @@
     setAppView('add-position');
   });
   document.getElementById('positionsStrategyBtn').addEventListener('click', function(){
-    setAppView('onboarding');
+    setAppView('home');
     document.getElementById('library').scrollIntoView({ behavior:'smooth', block:'start' });
   });
 
