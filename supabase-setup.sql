@@ -96,6 +96,15 @@ for each row execute procedure public.update_updated_at();
 alter table public.profiles enable row level security;
 alter table public.positions enable row level security;
 
+drop policy if exists "Users can view own profile" on public.profiles;
+drop policy if exists "Users can insert own profile" on public.profiles;
+drop policy if exists "Users can update own profile" on public.profiles;
+drop policy if exists "Users can delete own profile" on public.profiles;
+drop policy if exists "Users can view own positions" on public.positions;
+drop policy if exists "Users can insert own positions" on public.positions;
+drop policy if exists "Users can update own positions" on public.positions;
+drop policy if exists "Users can delete own positions" on public.positions;
+
 create policy "Users can view own profile"
 on public.profiles
 for select
