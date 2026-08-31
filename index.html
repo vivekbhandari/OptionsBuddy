@@ -1277,12 +1277,24 @@
     var addPosition = document.getElementById('positionsPage');
     var onboarding = document.getElementById('accountPage');
     var workspace = document.getElementById('workspace');
+    var goalSection = document.getElementById('goalSection');
+    var setupSection = document.getElementById('setup');
+    var quizSection = document.getElementById('quizSection');
+    var librarySection = document.getElementById('library');
     var navButtons = document.querySelectorAll('.nav-btn');
 
-    home.style.display = state.currentView === 'home' ? 'block' : 'none';
-    addPosition.style.display = state.currentView === 'add-position' ? 'block' : 'none';
-    onboarding.style.display = state.currentView === 'onboarding' ? 'block' : 'none';
-    workspace.style.display = state.currentView === 'add-position' ? 'block' : 'none';
+    var isHome = state.currentView === 'home';
+    var isAddPosition = state.currentView === 'add-position';
+    var isOnboarding = state.currentView === 'onboarding';
+
+    home.style.display = isHome ? 'block' : 'none';
+    addPosition.style.display = isAddPosition ? 'block' : 'none';
+    onboarding.style.display = isOnboarding ? 'block' : 'none';
+    workspace.style.display = isOnboarding ? 'block' : 'none';
+
+    [goalSection, setupSection, quizSection, librarySection].forEach(function(section){
+      if (section) section.style.display = isOnboarding ? 'block' : 'none';
+    });
 
     navButtons.forEach(function(btn){
       btn.classList.toggle('active', btn.getAttribute('data-view') === state.currentView);
