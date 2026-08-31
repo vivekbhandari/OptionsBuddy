@@ -724,6 +724,7 @@
     <div class="top-nav" id="topNav" style="display:none;">
       <button type="button" class="nav-btn active" data-view="home">Home</button>
       <button type="button" class="nav-btn" data-view="add-position">Add Position</button>
+      <button type="button" class="nav-btn" data-view="onboarding">Trade Onboarding</button>
       <button type="button" class="nav-btn" data-view="account">Account</button>
     </div>
 
@@ -857,6 +858,12 @@
         </div>
         <div class="auth-msg" id="accountKeyMsg"></div>
       </div>
+    </section>
+
+    <section id="onboardingPage" class="page-panel" style="display:none;">
+      <div class="eyebrow">Trade onboarding</div>
+      <h2>Explore options strategies</h2>
+      <p class="page-subtitle">Choose a goal, model the trade, and review every strategy before saving a position.</p>
     </section>
 
     <section class="block" id="goalSection">
@@ -1297,6 +1304,7 @@
     var home = document.getElementById('homeDashboard');
     var addPosition = document.getElementById('positionsPage');
     var account = document.getElementById('accountPage');
+    var onboardingPage = document.getElementById('onboardingPage');
     var workspace = document.getElementById('workspace');
     var goalSection = document.getElementById('goalSection');
     var setupSection = document.getElementById('setup');
@@ -1307,14 +1315,16 @@
     var isHome = state.currentView === 'home';
     var isAddPosition = state.currentView === 'add-position';
     var isAccount = state.currentView === 'account';
+    var isOnboarding = state.currentView === 'onboarding';
 
     home.style.display = isHome ? 'block' : 'none';
     addPosition.style.display = isAddPosition ? 'block' : 'none';
     account.style.display = isAccount ? 'block' : 'none';
+    onboardingPage.style.display = isOnboarding ? 'block' : 'none';
     workspace.style.display = isAddPosition ? 'block' : 'none';
 
     [goalSection, setupSection, quizSection, librarySection].forEach(function(section){
-      if (section) section.style.display = isHome ? 'block' : 'none';
+      if (section) section.style.display = isOnboarding ? 'block' : 'none';
     });
 
     navButtons.forEach(function(btn){
@@ -1327,6 +1337,9 @@
     if (state.currentView === 'account') {
       document.getElementById('accountPage').scrollIntoView({ behavior:'smooth', block:'start' });
     }
+    if (state.currentView === 'onboarding') {
+      document.getElementById('onboardingPage').scrollIntoView({ behavior:'smooth', block:'start' });
+    }
   }
 
   document.querySelectorAll('.nav-btn').forEach(function(btn){
@@ -1338,7 +1351,7 @@
     document.getElementById('positionsPage').scrollIntoView({ behavior:'smooth', block:'start' });
   });
   document.getElementById('homeStrategyBtn').addEventListener('click', function(){
-    setAppView('home');
+    setAppView('onboarding');
     document.getElementById('library').scrollIntoView({ behavior:'smooth', block:'start' });
   });
   document.getElementById('newPositionPageBtn').addEventListener('click', function(){
@@ -1346,7 +1359,7 @@
     setAppView('add-position');
   });
   document.getElementById('positionsStrategyBtn').addEventListener('click', function(){
-    setAppView('home');
+    setAppView('onboarding');
     document.getElementById('library').scrollIntoView({ behavior:'smooth', block:'start' });
   });
 
@@ -2584,7 +2597,7 @@
       '</div>'+
       '<div class="pos-actions">'+
         '<button class="btn small pos-edit-btn" type="button" data-id="'+row.id+'">Edit</button>' +
-        (isOpen ? '<button class="btn small pos-close-btn" type="button" data-id="'+row.id+'">Mark closed</button>' : '') +
+        (isOpen ? '<button class="btn small danger pos-close-btn" type="button" data-id="'+row.id+'">Close position</button>' : '') +
         '<button class="btn small pos-delete-btn" type="button" data-id="'+row.id+'">Delete</button>' +
       '</div>' +
       '</div>';
