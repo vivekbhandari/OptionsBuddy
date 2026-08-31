@@ -10,6 +10,11 @@ create table if not exists public.profiles (
   updated_at timestamptz not null default now()
 );
 
+alter table public.profiles
+  add column if not exists finnhub_key text,
+  add column if not exists created_at timestamptz not null default now(),
+  add column if not exists updated_at timestamptz not null default now();
+
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql
@@ -62,6 +67,23 @@ create table if not exists public.positions (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.positions
+  add column if not exists user_id uuid,
+  add column if not exists ticker text,
+  add column if not exists strategy_id text,
+  add column if not exists strategy_name text,
+  add column if not exists entry_price numeric default 0,
+  add column if not exists entry_date date,
+  add column if not exists expiration_date date,
+  add column if not exists notes text,
+  add column if not exists status text default 'open',
+  add column if not exists legs jsonb default '[]'::jsonb,
+  add column if not exists net_cost numeric default 0,
+  add column if not exists closed_pl numeric,
+  add column if not exists closed_at timestamptz,
+  add column if not exists created_at timestamptz not null default now(),
+  add column if not exists updated_at timestamptz not null default now();
 
 drop trigger if exists positions_set_updated_at on public.positions;
 create trigger positions_set_updated_at
