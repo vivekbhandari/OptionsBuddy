@@ -1227,6 +1227,7 @@
     finnhubKey: document.getElementById('finnhubKey'),
     keySyncNote: document.getElementById('keySyncNote'),
     accountRow: document.getElementById('accountRow'),
+    positionsSection: document.getElementById('positionsPage'),
     authOverlay: document.getElementById('authOverlay'),
     authTitle: document.getElementById('authTitle'),
     authDesc: document.getElementById('authDesc'),
@@ -2111,6 +2112,8 @@
       strategy_id: strategy.id,
       strategy_name: strategy.name,
       entry_price: entryPrice || Number(els.price.value || state.S || 100),
+      entry_iv: Number(state.iv || 0),
+      entry_rate: Number(state.r || 0),
       entry_date: new Date().toISOString().slice(0,10),
       expiration_date: expirationDate || new Date(Date.now()+30*86400000).toISOString().slice(0,10),
       notes: notes,
@@ -2249,19 +2252,26 @@
 
   function renderAccountRow(){
     if (currentUser){
-      els.accountRow.innerHTML = '<span class="acct-chip">Signed in as <b>'+currentUser.email+'</b></span>' +
-        '<button class="acct-btn" id="signOutBtn" type="button">Sign out</button>';
-      document.getElementById('signOutBtn').addEventListener('click', function(){ if (sb) sb.auth.signOut(); });
-      els.positionsSection.style.display = '';
+      if (els.accountRow) {
+        els.accountRow.innerHTML = '<span class="acct-chip">Signed in as <b>'+currentUser.email+'</b></span>' +
+          '<button class="acct-btn" id="signOutBtn" type="button">Sign out</button>';
+        var signOutBtn = document.getElementById('signOutBtn');
+        if (signOutBtn) signOutBtn.addEventListener('click', function(){ if (sb) sb.auth.signOut(); });
+      }
+      if (els.positionsSection) els.positionsSection.style.display = '';
       if (els.keySyncNote) els.keySyncNote.textContent = 'Synced to your account — saved automatically as you type.';
     } else {
-      els.accountRow.innerHTML = '<button class="acct-btn primary" id="signInBtn" type="button">Sign in</button>';
-      document.getElementById('signInBtn').addEventListener('click', function(){ openAuth('signin'); });
-      els.positionsSection.style.display = 'none';
-      els.posListHost.innerHTML = '';
+      if (els.accountRow) {
+        els.accountRow.innerHTML = '<button class="acct-btn primary" id="signInBtn" type="button">Sign in</button>';
+        var signInBtn = document.getElementById('signInBtn');
+        if (signInBtn) signInBtn.addEventListener('click', function(){ openAuth('signin'); });
+      }
+      if (els.positionsSection) els.positionsSection.style.display = 'none';
+      if (els.posListHost) els.posListHost.innerHTML = '';
       if (els.keySyncNote){
         els.keySyncNote.innerHTML = 'Saved only in this browser right now — <button type="button" id="signInFromKeyBtn" class="link-btn">sign in</button> and it\'ll follow you to every device.';
-        document.getElementById('signInFromKeyBtn').addEventListener('click', function(){ openAuth('signin'); });
+        var signInFromKeyBtn = document.getElementById('signInFromKeyBtn');
+        if (signInFromKeyBtn) signInFromKeyBtn.addEventListener('click', function(){ openAuth('signin'); });
       }
     }
   }
