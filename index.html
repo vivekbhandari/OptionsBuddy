@@ -2074,7 +2074,7 @@
     }
 
     var strategy = STRATS.filter(function(s){ return s.id === strategyId; })[0] || STRATS[0];
-    var positionId = editorTicker.dataset.positionId || ('local-' + Date.now().toString(36));
+    var positionId = editorTicker.dataset.positionId || ('pos-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,8));
     var record = {
       id: positionId,
       user_id: currentUser ? currentUser.id : 'local',
@@ -2093,8 +2093,9 @@
     };
 
     if (currentUser && sb) {
-      sb.from('positions').upsert([record]).then(function(res){
-        if (res.error) throw res.error;
+      sb.from('positions').upsert([record], { onConflict: 'id' }).then(function(res){
+        if (res && res.error) throw res.error;
+        editorTicker.dataset.positionId = positionId;
         loadPositions();
       }).catch(function(err){ alert('Couldn\'t save to account: ' + (err && err.message ? err.message : 'unknown error')); });
     } else {
@@ -2103,6 +2104,7 @@
       if (existingIndex >= 0) localRows[existingIndex] = record; else localRows.unshift(record);
       setLocalPositions(localRows);
       state.savedPositions = localRows;
+      editorTicker.dataset.positionId = positionId;
       renderPositions(localRows);
       renderDashboard();
     }
@@ -2353,6 +2355,7 @@
     if (!strat) return;
     var expDate = new Date(Date.now() + state.dte*86400000);
     var row = {
+      id: 'pos-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,8),
       user_id: currentUser.id,
       ticker: tickerName(),
       strategy_id: strat.id,
@@ -2361,15 +2364,20 @@
       entry_iv: state.iv,
       entry_rate: state.r,
       expiration_date: expDate.toISOString().slice(0,10),
+      notes: 'Saved from strategy workspace',
       legs: state.legs,
       net_cost: netCost(state.legs),
-      status: 'open'
+      status: 'open',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     };
     els.savePositionBtn.disabled = true;
     els.savePositionBtn.textContent = 'Saving…';
-    sb.from('positions').insert(row).then(function(res){
-      if (res.error){ alert('Couldn\'t save: ' + res.error.message); }
+    sb.from('positions').upsert([row], { onConflict: 'id' }).then(function(res){
+      if (res && res.error){ alert('Couldn\'t save: ' + res.error.message); }
       else { loadPositions(); }
+    }).catch(function(err){
+      alert('Couldn\'t save to account: ' + (err && err.message ? err.message : 'unknown error'));
     }).finally(function(){
       els.savePositionBtn.disabled = false;
       els.savePositionBtn.textContent = '💾 Save this position';

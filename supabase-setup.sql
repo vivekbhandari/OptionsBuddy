@@ -45,7 +45,7 @@ before update on public.profiles
 for each row execute procedure public.update_updated_at();
 
 create table if not exists public.positions (
-  id text primary key,
+  id text primary key default gen_random_uuid()::text,
   user_id uuid not null references auth.users (id) on delete cascade,
   ticker text not null,
   strategy_id text not null,
