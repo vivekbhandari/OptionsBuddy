@@ -197,6 +197,69 @@
   .landing-actions { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom: 14px; }
   .landing-actions .btn { padding: 11px 22px; font-size: 14px; }
 
+  .top-nav {
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    padding: 12px 0 0;
+  }
+  .nav-btn {
+    border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text-secondary);
+    border-radius: 999px; padding: 8px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer;
+  }
+  .nav-btn.active {
+    background: var(--accent); color: white; border-color: var(--accent);
+  }
+  .page-panel {
+    margin-top: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 18px 18px 10px; box-shadow: var(--shadow);
+  }
+  .dashboard-grid {
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px;
+  }
+  .dash-card {
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px;
+  }
+  .dash-card .k {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); font-weight: 600;
+  }
+  .dash-card .v {
+    margin-top: 8px; font-size: clamp(20px, 2.3vw, 28px); font-weight: 700; font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums;
+  }
+  .dash-card .meta {
+    margin-top: 6px; font-size: 12px; color: var(--text-secondary);
+  }
+  .dash-actions { display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 12px; }
+  .mini-list {
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 8px;
+  }
+  .mini-item {
+    border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2); padding: 12px 14px;
+  }
+  .mini-item .headline {
+    display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom: 6px;
+  }
+  .mini-item .ticker { font-size: 17px; font-weight: 700; }
+  .mini-item .value { font-size: 14px; font-weight: 600; }
+  .mini-item .muted { font-size: 12px; color: var(--text-secondary); }
+  .positions-toolbar {
+    display:flex; gap:10px; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom: 12px;
+  }
+  .positions-toolbar .left, .positions-toolbar .right { display:flex; gap:8px; flex-wrap:wrap; }
+  .page-subtitle { color: var(--text-secondary); font-size:14px; margin-top:2px; }
+  .pos-editor-shell {
+    margin-top: 18px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface-2); padding: 12px;
+  }
+  .pos-editor-grid {
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;
+  }
+  .pos-editor-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top: 14px; }
+  .pos-editor-table {
+    width:100%; border-collapse: collapse; margin-top: 10px; overflow:hidden; border-radius: 12px; border: 1px solid var(--border);
+  }
+  .pos-editor-table th, .pos-editor-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: left; }
+  .pos-editor-table th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+  .pos-editor-table input, .pos-editor-table select {
+    width:100%; padding: 8px 10px; background: var(--surface); border:1px solid var(--border-strong); border-radius:8px; color: var(--text-primary);
+  }
+
   /* ---------- positions ---------- */
   .pos-list { display:grid; gap: 12px; }
   .pos-card { border: 1px solid var(--border); background: var(--surface); border-radius: 14px; padding: 14px 16px; }
@@ -609,6 +672,11 @@
 
   <main class="wrap">
 
+    <div class="top-nav" id="topNav" style="display:none;">
+      <button type="button" class="nav-btn active" data-view="home">Home</button>
+      <button type="button" class="nav-btn" data-view="positions">Positions</button>
+    </div>
+
     <section id="landingScreen">
       <div class="intro-card">
         <div class="eyebrow">New to options?</div>
@@ -634,11 +702,77 @@
 
     <div id="appGate" style="display:none;">
 
-    <section class="block" id="positionsSection" style="display:none;">
-      <div class="eyebrow">Your account</div>
-      <h2>My positions</h2>
-      <p class="desc">Positions you save here track your real entry price and premiums — reopen this page on any device to see updated profit and loss.</p>
+    <section id="homeDashboard" class="page-panel" style="display:block;">
+      <div class="eyebrow">Overview</div>
+      <h2>Trading home</h2>
+      <p class="page-subtitle">A quick read on your current open positions, risk, and the next move on the desk.</p>
+      <div class="dashboard-grid" id="dashboardGrid"></div>
+      <div class="dash-actions">
+        <button type="button" class="btn primary" id="homeNewPositionBtn">+ New position</button>
+        <button type="button" class="btn" id="homeStrategyBtn">Open strategy library</button>
+      </div>
+      <div class="eyebrow" style="margin-top:12px;">Recent positions</div>
+      <div class="mini-list" id="recentPositionsList"></div>
+    </section>
+
+    <section id="positionsPage" class="page-panel" style="display:none;">
+      <div class="eyebrow">Portfolio</div>
+      <h2>Position manager</h2>
+      <p class="page-subtitle">Add, edit, close, or delete trades. Your position detail editor is right here.</p>
+      <div class="positions-toolbar">
+        <div class="left">
+          <button type="button" class="btn primary" id="newPositionPageBtn">+ New position</button>
+          <button type="button" class="btn" id="positionsStrategyBtn">Strategy library</button>
+        </div>
+      </div>
       <div id="posListHost"></div>
+
+      <div class="pos-editor-shell" id="positionEditorShell">
+        <div class="eyebrow">Position editor</div>
+        <div class="pos-editor-grid">
+          <div class="field">
+            <label for="editorTicker">Ticker</label>
+            <input id="editorTicker" type="text" value="AAPL" maxlength="8" />
+          </div>
+          <div class="field">
+            <label for="editorStrategy">Strategy</label>
+            <select id="editorStrategy"></select>
+          </div>
+          <div class="field">
+            <label for="editorStatus">Status</label>
+            <select id="editorStatus">
+              <option value="open">Open</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="editorExpiration">Expiration</label>
+            <input id="editorExpiration" type="date" />
+          </div>
+          <div class="field">
+            <label for="editorEntryPrice">Entry price</label>
+            <input id="editorEntryPrice" type="number" step="0.01" min="0" />
+          </div>
+          <div class="field">
+            <label for="editorNotes">Notes</label>
+            <input id="editorNotes" type="text" placeholder="thesis / risk plan / exit target" />
+          </div>
+        </div>
+
+        <table class="pos-editor-table">
+          <thead>
+            <tr><th>Type</th><th>Side</th><th>Strike</th><th>Qty</th><th>Premium</th><th>Action</th></tr>
+          </thead>
+          <tbody id="positionLegEditorBody"></tbody>
+        </table>
+
+        <div class="pos-editor-actions">
+          <button type="button" class="btn" id="addLegBtn">+ Add leg</button>
+          <button type="button" class="btn primary" id="saveEditorBtn">Save position</button>
+          <button type="button" class="btn" id="resetEditorBtn">Reset</button>
+          <button type="button" class="btn danger" id="deleteEditorBtn">Delete</button>
+        </div>
+      </div>
     </section>
 
     <section class="block" id="goalSection">
@@ -1012,7 +1146,9 @@
     strategyId: null,
     goal: null,
     legs: [],       // active legs with computed strike/premium
-    legsEdited: false
+    legsEdited: false,
+    savedPositions: [],
+    currentView: 'home'
   };
 
   var els = {
@@ -1070,6 +1206,92 @@
     var row = document.getElementById('advRow');
     row.classList.toggle('open');
   });
+
+  function setAppView(view){
+    state.currentView = view || 'home';
+    var home = document.getElementById('homeDashboard');
+    var positions = document.getElementById('positionsPage');
+    var workspace = document.getElementById('workspace');
+    var navButtons = document.querySelectorAll('.nav-btn');
+
+    home.style.display = state.currentView === 'home' ? 'block' : 'none';
+    positions.style.display = state.currentView === 'positions' ? 'block' : 'none';
+    workspace.style.display = state.currentView === 'positions' ? 'block' : 'none';
+
+    navButtons.forEach(function(btn){
+      btn.classList.toggle('active', btn.getAttribute('data-view') === state.currentView);
+    });
+
+    if (state.currentView === 'positions') {
+      document.getElementById('positionsPage').scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+  }
+
+  document.querySelectorAll('.nav-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ setAppView(btn.getAttribute('data-view')); });
+  });
+
+  document.getElementById('homeNewPositionBtn').addEventListener('click', function(){
+    setAppView('positions');
+    document.getElementById('positionsPage').scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+  document.getElementById('homeStrategyBtn').addEventListener('click', function(){
+    document.getElementById('library').scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+  document.getElementById('newPositionPageBtn').addEventListener('click', function(){
+    loadPositionEditorState(null);
+    setAppView('positions');
+  });
+  document.getElementById('positionsStrategyBtn').addEventListener('click', function(){
+    setAppView('positions');
+    document.getElementById('library').scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+
+  function renderDashboard(){
+    var rows = state.savedPositions || [];
+    var openRows = rows.filter(function(r){ return r.status !== 'closed'; });
+    var totalNotional = openRows.reduce(function(sum, row){
+      return sum + ((row.legs || []).reduce(function(legSum, leg){ return legSum + ((Number(leg.qty) || 0) * (Number(leg.premium) || 0) * 100); }, 0));
+    }, 0);
+    var totalPL = openRows.reduce(function(sum, row){
+      var quotePrice = row.entry_price || state.S;
+      var rowPL = totalPLForSavedRow(row, quotePrice);
+      return sum + rowPL;
+    }, 0);
+
+    var dashboardHtml = [
+      '<div class="dash-card"><div class="k">Open positions</div><div class="v">' + openRows.length + '</div><div class="meta">Saved trades in portfolio</div></div>',
+      '<div class="dash-card"><div class="k">Net premium</div><div class="v">' + fmtMoney(totalNotional, { cents: false }) + '</div><div class="meta">Total cost basis</div></div>',
+      '<div class="dash-card"><div class="k">Unrealized P/L</div><div class="v" style="color:' + (totalPL >= 0 ? 'var(--profit)' : 'var(--loss)') + ';">' + fmtMoney(totalPL, { plus: true, cents: true }) + '</div><div class="meta">Based on current view</div></div>',
+      '<div class="dash-card"><div class="k">Next action</div><div class="v" style="font-size:20px;">' + (openRows.length ? 'Review risk' : 'Add a trade') + '</div><div class="meta">' + (openRows.length ? 'Check risk / close plan' : 'Start a new trade') + '</div></div>'
+    ].join('');
+    document.getElementById('dashboardGrid').innerHTML = dashboardHtml;
+
+    var recent = (rows.slice(0, 4)).map(function(row){
+      var statusLabel = row.status === 'closed' ? 'Closed' : 'Open';
+      var miniPnl = totalPLForSavedRow(row, Number(row.entry_price) || state.S);
+      return '<div class="mini-item">'+
+        '<div class="headline"><span class="ticker">'+(row.ticker || '—')+'</span><span class="value">'+statusLabel+'</span></div>'+
+        '<div class="muted">'+(row.strategy_name || 'Position')+'</div>'+
+        '<div class="headline" style="margin-top:8px;"><span class="muted">P/L</span><span class="value" style="color:' + (miniPnl >= 0 ? 'var(--profit)' : 'var(--loss)') + ';">'+fmtMoney(miniPnl,{plus:true})+'</span></div>'+
+      '</div>';
+    }).join('');
+    document.getElementById('recentPositionsList').innerHTML = recent || '<div class="pos-empty">No positions yet. Add your first trade.</div>';
+  }
+
+  function totalPLForSavedRow(row, referencePrice){
+    var legs = Array.isArray(row.legs) ? row.legs : [];
+    if (!legs.length) return 0;
+    return totalPL(legs.map(function(l){
+      var mapped = Object.assign({}, l);
+      mapped.strike = Number(l.strike || l.k || 0);
+      mapped.premium = Number(l.premium || 0);
+      mapped.qty = Number(l.qty || 1);
+      mapped.side = l.side || 'long';
+      mapped.type = l.type || 'call';
+      return mapped;
+    }), Number(referencePrice) || state.S);
+  }
 
   /* ================= quiz ================= */
   var quiz = { outlook: null, vol: null };
@@ -1598,10 +1820,191 @@
   function showApp(){
     document.getElementById('landingScreen').style.display = 'none';
     document.getElementById('appGate').style.display = '';
+    document.getElementById('topNav').style.display = 'flex';
+    if (!currentUser) {
+      state.savedPositions = getLocalPositions();
+      renderDashboard();
+      renderPositions(state.savedPositions);
+    }
+    setAppView('home');
   }
+
+  function getLocalPositions(){
+    try {
+      var raw = localStorage.getItem('ob-local-positions');
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function setLocalPositions(rows){
+    try { localStorage.setItem('ob-local-positions', JSON.stringify(rows || [])); } catch (e) {}
+  }
+
+  function refreshLocalPositionViews(){
+    if (!currentUser){
+      state.savedPositions = getLocalPositions();
+      renderDashboard();
+      renderPositions(state.savedPositions);
+    }
+  }
+
+  function populateStrategySelect(){
+    var sel = document.getElementById('editorStrategy');
+    if (!sel) return;
+    sel.innerHTML = STRATS.map(function(s){ return '<option value="'+s.id+'">'+s.name+'</option>'; }).join('');
+  }
+
+  function loadPositionEditorState(row){
+    var sel = document.getElementById('editorStrategy');
+    var ticker = document.getElementById('editorTicker');
+    var status = document.getElementById('editorStatus');
+    var expiration = document.getElementById('editorExpiration');
+    var entryPrice = document.getElementById('editorEntryPrice');
+    var notes = document.getElementById('editorNotes');
+    var body = document.getElementById('positionLegEditorBody');
+    var strategyId = row && row.strategy_id ? row.strategy_id : (state.strategyId || STRATS[0].id);
+    if (sel) sel.value = strategyId;
+    if (ticker){
+      ticker.value = row && row.ticker ? row.ticker : (els.ticker.value || 'AAPL');
+      ticker.dataset.positionId = row && row.id ? String(row.id) : '';
+    }
+    if (status) status.value = row && row.status ? row.status : 'open';
+    if (expiration) expiration.value = row && row.expiration_date ? row.expiration_date : new Date(Date.now() + 30*86400000).toISOString().slice(0,10);
+    if (entryPrice) entryPrice.value = row && row.entry_price ? Number(row.entry_price) : Number(els.price.value || 100);
+    if (notes) notes.value = row && row.notes ? row.notes : '';
+    var rows = Array.isArray(row && row.legs) && row.legs.length ? row.legs : [
+      { type: 'call', side: 'long', strike: Number(els.price.value || 100), qty: 1, premium: 2.5 }
+    ];
+    body.innerHTML = rows.map(function(leg, idx){
+      return '<tr>' +
+        '<td><select data-field="type" data-idx="'+idx+'"><option value="call" '+(leg.type==='call'?'selected':'')+'>Call</option><option value="put" '+(leg.type==='put'?'selected':'')+'>Put</option><option value="stock" '+(leg.type==='stock'?'selected':'')+'>Stock</option></select></td>' +
+        '<td><select data-field="side" data-idx="'+idx+'"><option value="long" '+(leg.side==='long'?'selected':'')+'>Buy</option><option value="short" '+(leg.side==='short'?'selected':'')+'>Sell</option></select></td>' +
+        '<td><input data-field="strike" data-idx="'+idx+'" type="number" step="0.5" value="'+(Number(leg.strike || 0)).toFixed(2)+'" /></td>' +
+        '<td><input data-field="qty" data-idx="'+idx+'" type="number" min="1" step="1" value="'+(Number(leg.qty || 1))+'" /></td>' +
+        '<td><input data-field="premium" data-idx="'+idx+'" type="number" step="0.01" value="'+(Number(leg.premium || 0)).toFixed(2)+'" /></td>' +
+        '<td><button type="button" class="btn small delete-leg-btn" data-idx="'+idx+'">Remove</button></td>' +
+      '</tr>';
+    }).join('');
+
+    body.querySelectorAll('.delete-leg-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var idx = Number(btn.getAttribute('data-idx'));
+        var current = []; var all = [];
+        body.querySelectorAll('tr').forEach(function(row){ all.push(row); });
+        all.forEach(function(r, i){ if (i !== idx) current.push(r); });
+        body.innerHTML = current.length ? current.map(function(r){ return r.outerHTML; }).join('') : '<tr><td colspan="6">No legs yet.</td></tr>';
+      });
+    });
+  }
+
+  function getEditorLegRows(){
+    var body = document.getElementById('positionLegEditorBody');
+    if (!body) return [];
+    var rows = [];
+    body.querySelectorAll('tr').forEach(function(tr){
+      if (tr.querySelector('td[colspan]')) return;
+      var type = tr.querySelector('[data-field="type"]').value;
+      var side = tr.querySelector('[data-field="side"]').value;
+      var strike = Number(tr.querySelector('[data-field="strike"]').value || 0);
+      var qty = Number(tr.querySelector('[data-field="qty"]').value || 1);
+      var premium = Number(tr.querySelector('[data-field="premium"]').value || 0);
+      rows.push({ type: type, side: side, strike: strike, qty: qty, premium: premium });
+    });
+    return rows;
+  }
+
+  function openPositionEditor(row){
+    loadPositionEditorState(row || null);
+    setAppView('positions');
+    document.getElementById('positionsPage').scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  function savePositionEditor(){
+    var editorTicker = document.getElementById('editorTicker');
+    var ticker = (editorTicker.value || '').trim().toUpperCase();
+    var strategyId = document.getElementById('editorStrategy').value;
+    var status = document.getElementById('editorStatus').value || 'open';
+    var expirationDate = document.getElementById('editorExpiration').value;
+    var entryPrice = Number(document.getElementById('editorEntryPrice').value || 0);
+    var notes = document.getElementById('editorNotes').value || '';
+    var legs = getEditorLegRows();
+    if (!ticker || !legs.length){
+      alert('Add a ticker and at least one leg before saving.');
+      return;
+    }
+
+    var strategy = STRATS.filter(function(s){ return s.id === strategyId; })[0] || STRATS[0];
+    var positionId = editorTicker.dataset.positionId || ('local-' + Date.now().toString(36));
+    var record = {
+      id: positionId,
+      user_id: currentUser ? currentUser.id : 'local',
+      ticker: ticker,
+      strategy_id: strategy.id,
+      strategy_name: strategy.name,
+      entry_price: entryPrice || Number(els.price.value || state.S || 100),
+      entry_date: new Date().toISOString().slice(0,10),
+      expiration_date: expirationDate || new Date(Date.now()+30*86400000).toISOString().slice(0,10),
+      notes: notes,
+      status: status,
+      legs: legs,
+      net_cost: netCost(legs),
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    if (currentUser && sb) {
+      sb.from('positions').upsert([record]).then(function(res){
+        if (res.error) throw res.error;
+        loadPositions();
+      }).catch(function(err){ alert('Couldn\'t save to account: ' + (err && err.message ? err.message : 'unknown error')); });
+    } else {
+      var localRows = getLocalPositions();
+      var existingIndex = localRows.findIndex(function(row){ return String(row.id) === String(record.id); });
+      if (existingIndex >= 0) localRows[existingIndex] = record; else localRows.unshift(record);
+      setLocalPositions(localRows);
+      state.savedPositions = localRows;
+      renderPositions(localRows);
+      renderDashboard();
+    }
+    loadPositionEditorState(record);
+    if (!currentUser) refreshLocalPositionViews();
+  }
+
+  function deleteEditorPosition(){
+    var id = document.getElementById('editorTicker') && document.getElementById('editorTicker').dataset.positionId;
+    if (!id) return;
+    if (currentUser && sb){
+      sb.from('positions').delete().eq('id', id).then(function(){ loadPositions(); });
+    } else {
+      var localRows = getLocalPositions().filter(function(r){ return String(r.id) !== String(id); });
+      setLocalPositions(localRows);
+      state.savedPositions = localRows;
+      renderPositions(localRows);
+      renderDashboard();
+    }
+  }
+
+  document.getElementById('addLegBtn').addEventListener('click', function(){
+    var body = document.getElementById('positionLegEditorBody');
+    var row = document.createElement('tr');
+    row.innerHTML = '<td><select data-field="type"><option value="call">Call</option><option value="put">Put</option><option value="stock">Stock</option></select></td>'+
+      '<td><select data-field="side"><option value="long">Buy</option><option value="short">Sell</option></select></td>'+
+      '<td><input data-field="strike" type="number" step="0.5" value="100" /></td>' +
+      '<td><input data-field="qty" type="number" min="1" step="1" value="1" /></td>' +
+      '<td><input data-field="premium" type="number" step="0.01" value="2.5" /></td>' +
+      '<td><button type="button" class="btn small delete-leg-btn">Remove</button></td>';
+    row.querySelector('.delete-leg-btn').addEventListener('click', function(){ row.remove(); });
+    body.appendChild(row);
+  });
+  document.getElementById('saveEditorBtn').addEventListener('click', savePositionEditor);
+  document.getElementById('resetEditorBtn').addEventListener('click', function(){ loadPositionEditorState(null); });
+  document.getElementById('deleteEditorBtn').addEventListener('click', deleteEditorPosition);
   function showLanding(){
     document.getElementById('landingScreen').style.display = '';
     document.getElementById('appGate').style.display = 'none';
+    document.getElementById('topNav').style.display = 'none';
   }
   document.getElementById('landingSignInBtn').addEventListener('click', function(){ openAuth('signin'); });
   document.getElementById('landingSignUpBtn').addEventListener('click', function(){ openAuth('signup'); });
@@ -1748,7 +2151,9 @@
     sb.from('positions').select('*').eq('user_id', currentUser.id).order('created_at', { ascending:false })
       .then(function(res){
         if (res.error){ els.posListHost.innerHTML = '<div class="pos-empty">Couldn\'t load positions: '+res.error.message+'</div>'; return; }
-        renderPositions(res.data || []);
+        state.savedPositions = res.data || [];
+        renderPositions(state.savedPositions);
+        renderDashboard();
       });
   }
 
@@ -1766,6 +2171,7 @@
   function renderPositions(rows){
     if (!rows.length){
       els.posListHost.innerHTML = '<div class="pos-empty">No saved positions yet — set up a trade above and hit "Save this position."</div>';
+      renderDashboard();
       return;
     }
     var open = rows.filter(function(r){ return r.status === 'open'; });
@@ -1788,6 +2194,12 @@
     });
     els.posListHost.querySelectorAll('.pos-delete-btn').forEach(function(btn){
       btn.addEventListener('click', function(){ deletePosition(btn.getAttribute('data-id')); });
+    });
+    els.posListHost.querySelectorAll('.pos-edit-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var row = rows.filter(function(r){ return String(r.id) === String(btn.getAttribute('data-id')); })[0];
+        if (row) openPositionEditor(row);
+      });
     });
   }
 
@@ -1826,14 +2238,16 @@
 
     return '<div class="pos-card'+(isOpen?'':' closed')+'">'+
       '<div class="pos-head"><span class="ticker">'+row.ticker+'</span><span class="strat-name">'+row.strategy_name+'</span></div>'+
-      '<div class="pos-meta">Entered '+row.entry_date+' at $'+Number(row.entry_price).toFixed(2)+' · '+(isOpen ? (daysLeft>=0 ? daysLeft+' days to expiration' : 'expired') : 'closed '+(row.closed_at||'').slice(0,10))+'</div>'+
+      '<div class="pos-meta">Entered '+(row.entry_date || 'n/a')+' at $'+Number(row.entry_price || 0).toFixed(2)+' · '+(isOpen ? (daysLeft>=0 ? daysLeft+' days to expiration' : 'expired') : 'closed '+(row.closed_at||'').slice(0,10))+'</div>'+
       '<div class="pos-stats">'+
         '<div class="pos-stat"><div class="k">'+costLabel+'</div><div class="v">'+fmtMoney(Math.abs(cost))+'</div></div>'+
         plHtml+
       '</div>'+
-      (isOpen
-        ? '<div class="pos-actions"><button class="btn small pos-close-btn" type="button" data-id="'+row.id+'">Mark closed</button><button class="btn small pos-delete-btn" type="button" data-id="'+row.id+'">Delete</button></div>'
-        : '<div class="pos-actions"><button class="btn small pos-delete-btn" type="button" data-id="'+row.id+'">Delete</button></div>') +
+      '<div class="pos-actions">'+
+        '<button class="btn small pos-edit-btn" type="button" data-id="'+row.id+'">Edit</button>' +
+        (isOpen ? '<button class="btn small pos-close-btn" type="button" data-id="'+row.id+'">Mark closed</button>' : '') +
+        '<button class="btn small pos-delete-btn" type="button" data-id="'+row.id+'">Delete</button>' +
+      '</div>' +
       '</div>';
   }
 
