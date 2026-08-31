@@ -675,6 +675,7 @@
     <div class="top-nav" id="topNav" style="display:none;">
       <button type="button" class="nav-btn active" data-view="home">Home</button>
       <button type="button" class="nav-btn" data-view="positions">Positions</button>
+      <button type="button" class="nav-btn" data-view="account">Account</button>
     </div>
 
     <section id="landingScreen">
@@ -772,6 +773,24 @@
           <button type="button" class="btn" id="resetEditorBtn">Reset</button>
           <button type="button" class="btn danger" id="deleteEditorBtn">Delete</button>
         </div>
+      </div>
+    </section>
+
+    <section id="accountPage" class="page-panel" style="display:none;">
+      <div class="eyebrow">Account</div>
+      <h2>API settings</h2>
+      <p class="page-subtitle">Store your Finnhub API key in your account so it stays available on every device and every visit.</p>
+      <div class="pos-editor-shell">
+        <div class="field" style="max-width: 620px;">
+          <label for="accountFinnhubKey">Finnhub API key</label>
+          <input id="accountFinnhubKey" type="password" placeholder="paste your free Finnhub key here" autocomplete="off" spellcheck="false" />
+          <div class="hint">This key is used for live quotes, earnings lookups, and the option-chain feed. It is saved to your account profile so you do not need to enter it again.</div>
+        </div>
+        <div class="pos-editor-actions">
+          <button type="button" class="btn primary" id="saveAccountKeyBtn">Save key</button>
+          <button type="button" class="btn" id="copyAccountKeyBtn">Use in app now</button>
+        </div>
+        <div class="auth-msg" id="accountKeyMsg"></div>
       </div>
     </section>
 
@@ -1211,11 +1230,13 @@
     state.currentView = view || 'home';
     var home = document.getElementById('homeDashboard');
     var positions = document.getElementById('positionsPage');
+    var account = document.getElementById('accountPage');
     var workspace = document.getElementById('workspace');
     var navButtons = document.querySelectorAll('.nav-btn');
 
     home.style.display = state.currentView === 'home' ? 'block' : 'none';
     positions.style.display = state.currentView === 'positions' ? 'block' : 'none';
+    account.style.display = state.currentView === 'account' ? 'block' : 'none';
     workspace.style.display = state.currentView === 'positions' ? 'block' : 'none';
 
     navButtons.forEach(function(btn){
@@ -1224,6 +1245,9 @@
 
     if (state.currentView === 'positions') {
       document.getElementById('positionsPage').scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+    if (state.currentView === 'account') {
+      document.getElementById('accountPage').scrollIntoView({ behavior:'smooth', block:'start' });
     }
   }
 
@@ -2082,23 +2106,111 @@
 
   /* ---- Finnhub key <-> account sync ---- */
   var keySaveTimer = null;
-  function loadFinnhubKeyFromAccount(){
-    if (!currentUser) return;
-    var key = currentUser.user_metadata && currentUser.user_metadata.finnhub_key;
-    if (key && !els.finnhubKey.value){
-      els.finnhubKey.value = key;
-      try { localStorage.setItem('ob-finnhub-key', key); } catch(e){}
-    }
+  function syncFinnhubKeyValue(key){
+    var cleaned = (key || '').trim();
+    if (!cleaned) return;
+    els.finnhubKey.value = cleaned;
+    try { localStorage.setItem('ob-finnhub-key', cleaned); } catch(e){}
+    if (document.getElementById('accountFinnhubKey')) document.getElementById('accountFinnhubKey').value = cleaned;
   }
+
   function saveFinnhubKeyToAccount(key){
-    if (!sb || !currentUser || !key) return;
-    sb.auth.updateUser({ data: { finnhub_key: key } });
+    var cleaned = (key || '').trim();
+    if (!sb || !currentUser || !cleaned) return Promise.resolve(false);
+
+    function persistWithUserMetadata(){
+      return sb.auth.updateUser({ data: { finnhub_key: cleaned } }).then(function(res){
+        if (res && res.error) return false;
+        syncFinnhubKeyValue(cleaned);
+        return true;
+      });
+    }
+
+    return sb.from('profiles').upsert({ id: currentUser.id, finnhub_key: cleaned, updated_at: new Date().toISOString() }).then(function(res){
+      if (res && res.error) {
+        throw res.error;
+      }
+      syncFinnhubKeyValue(cleaned);
+      return true;
+    }).catch(function(){
+      return persistWithUserMetadata();
+    });
   }
+
+  function loadFinnhubKeyFromAccount(){
+    if (!currentUser) return Promise.resolve(false);
+    var key = currentUser.user_metadata && currentUser.user_metadata.finnhub_key;
+
+    if (!key && sb) {
+      return sb.from('profiles').select('finnhub_key').eq('id', currentUser.id).maybeSingle().then(function(res){
+        if (res && res.data && res.data.finnhub_key) key = res.data.finnhub_key;
+        if (key) {
+          syncFinnhubKeyValue(key);
+          if (document.getElementById('accountFinnhubKey')) document.getElementById('accountFinnhubKey').value = key;
+        }
+        return !!key;
+      }).catch(function(){
+        return !!key;
+      });
+    }
+
+    if (key) {
+      syncFinnhubKeyValue(key);
+      if (document.getElementById('accountFinnhubKey')) document.getElementById('accountFinnhubKey').value = key;
+      return Promise.resolve(true);
+    }
+
+    return Promise.resolve(false);
+  }
+
   els.finnhubKey.addEventListener('input', function(){
     if (!currentUser) return;
     clearTimeout(keySaveTimer);
     var key = els.finnhubKey.value.trim();
     keySaveTimer = setTimeout(function(){ saveFinnhubKeyToAccount(key); }, 800);
+  });
+
+  document.getElementById('saveAccountKeyBtn').addEventListener('click', function(){
+    var key = (document.getElementById('accountFinnhubKey').value || '').trim();
+    var msg = document.getElementById('accountKeyMsg');
+    if (!currentUser){
+      msg.textContent = 'Sign in before saving your API key.';
+      msg.className = 'auth-msg err';
+      openAuth('signin');
+      return;
+    }
+    if (!key){
+      msg.textContent = 'Enter a valid Finnhub API key first.';
+      msg.className = 'auth-msg err';
+      return;
+    }
+    msg.textContent = 'Saving…';
+    msg.className = 'auth-msg';
+    saveFinnhubKeyToAccount(key).then(function(success){
+      if (success){
+        msg.textContent = 'Your Finnhub key is saved to your account and will be reused automatically.';
+        msg.className = 'auth-msg ok';
+        syncFinnhubKeyValue(key);
+      } else {
+        msg.textContent = 'The key could not be saved. Check the Supabase profile table or sign in again.';
+        msg.className = 'auth-msg err';
+      }
+    });
+  });
+
+  document.getElementById('copyAccountKeyBtn').addEventListener('click', function(){
+    var key = (document.getElementById('accountFinnhubKey').value || '').trim();
+    if (!key && els.finnhubKey) key = els.finnhubKey.value.trim();
+    if (!key){
+      document.getElementById('accountKeyMsg').textContent = 'No key entered yet.';
+      document.getElementById('accountKeyMsg').className = 'auth-msg err';
+      return;
+    }
+    els.finnhubKey.value = key;
+    try { localStorage.setItem('ob-finnhub-key', key); } catch(e){}
+    if (document.getElementById('accountFinnhubKey')) document.getElementById('accountFinnhubKey').value = key;
+    document.getElementById('accountKeyMsg').textContent = 'Key is active for this session.';
+    document.getElementById('accountKeyMsg').className = 'auth-msg ok';
   });
 
   /* ---- session bootstrap ---- */
