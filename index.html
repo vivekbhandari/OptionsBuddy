@@ -109,11 +109,16 @@
 
   /* ---------- header ---------- */
   .hero {
-    padding: 28px 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    padding: 22px 0 18px;
     border-bottom: 1px solid var(--border);
-    background: var(--surface);
+    background: rgba(252,252,251,0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
-  .hero-inner { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .hero-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
   .brand { display: flex; align-items: center; gap: 10px; }
   .brand-mark { flex: none; border-radius: 9px; }
   .brand h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.01em; }
@@ -135,7 +140,8 @@
   .account-row { display:flex; align-items:center; gap:8px; }
   .acct-btn {
     border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text-primary);
-    border-radius: 999px; padding: 7px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    border-radius: 999px; padding: 9px 16px; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    min-height: 40px;
   }
   .acct-btn:hover { border-color: var(--accent); color: var(--accent); }
   .acct-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
@@ -203,14 +209,36 @@
   }
   .nav-btn {
     border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text-secondary);
-    border-radius: 999px; padding: 8px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    border-radius: 999px; padding: 9px 15px; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    min-height: 40px;
   }
   .nav-btn.active {
     background: var(--accent); color: white; border-color: var(--accent);
   }
   .page-panel {
-    margin-top: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 18px 18px 10px; box-shadow: var(--shadow);
+    margin-top: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 22px 22px 14px; box-shadow: var(--shadow);
   }
+  .ux-strip {
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;
+    margin: 16px 0 20px;
+  }
+  .ux-card {
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    display:flex; align-items:flex-start; gap: 12px;
+  }
+  .ux-card .icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display:grid; place-items:center; background: var(--accent-wash); color: var(--accent-strong);
+    font-size: 18px; flex: none;
+  }
+  .ux-card .meta {
+    display:flex; flex-direction:column; gap:4px;
+  }
+  .ux-card .meta strong { font-size: 13px; }
+  .ux-card .meta span { color: var(--text-secondary); font-size: 12.5px; }
   .dashboard-grid {
     display:grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px;
   }
@@ -707,6 +735,22 @@
       <div class="eyebrow">Overview</div>
       <h2>Trading home</h2>
       <p class="page-subtitle">A quick read on your current open positions, risk, and the next move on the desk.</p>
+
+      <div class="ux-strip" aria-label="Quick workflow help">
+        <div class="ux-card">
+          <div class="icon">🔎</div>
+          <div class="meta"><strong>1. Choose your goal</strong><span>Small steps keep the decision easy.</span></div>
+        </div>
+        <div class="ux-card">
+          <div class="icon">📈</div>
+          <div class="meta"><strong>2. Model the trade</strong><span>Use the live price and chain without friction.</span></div>
+        </div>
+        <div class="ux-card">
+          <div class="icon">💾</div>
+          <div class="meta"><strong>3. Save and review</strong><span>Keep positions organized and easy to revisit.</span></div>
+        </div>
+      </div>
+
       <div class="dashboard-grid" id="dashboardGrid"></div>
       <div class="dash-actions">
         <button type="button" class="btn primary" id="homeNewPositionBtn">+ New position</button>
