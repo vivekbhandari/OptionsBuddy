@@ -242,8 +242,29 @@
   .dashboard-grid {
     display:grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px;
   }
+  .summary-banner {
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding: 18px 20px; border-radius: 16px; border: 1px solid var(--border);
+    background: linear-gradient(135deg, var(--surface-2), var(--surface));
+    margin-bottom: 18px;
+  }
+  .summary-banner.profit { border-color: rgba(24, 158, 117, 0.35); }
+  .summary-banner.loss { border-color: rgba(211, 66, 66, 0.35); }
+  .summary-copy { display:flex; flex-direction:column; gap:6px; }
+  .summary-label { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); font-weight:700; }
+  .summary-headline { font-size: clamp(28px, 4vw, 42px); line-height:1; font-weight: 700; font-family: "IBM Plex Mono", ui-monospace, monospace; letter-spacing:-.04em; }
+  .summary-headline.profit { color: var(--profit); }
+  .summary-headline.loss { color: var(--loss); }
+  .summary-subtitle { font-size: 13px; color: var(--text-secondary); }
+  .summary-pill {
+    padding: 8px 12px; border-radius: 999px; font-size: 12px; font-weight: 700;
+    border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-primary);
+    white-space: nowrap;
+  }
+  .summary-pill.profit { background: var(--profit-wash); color: var(--profit); border-color: rgba(24,158,117,0.3); }
+  .summary-pill.loss { background: var(--loss-wash); color: var(--loss); border-color: rgba(211,66,66,0.3); }
   .dash-card {
-    background: var(--surface-2); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px;
+    background: linear-gradient(180deg, var(--surface-2), var(--surface)); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; min-height: 120px;
   }
   .dash-card .k {
     font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); font-weight: 600;
@@ -1332,20 +1353,35 @@
   function renderDashboard(){
     var rows = state.savedPositions || [];
     var openRows = rows.filter(function(r){ return r.status !== 'closed'; });
+    var pnlRows = rows.map(function(row){
+      var referencePrice = Number(row.entry_price) || state.S;
+      return { row: row, pnl: totalPLForSavedRow(row, referencePrice) };
+    });
     var totalNotional = openRows.reduce(function(sum, row){
       return sum + ((row.legs || []).reduce(function(legSum, leg){ return legSum + ((Number(leg.qty) || 0) * (Number(leg.premium) || 0) * 100); }, 0));
     }, 0);
-    var totalPL = openRows.reduce(function(sum, row){
-      var quotePrice = row.entry_price || state.S;
-      var rowPL = totalPLForSavedRow(row, quotePrice);
-      return sum + rowPL;
-    }, 0);
+    var totalPL = pnlRows.reduce(function(sum, item){ return sum + item.pnl; }, 0);
+    var positiveCount = pnlRows.filter(function(item){ return item.pnl > 0; }).length;
+    var negativeCount = pnlRows.filter(function(item){ return item.pnl < 0; }).length;
+    var largestRow = pnlRows.reduce(function(best, item){
+      if (!best || Math.abs(item.pnl) > Math.abs(best.pnl)) return item;
+      return best;
+    }, null);
+
+    var summaryTone = totalPL >= 0 ? 'profit' : 'loss';
+    var summaryHtml = '<div class="summary-banner ' + summaryTone + '"><div class="summary-copy">' +
+      '<span class="summary-label">Portfolio value</span>' +
+      '<div class="summary-headline ' + summaryTone + '">' + fmtMoney(totalPL, { plus: true, cents: true }) + '</div>' +
+      '<div class="summary-subtitle">' + (openRows.length ? openRows.length + ' active positions tracked' : 'No active positions yet') + '</div>' +
+      '</div>' +
+      '<div class="summary-pill ' + summaryTone + '">' + (totalPL >= 0 ? 'Positive trend' : 'Watch list') + '</div></div>';
 
     var dashboardHtml = [
+      summaryHtml,
       '<div class="dash-card"><div class="k">Open positions</div><div class="v">' + openRows.length + '</div><div class="meta">Saved trades in portfolio</div></div>',
       '<div class="dash-card"><div class="k">Net premium</div><div class="v">' + fmtMoney(totalNotional, { cents: false }) + '</div><div class="meta">Total cost basis</div></div>',
-      '<div class="dash-card"><div class="k">Unrealized P/L</div><div class="v" style="color:' + (totalPL >= 0 ? 'var(--profit)' : 'var(--loss)') + ';">' + fmtMoney(totalPL, { plus: true, cents: true }) + '</div><div class="meta">Based on current view</div></div>',
-      '<div class="dash-card"><div class="k">Next action</div><div class="v" style="font-size:20px;">' + (openRows.length ? 'Review risk' : 'Add a trade') + '</div><div class="meta">' + (openRows.length ? 'Check risk / close plan' : 'Start a new trade') + '</div></div>'
+      '<div class="dash-card"><div class="k">P/L mix</div><div class="v" style="font-size:24px;color:' + (positiveCount >= negativeCount ? 'var(--profit)' : 'var(--loss)') + ';">' + positiveCount + '/' + (positiveCount + negativeCount || 1) + '</div><div class="meta">winners vs total tracked</div></div>',
+      '<div class="dash-card"><div class="k">Largest position</div><div class="v" style="font-size:22px;">' + (largestRow && largestRow.row ? (largestRow.row.ticker || '—') : '—') + '</div><div class="meta">' + (largestRow ? fmtMoney(largestRow.pnl, { plus: true, cents: true }) : 'No positions') + '</div></div>'
     ].join('');
     document.getElementById('dashboardGrid').innerHTML = dashboardHtml;
 
