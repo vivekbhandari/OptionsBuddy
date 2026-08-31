@@ -44,7 +44,32 @@ create trigger profiles_set_updated_at
 before update on public.profiles
 for each row execute procedure public.update_updated_at();
 
+create table if not exists public.positions (
+  id text primary key,
+  user_id uuid not null references auth.users (id) on delete cascade,
+  ticker text not null,
+  strategy_id text not null,
+  strategy_name text not null,
+  entry_price numeric not null default 0,
+  entry_date date,
+  expiration_date date,
+  notes text,
+  status text not null default 'open',
+  legs jsonb not null default '[]'::jsonb,
+  net_cost numeric not null default 0,
+  closed_pl numeric,
+  closed_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+drop trigger if exists positions_set_updated_at on public.positions;
+create trigger positions_set_updated_at
+before update on public.positions
+for each row execute procedure public.update_updated_at();
+
 alter table public.profiles enable row level security;
+alter table public.positions enable row level security;
 
 create policy "Users can view own profile"
 on public.profiles
@@ -67,7 +92,32 @@ on public.profiles
 for delete
 using (auth.uid() = id);
 
--- Optional sanity check: ensure each new user gets a row
+create policy "Users can view own positions"
+on public.positions
+for select
+using (auth.uid() = user_id);
+
+create policy "Users can insert own positions"
+on public.positions
+for insert
+with check (auth.uid() = user_id);
+
+create policy "Users can update own positions"
+on public.positions
+for update
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+create policy "Users can delete own positions"
+on public.positions
+for delete
+using (auth.uid() = user_id);
+
+-- sanity checks
 select id, finnhub_key, created_at, updated_at
 from public.profiles
+limit 10;
+
+select id, user_id, ticker, status, updated_at
+from public.positions
 limit 10;
