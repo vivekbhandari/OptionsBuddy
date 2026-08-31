@@ -1800,6 +1800,24 @@
 
   var authMode = 'signin'; // 'signin' | 'signup' | 'forgot'
   var currentUser = null;
+  var authRequestCooldown = {};
+
+  function isValidEmail(email){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((email || '').trim());
+  }
+
+  function canSubmitAuthRequest(email){
+    var normalized = (email || '').trim().toLowerCase();
+    if (!normalized) return { allowed: false, message: 'Enter an email first.' };
+    if (!isValidEmail(normalized)) return { allowed: false, message: 'Enter a valid email address.' };
+    var now = Date.now();
+    var lastAttempt = authRequestCooldown[normalized] || 0;
+    if (now - lastAttempt < 15000){
+      return { allowed: false, message: 'Please wait a moment before trying that email again.' };
+    }
+    authRequestCooldown[normalized] = now;
+    return { allowed: true };
+  }
 
   function openAuth(mode){
     authMode = mode || 'signin';
@@ -2183,14 +2201,27 @@
     var email = (els.authEmail.value || '').trim();
     var password = els.authPassword.value || '';
     if (!email || !password){ setAuthMsg('Enter both an email and a password.', 'err'); return; }
+    if (!isValidEmail(email)){ setAuthMsg('Enter a valid email address.', 'err'); els.authEmail.focus(); return; }
     if (password.length < 6){ setAuthMsg('Password needs to be at least 6 characters.', 'err'); return; }
+    var requestCheck = canSubmitAuthRequest(email);
+    if (!requestCheck.allowed){
+      setAuthMsg(requestCheck.message, 'err');
+      return;
+    }
     els.authSubmitBtn.disabled = true;
     setAuthMsg('Working…', '');
     var action = authMode === 'signup'
       ? sb.auth.signUp({ email: email, password: password })
       : sb.auth.signInWithPassword({ email: email, password: password });
     action.then(function(res){
-      if (res.error){ setAuthMsg(res.error.message, 'err'); return; }
+      if (res.error){
+        if (/rate limit|too many requests|email rate limit/i.test(res.error.message || '')){
+          setAuthMsg('Too many sign-up attempts for this email. Please wait a moment and try again.', 'err');
+          return;
+        }
+        setAuthMsg(res.error.message, 'err');
+        return;
+      }
       if (authMode === 'signup' && res.data && res.data.user && !res.data.session){
         setAuthMsg('Check your email to confirm your account, then sign in.', 'ok');
         return;
