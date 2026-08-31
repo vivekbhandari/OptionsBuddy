@@ -2077,6 +2077,17 @@
     document.getElementById('positionsPage').scrollIntoView({ behavior:'smooth', block:'start' });
   }
 
+  function makePositionId(){
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+      return window.crypto.randomUUID();
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(ch){
+      var r = Math.random() * 16 | 0;
+      var v = ch === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
   function savePositionEditor(){
     var editorTicker = document.getElementById('editorTicker');
     var ticker = (editorTicker.value || '').trim().toUpperCase();
@@ -2092,7 +2103,7 @@
     }
 
     var strategy = STRATS.filter(function(s){ return s.id === strategyId; })[0] || STRATS[0];
-    var positionId = editorTicker.dataset.positionId || ('pos-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,8));
+    var positionId = editorTicker.dataset.positionId || makePositionId();
     var record = {
       id: positionId,
       user_id: currentUser ? currentUser.id : 'local',
@@ -2386,7 +2397,7 @@
     if (!strat) return;
     var expDate = new Date(Date.now() + state.dte*86400000);
     var row = {
-      id: 'pos-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,8),
+      id: makePositionId(),
       user_id: currentUser.id,
       ticker: tickerName(),
       strategy_id: strat.id,

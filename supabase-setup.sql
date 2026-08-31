@@ -50,7 +50,7 @@ before update on public.profiles
 for each row execute procedure public.update_updated_at();
 
 create table if not exists public.positions (
-  id text primary key default gen_random_uuid()::text,
+  id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users (id) on delete cascade,
   ticker text not null,
   strategy_id text not null,
@@ -67,6 +67,9 @@ create table if not exists public.positions (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.positions
+  alter column id type uuid using id::uuid;
 
 alter table public.positions
   add column if not exists user_id uuid,
